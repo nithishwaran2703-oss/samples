@@ -14,9 +14,9 @@ const startIndex = indexHtml.indexOf(startMarker);
 const endIndex = indexHtml.indexOf(endMarker);
 
 if (startIndex !== -1 && endIndex !== -1) {
-    const updatedHtml = indexHtml.substring(0, startIndex + startMarker.length) + 
-                        '\n' + newContent + 
-                        indexHtml.substring(endIndex);
+    const updatedHtml = indexHtml.substring(0, startIndex + startMarker.length) +
+        '\n' + newContent +
+        indexHtml.substring(endIndex);
     fs.writeFileSync(htmlPath, updatedHtml);
     console.log('Successfully updated index.html with all 138 images.');
 } else {

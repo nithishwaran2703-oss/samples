@@ -32,8 +32,7 @@
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- Thoranam Hanging Garland -->
-    <img src="assets/image.png" alt="Traditional Thoranam" class="thoranam-banner" id="thoranamBanner" width="1440" height="150" decoding="async">
+
 
     <!-- Premium Loader -->
     <div class="loader">
@@ -81,13 +80,21 @@
             </div>
         </a>
         <ul class="nav-links">
-            <li><a href="index.html#about" class="magnetic" data-strength="20">About Us</a></li>
-            <li><a href="#gallery" class="magnetic" data-strength="20">Products</a></li>
-            <li><a href="#gallery" class="magnetic" data-strength="20">Categories</a></li>
-            <li><a href="index.html#why-us" class="magnetic" data-strength="20">Why Us?</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="#gallery">Products</a></li>
+            <li><a href="#gallery">Categories</a></li>
+            <li><a href="index.html#why-us">Why Us?</a></li>
         </ul>
-        <a href="https://wa.me/919788742627" target="_blank" class="btn-primary magnetic" data-strength="40">Contact for
-            Purchase</a>
+        <a href="https://wa.me/919788742627" target="_blank" class="btn-primary desktop-only">Contact for Purchase</a>
+
+        <div class="cart-toggle" id="cartToggle">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="cart-count-badge" id="cartCount">0</span>
+        </div>
 
         <div class="hamburger" id="hamburgerBtn">
             <div class="bar"></div>
@@ -121,6 +128,29 @@
         </div>
     </div>
 
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Cart <span id="cartTotalCount">(0)</span></h3>
+            <div class="cart-header-actions">
+                <button class="clear-all-btn" id="clearAllBtn">Clear All</button>
+                <button class="close-cart" id="closeCart">&times;</button>
+            </div>
+        </div>
+        <div class="cart-items" id="cartItemsList" data-lenis-prevent>
+            <!-- Cart items will be injected here -->
+            <div class="empty-cart-msg">Your cart is empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <span>Total Items:</span>
+                <span id="finalItemsCount">0</span>
+            </div>
+            <button class="btn-primary w-full" id="cartContactBtn">Contact for Purchase</button>
+        </div>
+    </div>
+
     <div class="page-header" style="padding: 12rem 5% 4rem; background: var(--bg-cream); text-align: center; position: relative; z-index: 10;">
         <h1 class="font-serif" style="font-size: 3.5rem; color: var(--primary-maroon); margin-bottom: 1rem;">Our <span class="italic-serif text-gold">Collection</span></h1>
         <p style="font-size: 1.2rem; color: var(--text-light); max-width: 800px; margin: 0 auto;">Browse our exclusive range of premium celebration supplies, from traditional brass lamps to modern designer balloons.</p>
@@ -138,15 +168,27 @@
             <p class="section-subtitle">Our Products • Discover our exclusive range of premium celebration supplies.</p>
 
             <div class="filter-btns">
-                <button class="filter-btn active magnetic" data-filter="all" data-strength="10">All Items</button>
-                <button class="filter-btn magnetic" data-filter="birthday" data-strength="10">Birthday</button>
-                <button class="filter-btn magnetic" data-filter="wedding" data-strength="10">Wedding</button>
-                <button class="filter-btn magnetic" data-filter="corporate" data-strength="10">Corporate</button>
-                <button class="filter-btn magnetic" data-filter="custom" data-strength="10">Custom</button>
+                <button class="filter-btn active" data-filter="all">All Items</button>
+                <button class="filter-btn" data-filter="birthday">Birthday</button>
+                <button class="filter-btn" data-filter="wedding">Wedding</button>
+                <button class="filter-btn" data-filter="housewarming">Housewarming</button>
+                <button class="filter-btn" data-filter="corporate">Corporate</button>
+                <button class="filter-btn" data-filter="custom">Custom</button>
             </div>
         </div>
 
         <div id="dynamic-product-grid" class="product-grid">
+            <div class="product-card reveal-on-scroll" data-category="housewarming">
+                <div class="product-img">
+                    <img loading="lazy" decoding="async" src="assets/products/housewarming_decor.png" alt="Sacred Home Entry Set" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Sacred Home Entry Set</h3>
+                    <p>Auspicious traditional decor to welcome prosperity into your new home.</p>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
+                </div>
+            </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
                 <div class="product-img">
                     <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0001_Mockup1.jpg" alt="Artisan Pastel Decoration Set" width="400" height="400" style="object-fit: cover;">
@@ -155,7 +197,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -166,7 +208,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -177,7 +219,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -188,7 +230,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -199,7 +241,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -210,7 +252,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Artisan Pastel Decoration Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -221,7 +263,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -232,7 +274,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -243,7 +285,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -254,7 +296,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -265,7 +307,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -276,7 +318,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Holographic Sparkling Candles</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -287,7 +329,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -298,7 +340,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -309,7 +351,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -320,7 +362,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -331,7 +373,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -342,7 +384,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -353,7 +395,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Metallic Mirror Grid Backdrop</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -364,7 +406,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Little Prince Theme Kit</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -375,7 +417,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Little Prince Theme Kit</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -386,7 +428,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -397,7 +439,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -408,7 +450,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -419,7 +461,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -430,7 +472,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -441,7 +483,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -452,7 +494,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -463,7 +505,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -474,7 +516,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -485,7 +527,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -496,7 +538,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -507,7 +549,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -518,7 +560,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -529,7 +571,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -540,7 +582,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -551,7 +593,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -562,7 +604,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -573,7 +615,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -584,7 +626,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -595,7 +637,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -606,7 +648,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -617,7 +659,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -628,7 +670,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Designer Transport Shape Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -639,7 +681,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sky High Airplane Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -650,7 +692,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sky High Airplane Balloon</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -661,7 +703,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -672,7 +714,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -683,7 +725,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -694,7 +736,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -705,7 +747,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -716,7 +758,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -727,7 +769,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -738,7 +780,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -749,7 +791,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Best Dad Galaxy Balloon Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -760,7 +802,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Best Dad Galaxy Balloon Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -771,7 +813,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -782,7 +824,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -793,7 +835,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -804,7 +846,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -815,7 +857,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -826,7 +868,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -837,7 +879,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -848,7 +890,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Designer Foil Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -859,7 +901,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Chateau Champagne Celebration Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -870,7 +912,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Chateau Champagne Celebration Balloon</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -881,7 +923,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -892,7 +934,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -903,7 +945,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -914,7 +956,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -925,7 +967,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -936,7 +978,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -947,7 +989,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -958,7 +1000,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -969,7 +1011,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -980,7 +1022,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -991,7 +1033,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1002,7 +1044,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1013,7 +1055,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1024,7 +1066,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1035,7 +1077,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1046,7 +1088,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1057,7 +1099,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1068,7 +1110,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1079,7 +1121,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1090,7 +1132,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1101,7 +1143,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1112,7 +1154,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sweet Treats Ice Cream Truck Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1123,7 +1165,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sweet Treats Ice Cream Truck Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1134,7 +1176,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1145,7 +1187,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1156,7 +1198,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1167,7 +1209,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1178,7 +1220,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1189,7 +1231,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Children's Fantasy Character Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1200,7 +1242,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Majestic Unicorn Fantasy Bouquet</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1211,7 +1253,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Majestic Unicorn Fantasy Bouquet</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1222,7 +1264,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1233,7 +1275,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1244,7 +1286,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1255,7 +1297,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1266,7 +1308,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1277,7 +1319,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Pro-Athlete Football Jersey Set</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1288,7 +1330,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1299,7 +1341,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1310,7 +1352,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1321,7 +1363,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1332,7 +1374,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1343,7 +1385,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1354,7 +1396,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1365,7 +1407,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1376,7 +1418,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1387,7 +1429,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Musical Harmony Performance Props</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1398,7 +1440,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1409,7 +1451,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1420,7 +1462,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1431,7 +1473,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1442,7 +1484,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="wedding">
@@ -1453,7 +1495,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Grand Gala Marriage Stage Theme</h3>
                     <p>Elegant traditional decor and luxury stage setups for grand weddings.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="wedding">
@@ -1464,7 +1506,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Grand Gala Marriage Stage Theme</h3>
                     <p>Elegant traditional decor and luxury stage setups for grand weddings.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1475,7 +1517,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1486,7 +1528,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1497,7 +1539,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1508,7 +1550,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1519,7 +1561,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1530,7 +1572,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1541,7 +1583,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="custom">
@@ -1552,7 +1594,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Premium Event Styling Kit</h3>
                     <p>Bespoke personalized decorations tailored to your unique vision.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="wedding">
@@ -1563,7 +1605,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Royal Heritage Backdrop Setup</h3>
                     <p>Elegant traditional decor and luxury stage setups for grand weddings.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="wedding">
@@ -1574,7 +1616,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Royal Heritage Backdrop Setup</h3>
                     <p>Elegant traditional decor and luxury stage setups for grand weddings.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1585,7 +1627,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sophisticated Black & Gold Theme</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1596,7 +1638,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sophisticated Black & Gold Theme</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="corporate">
@@ -1607,7 +1649,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Sophisticated Black & Gold Theme</h3>
                     <p>Professional yet traditional aesthetics for office events and inaugurations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1618,7 +1660,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Bespoke Licensed Theme Collection</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1629,7 +1671,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Bespoke Licensed Theme Collection</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1640,7 +1682,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Cocomelon Inspired 'Big One' Kit</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1651,7 +1693,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Classic Mouse Character Party Set</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
             <div class="product-card reveal-on-scroll" data-category="birthday">
@@ -1662,7 +1704,7 @@
                     <div class="product-rating">⭐ 5.0</div>
                     <h3 class="font-serif">Bespoke Licensed Theme Collection</h3>
                     <p>Vibrant and magical setups for perfect birthday celebrations.</p>
-                    <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
+                    <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -1680,22 +1722,23 @@
             </div>
             <div class="footer-links reveal-on-scroll">
                 <h3>Quick Links</h3>
-                <a href="#gallery" class="magnetic" data-strength="10">Products</a>
-                <a href="#services" class="magnetic" data-strength="10">Categories</a>
-                <a href="#contact-us" class="magnetic" data-strength="10">Contact Us</a>
+                <a href="#gallery">Products</a>
+                <a href="index.html#curated-collections">Categories</a>
+                <a href="#contact-us">Contact Us</a>
             </div>
             <div class="footer-contact reveal-on-scroll">
                 <h3>Stay Connected</h3>
-                <p>Email: hello@vanakamvandhanam.com</p>
+                <p>Email: nithishwaran2703@gmail.com</p>
                 <p>Phone: +91 97887 42627</p>
+                <p>Address: 10/56, Abirami Amman Kovil Street, Dindigul, Tamil Nadu</p>
                 <div class="social-icons">
-                    <a href="https://www.instagram.com/" target="_blank" class="magnetic" data-strength="20" title="Instagram">
+                    <a href="https://www.instagram.com/" target="_blank" title="Instagram">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
-                    <a href="https://www.facebook.com/" target="_blank" class="magnetic" data-strength="20" title="Facebook">
+                    <a href="https://www.facebook.com/" target="_blank" title="Facebook">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
                     </a>
-                    <a href="https://wa.me/919788742627" target="_blank" class="magnetic" data-strength="20" title="WhatsApp">
+                    <a href="https://wa.me/919788742627" target="_blank" title="WhatsApp">
                         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     </a>
                 </div>
@@ -1715,7 +1758,7 @@
     <!-- AI Stylist Modal -->
     <div class="modal-overlay" id="stylistModal">
         <div class="modal-content">
-            <button class="close-modal magnetic" data-strength="15">&times;</button>
+            <button class="close-modal">&times;</button>
             <div class="modal-header">
                 <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--accent-gold)">
                     <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
@@ -1732,13 +1775,13 @@
                     <label>Palette & Vibe</label>
                     <input type="text" id="aiPalette" placeholder="e.g. Royal Maroon & Gold">
                 </div>
-                <button class="btn-primary w-full magnetic" data-strength="20" id="generateBtn">Create the Magic</button>
+                <button class="btn-primary w-full" id="generateBtn">Create the Magic</button>
             </div>
         </div>
     </div>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/919788742627" target="_blank" class="floating-wa magnetic" data-strength="30">
+    <a href="https://wa.me/919788742627" target="_blank" class="floating-wa">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
@@ -1800,13 +1843,14 @@
 
                         card.innerHTML = `
                             <div class="product-img" style="position:relative;">
-                                <div style="position:absolute; top:10px; left:10px; background:#d4af37; color:white; padding:4px 10px; border-radius:15px; font-size:10px; z-index:10; font-weight:bold;">NEW</div>
+                                <div class="new-badge" style="position:absolute; top:15px; left:15px; background:var(--accent-gold); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:bold; z-index:10; box-shadow:0 4px 10px rgba(0,0,0,0.2);">NEW ARRIVAL</div>
                                 <img src="${p.image_url}" alt="${p.name}" style="width:100%; height:400px; object-fit:cover;">
                             </div>
                             <div class="product-info">
+                                <div class="product-rating">⭐ 5.0</div>
                                 <h3 class="font-serif">${p.name}</h3>
                                 <p>${p.description}</p>
-                                <button class="btn-primary w-full" onclick="window.open('https://wa.me/919788742627?text=Hi, I want to buy ${encodeURIComponent(p.name)}', '_blank')">Contact for Purchase</button>
+                                <button class="btn-primary w-full add-to-cart">Add to Cart</button>
                             </div>
                         `;
                         grid.prepend(card);

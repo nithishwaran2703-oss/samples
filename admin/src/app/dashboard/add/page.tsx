@@ -72,8 +72,9 @@ export default function AddProduct() {
       setSuccess(true);
       setTimeout(() => router.push('/dashboard'), 1500);
     } catch (error: any) {
-      console.error('Failed to create product:', error);
-      alert(error.message || 'Failed to create product. Make sure your "product-images" bucket is set to PUBLIC.');
+      console.error('Full Error Object:', error);
+      const errorMessage = error.message || error.error_description || 'Unknown error occurred';
+      alert(`Error: ${errorMessage}\n\nPlease check:\n1. Bucket "product-images" exists and is PUBLIC.\n2. Table "products" has RLS enabled for INSERT.`);
     } finally {
       setLoading(false);
     }
@@ -138,6 +139,7 @@ export default function AddProduct() {
               >
                 <option value="birthday">Birthday</option>
                 <option value="wedding">Wedding</option>
+                <option value="housewarming">Housewarming</option>
                 <option value="corporate">Corporate</option>
                 <option value="custom">Custom</option>
               </select>

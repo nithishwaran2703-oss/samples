@@ -165,6 +165,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
               >
                 <option value="birthday">Birthday</option>
                 <option value="wedding">Wedding</option>
+                <option value="housewarming">Housewarming</option>
                 <option value="corporate">Corporate</option>
                 <option value="custom">Custom</option>
               </select>

@@ -1,19 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lenis for Premium Smooth Scrolling
-    const lenis = new Lenis({
-        duration: 1.5, // Slightly longer for "buttery" feel
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
+    window.lenis = new Lenis({
+        duration: 2.0, // Increased for a more buttery, luxurious flow
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing for smoother stop
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 1.1, // Improved response
-        smoothTouch: true, // Enable smooth touch for mobile
+        wheelMultiplier: 0.8, // Softer wheel reaction
+        smoothTouch: true,
         touchMultiplier: 1.5,
         infinite: false,
+        lerp: 0.08 // Softer lerp for a more fluid feel
     });
 
     function raf(time) {
-        lenis.raf(time);
+        window.lenis.raf(time);
         requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
@@ -171,11 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Physics-based cursor lerp loop
-    const renderCursor = () => {
+    const renderCursor = (time) => {
         // Calculate speed for velocity-based effects
         const deltaX = mouseX - lastMouseX;
         const deltaY = mouseY - lastMouseY;
-        speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Use a small alpha for speed smoothing to avoid jitter
+        const targetSpeed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        speed += (targetSpeed - speed) * 0.15;
+        
         lastMouseX = mouseX;
         lastMouseY = mouseY;
 
@@ -183,19 +188,13 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
         }
 
-        followerX += (mouseX - followerX) * 0.2; // Snappier lerp (0.2 instead of 0.15)
-        followerY += (mouseY - followerY) * 0.2;
-
         if (cursorFollower) {
-            cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+            followerX += (mouseX - followerX) * 0.15;
+            followerY += (mouseY - followerY) * 0.15;
             
-            // For rotation and scaling, we use a separate wrapper if possible, 
-            // but since we can't change HTML structure easily, we'll combine them 
-            // but use translate3d for GPU acceleration.
-
             // Dynamic scaling based on speed (stretching effect)
-            const scaleX = 1 + speed * 0.008;
-            const scaleY = 1 - speed * 0.004;
+            const scaleX = 1 + speed * 0.005;
+            const scaleY = 1 - speed * 0.002;
             const angle = Math.atan2(mouseY - followerY, mouseX - followerX) * (180 / Math.PI);
 
             cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%) rotate(${angle}deg) scale(${scaleX}, ${scaleY})`;
@@ -203,15 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const previewImg = document.getElementById('hoverPreviewImg');
         if (previewImg && previewImg.classList.contains('active')) {
-            previewImg.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+            previewImg.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
         }
-
-        // Decelerate speed for smooth stopping
-        speed *= 0.85;
 
         requestAnimationFrame(renderCursor);
     };
-    renderCursor();
+    requestAnimationFrame(renderCursor);
 
     // Hover states for cursor
     const interactiveSelectors = 'a, button, .accordion-header, .filter-btn, .close-modal, .floating-wa, .product-card, .video-card';
@@ -243,31 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Magnetic Buttons
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const magnetics = document.querySelectorAll('.magnetic');
-
-    if (!isTouchDevice) {
-        magnetics.forEach(btn => {
-            let rect;
-            btn.addEventListener('mouseenter', function() {
-                rect = this.getBoundingClientRect();
-            });
-            btn.addEventListener('mousemove', function (e) {
-                if (!rect) rect = this.getBoundingClientRect();
-                const strength = this.getAttribute('data-strength') || 20;
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-
-                this.style.transform = `translate(${x / rect.width * strength}px, ${y / rect.height * strength}px)`;
-            });
-
-            btn.addEventListener('mouseleave', function () {
-                rect = null;
-                this.style.transform = `translate(0px, 0px)`;
-            });
-        });
-    }
+    /* Magnetic Elements Removed */    window.initMagnetics = () => {};
+    // window.initMagnetics(); // Logic removed to prevent shaking
 
     // 4. Hero Animations (Triggered after loader)
     function triggerHeroAnimations() {
@@ -299,7 +272,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 5. Scroll Animations & Counters
-    const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+    const observerOptions = { 
+        threshold: 0.1, 
+        rootMargin: "0px 0px -100px 0px" // Softer entry
+    };
 
     const animateCounter = (el) => {
         const target = +el.getAttribute('data-target');
@@ -314,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const easedProgress = easeOutExpo(progress);
             const current = Math.ceil(easedProgress * target);
 
-            el.innerText = current + (target === 100 ? '' : '+');
+            el.innerText = current;
 
             if (progress < 1) {
                 requestAnimationFrame(updateCounter);
@@ -573,21 +549,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Hero Parallax on mouse move
-    const hero = document.querySelector('.hero');
-    const heroBgImg = document.querySelector('.hero .bg-img');
-    if (hero && heroBgImg) {
-        hero.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 30;
-            const y = (e.clientY / window.innerHeight - 0.5) * 30;
-            requestAnimationFrame(() => {
-                heroBgImg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
-            });
-        });
-        hero.addEventListener('mouseleave', () => {
-            requestAnimationFrame(() => heroBgImg.style.transform = `scale(1.1) translate(0px, 0px)`);
-        });
-    }    // 8. Gallery Filtering - Unified Logic (Moved to bottom to handle dynamic cards)
+    // Hero Parallax on mouse move removed to prevent shaking
+    // 8. Gallery Filtering - Unified Logic (Moved to bottom to handle dynamic cards)
     // Old filtering logic removed to prevent conflicts with Supabase integration.
 ;
 
@@ -625,9 +588,32 @@ document.addEventListener('DOMContentLoaded', () => {
             else mobileMenu.classList.remove('active');
         };
 
-        hamburgerBtn.addEventListener('click', () => toggleMobileMenu(true));
-        if (mobileClose) mobileClose.addEventListener('click', () => toggleMobileMenu(false));
-        mobileLinks.forEach(link => link.addEventListener('click', () => toggleMobileMenu(false)));
+        hamburgerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleMobileMenu(true);
+        });
+        hamburgerBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            toggleMobileMenu(true);
+        }, { passive: false });
+
+        if (mobileClose) {
+            mobileClose.addEventListener('click', () => toggleMobileMenu(false));
+            mobileClose.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                toggleMobileMenu(false);
+            }, { passive: false });
+        }
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => toggleMobileMenu(false));
+            link.addEventListener('touchstart', () => toggleMobileMenu(false));
+        });
+
+        // Close on overlay click
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) toggleMobileMenu(false);
+        });
     }
 
     // 9d. Lightbox for Gallery
@@ -637,14 +623,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxClose = document.getElementById('lightboxClose');
 
     if (lightbox) {
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('click', () => {
+        document.addEventListener('click', (e) => {
+            const imgContainer = e.target.closest('.product-img');
+            if (imgContainer && imgContainer.closest('.product-card')) {
+                const card = imgContainer.closest('.product-card');
                 const imgSrc = card.querySelector('img').src;
                 const title = card.querySelector('h3').innerText;
                 if (lightboxImg) lightboxImg.src = imgSrc;
                 if (lightboxCaption) lightboxCaption.innerText = title;
                 lightbox.classList.add('active');
-            });
+            }
         });
 
         if (lightboxClose) lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
@@ -660,11 +648,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const genBtn = document.getElementById('generateBtn');
     const modalBody = document.getElementById('modalBody');
 
-    openBtn.addEventListener('click', () => modal.classList.add('active'));
-    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
+    if (openBtn) {
+        openBtn.addEventListener('click', () => modal.classList.add('active'));
+    }
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+    }
 
     genBtn.addEventListener('click', () => {
         const eventType = document.getElementById('aiEvent').value || "special celebration";
@@ -684,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="badge" style="background: rgba(212,175,55,0.1); color: var(--accent-gold); border: none;">Hand-Crafted</span>
                     </div>
                 </div>
-                <button class="btn-primary magnetic glow-effect" data-strength="20" style="width: 100%; margin-top: 25px; padding: 1.2rem;" onclick="window.open('https://wa.me/919788742627', '_blank')">Order this Collection on WhatsApp</button>
+                <button class="btn-primary glow-effect" style="width: 100%; margin-top: 25px; padding: 1.2rem;" onclick="window.open('https://wa.me/919788742627', '_blank')">Order this Collection on WhatsApp</button>
             `;
 
             const text = `For your ${eventType}, we recommend a curated collection using ${palette}. We will bundle handcrafted traditional elements with premium modern accents to create a stunning atmosphere that celebrates luxury in every detail.`;
@@ -710,20 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.head.appendChild(style);
             }
 
-            // Re-bind magnetics for new button
-            const newMag = modalBody.querySelector('.magnetic');
-            if (newMag) {
-                newMag.addEventListener('mousemove', function (e) {
-                    const rect = this.getBoundingClientRect();
-                    const strength = this.getAttribute('data-strength') || 20;
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    this.style.transform = `translate(${x / rect.width * strength}px, ${y / rect.height * strength}px)`;
-                });
-                newMag.addEventListener('mouseleave', function () {
-                    this.style.transform = `translate(0px, 0px)`;
-                });
-            }
+            // Magnetic binding removed for stability
         }, 1500);
     });
 
@@ -794,14 +775,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (this.type === 'star') {
                     const r = Math.random();
                     if (r > 0.9) {
-                        this.size = Math.random() * 3 + 1.5; // Larger stars
-                        this.speedY = Math.random() * 0.6 + 0.2;
+                        this.size = Math.random() * 2.5 + 1.2; 
+                        this.speedY = Math.random() * 1.0 + 0.4;
                     } else if (r > 0.5) {
-                        this.size = Math.random() * 1.5 + 0.5; // Medium stars
-                        this.speedY = Math.random() * 0.4 + 0.1;
+                        this.size = Math.random() * 1.2 + 0.5;
+                        this.speedY = Math.random() * 0.7 + 0.2;
                     } else {
-                        this.size = Math.random() * 0.8 + 0.2; // Tiny dust-like dots
-                        this.speedY = Math.random() * 0.2 + 0.05;
+                        this.size = Math.random() * 0.6 + 0.2;
+                        this.speedY = Math.random() * 0.4 + 0.1;
                     }
                 } else {
                     this.size = Math.random() * 180 + 70; // Larger glows
@@ -810,14 +791,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 this.speedX = (Math.random() - 0.5) * (this.type === 'star' ? 0.4 : 0.15);
                 
-                // Color variety: Saffron Gold, Kumkum Maroon, and Soft Cream
+                // Color variety: More Saffron Gold and Soft Cream for a premium look
                 const colorPick = Math.random();
-                if (colorPick > 0.6) {
-                    this.baseColor = '212, 175, 55'; // Gold
-                } else if (colorPick > 0.3) {
-                    this.baseColor = '139, 0, 0';   // Maroon
+                if (colorPick > 0.4) {
+                    this.baseColor = '212, 175, 55'; // Gold (60% weight)
+                } else if (colorPick > 0.1) {
+                    this.baseColor = '255, 245, 225'; // Cream/White (30% weight)
                 } else {
-                    this.baseColor = '255, 245, 225'; // Cream/White
+                    this.baseColor = '139, 0, 0';   // Maroon (10% weight)
                 }
 
                 this.sparkle = Math.random() * 0.03 + 0.01;
@@ -852,16 +833,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.beginPath();
                 if (this.type === 'star') {
-                    ctx.arc(px, py, this.size, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(${this.baseColor}, ${this.alpha})`;
+                    ctx.arc(px, py, this.size, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    // Optimization: Removed expensive shadowBlur. 
-                    // Larger stars get a secondary outer fill for a soft glow look
-                    if (this.size > 2) {
+                    // Only draw glow for the absolute largest stars to save performance
+                    if (this.size > 2.2) {
                         ctx.beginPath();
-                        ctx.arc(px, py, this.size * 2, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(${this.baseColor}, ${this.alpha * 0.2})`;
+                        ctx.fillStyle = `rgba(${this.baseColor}, ${this.alpha * 0.12})`;
+                        ctx.arc(px, py, this.size * 2.5, 0, Math.PI * 2);
                         ctx.fill();
                     }
                 } else {
@@ -878,8 +858,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const initParticles = () => {
             particles = [];
-            // Optimized density for smoothness: medium count for a balanced aesthetic
-            const starCount = window.innerWidth < 768 ? 50 : 120; // Reduced count for performance
+            // Optimized density for smooth performance without lag
+            const starCount = window.innerWidth < 768 ? 100 : 250; 
 
             for (let i = 0; i < starCount; i++) {
                 const p = new Particle('star');
@@ -909,89 +889,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         animateParticles();
     }
-
-    // 12. Dynamic Product Fetching from Supabase
-    const fetchDynamicProducts = async () => {
-        const grid = document.getElementById('dynamic-product-grid');
-        if (!grid) return;
-
-        const SUPABASE_URL = 'https://ekolvgrvqgpvedmoyzbb.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrb2x2Z3J2cWdwdmVkbW95emJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDE1NzEsImV4cCI6MjA5MzUxNzU3MX0.3OEV5MOyWXHY4smVxkp3RngKBlQ9KkJ-N_j2K_vY_BA';
-
-        // Add a premium loading state
-        const loadingMsg = document.createElement('div');
-        loadingMsg.id = 'dynamic-loading';
-        loadingMsg.className = 'text-center py-10 w-full';
-        loadingMsg.innerHTML = '<p style="color: var(--primary-maroon); font-size: 1.2rem; font-weight: 500;">✨ Loading our exclusive collection...</p>';
-        grid.appendChild(loadingMsg);
-
-        try {
-            console.log('🔗 Connecting to Supabase...');
-            const cacheBuster = Date.now();
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc&t=${cacheBuster}`, {
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            const products = await response.json();
-            
-            if (document.getElementById('dynamic-loading')) {
-                document.getElementById('dynamic-loading').remove();
-            }
-
-            if (products && products.length > 0) {
-                // Get the currently active filter
-                const activeBtn = document.querySelector('.filter-btn.active');
-                const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
-
-                products.forEach(product => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card dynamic-card reveal-on-scroll visible';
-                    card.setAttribute('data-category', product.category);
-                    
-                    // Check if this card matches the active filter
-                    if (activeFilter !== 'all' && product.category !== activeFilter) {
-                        card.style.display = 'none';
-                        card.style.opacity = '0';
-                    } else {
-                        card.style.display = 'block';
-                        card.style.opacity = '1';
-                    }
-                    
-                    card.innerHTML = `
-                        <div class="product-img">
-                            <div class="new-badge" style="position: absolute; top: 15px; left: 15px; background: var(--accent-gold); color: var(--white); padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">NEW ARRIVAL</div>
-                            <img loading="lazy" decoding="async" src="${product.image_url}" alt="${product.name}" width="400" height="400" style="object-fit: cover; opacity: 1;">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-rating">⭐ 5.0</div>
-                            <h3 class="font-serif">${product.name}</h3>
-                            <p>${product.description}</p>
-                            <button class="btn-primary w-full magnetic" data-strength="20">Contact for Purchase</button>
-                        </div>
-                    `;
-                    grid.prepend(card);
-                });
-
-                // Update filter buttons to recognize new cards
-                updateFilterListeners();
-                
-                // Refresh layout
-                window.dispatchEvent(new Event('scroll'));
-            } else {
-                const noProductsMsg = document.createElement('div');
-                noProductsMsg.className = 'text-center py-10 w-full';
-                noProductsMsg.innerHTML = '<p style="color: var(--text-light);">No dynamic products found. Add some in the Admin Panel!</p>';
-                grid.appendChild(noProductsMsg);
-            }
-        } catch (error) {
-            console.error('Error fetching dynamic products:', error);
-            if (document.getElementById('dynamic-loading')) {
-                document.getElementById('dynamic-loading').innerHTML = '<p style="color: #ff4d4d;">Failed to connect to the collection. Please refresh the page.</p>';
-            }
-        }
-    };
 
     const updateFilterListeners = () => {
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1025,7 +922,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // === MASTER CATEGORY FILTER FIX (Magnetic-Aware) ===
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.filter-btn');
         if (!btn) return;
@@ -1038,25 +934,285 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
 
         // 2. Filter all product cards (Static + Dynamic)
-        document.querySelectorAll('.product-card').forEach(card => {
+        const cards = document.querySelectorAll('.product-card');
+        
+        // Use Flip-like logic for smooth transition
+        cards.forEach(card => {
             const category = (card.getAttribute('data-category') || '').toLowerCase();
-            if (filter === 'all' || category === filter) {
+            const shouldShow = filter === 'all' || category === filter;
+            
+            if (shouldShow) {
                 card.style.display = 'block';
-                setTimeout(() => {
+                // Trigger reflow
+                card.offsetHeight;
+                requestAnimationFrame(() => {
                     card.style.opacity = '1';
-                    card.style.transform = 'translateY(0) scale(1)';
-                }, 10);
+                    card.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                    card.style.pointerEvents = 'all';
+                });
             } else {
                 card.style.opacity = '0';
-                card.style.transform = 'translateY(20px) scale(0.95)';
-                setTimeout(() => card.style.display = 'none', 300);
+                card.style.transform = 'translate3d(0, 20px, 0) scale(0.92)';
+                card.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    if (card.style.opacity === '0') card.style.display = 'none';
+                }, 400);
             }
         });
 
-        // 3. Sync scroll
-        setTimeout(() => window.dispatchEvent(new Event('scroll')), 100);
+        // 3. Sync scroll and Lenis
+        setTimeout(() => {
+            if (window.lenis) window.lenis.resize();
+            window.dispatchEvent(new Event('scroll'));
+        }, 450);
     });
 
-    fetchDynamicProducts();
-});
+    // 11b. Initial URL Filter Handler
+    const handleUrlFilter = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlFilter = urlParams.get('filter');
+        if (urlFilter) {
+            const filterBtn = document.querySelector(`.filter-btn[data-filter="${urlFilter.toLowerCase()}"]`);
+            if (filterBtn) {
+                // Wait a bit for other scripts (like Supabase loader) to be ready
+                setTimeout(() => filterBtn.click(), 100);
+            }
+        }
+    };
+    handleUrlFilter();
 
+
+    // 12. Cart Management System
+    window.CartManager = {
+        items: [],
+        
+        init() {
+            this.load();
+            this.setupListeners();
+            this.render();
+        },
+
+        load() {
+            const savedCart = localStorage.getItem('vv_cart');
+            if (savedCart) {
+                try {
+                    this.items = JSON.parse(savedCart);
+                } catch(e) {
+                    this.items = [];
+                }
+            }
+        },
+
+        save() {
+            localStorage.setItem('vv_cart', JSON.stringify(this.items));
+            this.render();
+        },
+
+        addItem(name, image) {
+            if (!name) return;
+            const existing = this.items.find(item => item.name === name && item.image === image);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                this.items.push({ name, image: image || '', quantity: 1 });
+            }
+            this.save();
+        },
+
+        updateQuantity(index, delta) {
+            if (this.items[index]) {
+                this.items[index].quantity += delta;
+                if (this.items[index].quantity <= 0) {
+                    this.items.splice(index, 1);
+                }
+                this.save();
+            }
+        },
+
+        clearAll() {
+            if (this.items.length > 0 && confirm('Are you sure you want to clear your cart?')) {
+                this.items = [];
+                this.save();
+            }
+        },
+
+        removeItem(index) {
+            if (this.items[index]) {
+                this.items.splice(index, 1);
+                this.save();
+            }
+        },
+
+        getTotalCount() {
+            return this.items.reduce((sum, item) => sum + item.quantity, 0);
+        },
+
+        setupListeners() {
+            // Toggle Cart
+            document.getElementById('cartToggle')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.open();
+            });
+            document.getElementById('closeCart')?.addEventListener('click', () => this.close());
+            document.getElementById('cartOverlay')?.addEventListener('click', () => this.close());
+            document.getElementById('clearAllBtn')?.addEventListener('click', () => this.clearAll());
+            document.getElementById('cartContactBtn')?.addEventListener('click', () => this.sendToWhatsApp());
+
+            // Add to Cart Buttons (Global Delegation)
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('.add-to-cart');
+                if (btn) {
+                    e.preventDefault();
+                    
+                    // Visual feedback
+                    const originalText = btn.innerText;
+                    if (!btn.classList.contains('adding')) {
+                        btn.innerText = 'Added ✓';
+                        btn.classList.add('adding');
+                        btn.style.pointerEvents = 'none';
+                        
+                        // Haptic-like visual pop
+                        const card = btn.closest('.product-card');
+                        if (card) {
+                            card.style.transform = 'scale(0.98) translateY(2px)';
+                            setTimeout(() => {
+                                card.style.transform = 'scale(1) translateY(0)';
+                            }, 150);
+                        }
+                        
+                        setTimeout(() => {
+                            btn.innerText = originalText;
+                            btn.classList.remove('adding');
+                            btn.style.pointerEvents = 'all';
+                        }, 2000);
+                    }
+
+                    const card = btn.closest('.product-card') || btn.closest('.curated-item');
+                    if (card) {
+                        const h3 = card.querySelector('h3');
+                        const img = card.querySelector('img');
+                        const name = h3 ? h3.innerText : 'Exclusive Product';
+                        const image = img ? img.src : '';
+                        this.addItem(name, image);
+                    }
+                }
+            });
+        },
+
+        render() {
+            const list = document.getElementById('cartItemsList');
+            const countBadge = document.getElementById('cartCount');
+            const totalCountText = document.getElementById('cartTotalCount');
+            const finalCountText = document.getElementById('finalItemsCount');
+
+            const total = this.getTotalCount();
+            
+            if (countBadge) {
+                countBadge.innerText = total;
+                countBadge.classList.toggle('visible', total > 0);
+            }
+            if (totalCountText) totalCountText.innerText = `(${total})`;
+            if (finalCountText) finalCountText.innerText = total;
+
+            if (!list) return;
+
+            if (this.items.length === 0) {
+                list.innerHTML = '<div class="empty-cart-msg">Your cart is empty.</div>';
+                if (document.querySelector('.cart-footer')) document.querySelector('.cart-footer').style.display = 'none';
+            } else {
+                if (document.querySelector('.cart-footer')) document.querySelector('.cart-footer').style.display = 'block';
+                list.innerHTML = this.items.map((item, index) => `
+                    <div class="cart-item">
+                        <img src="${item.image}" class="cart-item-img" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <div class="cart-item-controls">
+                                <div class="quantity-selector">
+                                    <button class="qty-btn" onclick="CartManager.updateQuantity(${index}, -1)">-</button>
+                                    <span>${item.quantity}</span>
+                                    <button class="qty-btn" onclick="CartManager.updateQuantity(${index}, 1)">+</button>
+                                </div>
+                                <button class="item-remove" onclick="CartManager.removeItem(${index})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        },
+
+        open() {
+            document.getElementById('cartDrawer')?.classList.add('active');
+            document.getElementById('cartOverlay')?.classList.add('active');
+            if (window.lenis) window.lenis.stop();
+        },
+
+        close() {
+            document.getElementById('cartDrawer')?.classList.remove('active');
+            document.getElementById('cartOverlay')?.classList.remove('active');
+            if (window.lenis) window.lenis.start();
+        },
+
+        sendToWhatsApp() {
+            if (this.items.length === 0) return;
+
+            let message = "Hello, I would like to purchase:\n\n";
+            this.items.forEach(item => {
+                message += `• ${item.name} ×${item.quantity}\n`;
+            });
+
+            const encodedMsg = encodeURIComponent(message);
+            window.open(`https://wa.me/919788742627?text=${encodedMsg}`, '_blank');
+        }
+    };
+
+
+    // 13. Visibility Logic for Cart Toggle (Show only in product section)
+    const productSection = document.getElementById('gallery') || document.getElementById('curated-collections');
+    const cartToggle = document.getElementById('cartToggle');
+    const isProductsPage = window.location.pathname.includes('products.html');
+
+    if (cartToggle) {
+        const showCart = () => {
+            cartToggle.style.opacity = '1';
+            cartToggle.style.pointerEvents = 'all';
+            cartToggle.style.transform = 'scale(1)';
+        };
+
+        const hideCart = () => {
+            cartToggle.style.opacity = '0';
+            cartToggle.style.pointerEvents = 'none';
+            cartToggle.style.transform = 'scale(0.8)';
+        };
+
+        if (isProductsPage) {
+            // Always show on products page or show after brief scroll
+            showCart();
+        } else if (productSection) {
+            // Logic for index page
+            const cartObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting || window.scrollY > entry.target.offsetTop - 200) {
+                        showCart();
+                    } else {
+                        hideCart();
+                    }
+                });
+            }, { threshold: 0, rootMargin: '0px 0px -200px 0px' });
+
+            cartObserver.observe(productSection);
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > productSection.offsetTop - 400) {
+                    showCart();
+                } else {
+                    hideCart();
+                }
+            }, { passive: true });
+        } else {
+            // Fallback: hide if no section found and not on products page
+            hideCart();
+        }
+    }
+
+    window.CartManager.init();
+});
