@@ -1274,10 +1274,6 @@ body:hover .cursor-follower {
     flex-shrink: 0;
     position: relative;
     z-index: 2;
-    background: var(--bg-cream); /* Matching Bisque background */
-    padding: 8px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .navbar.scrolled {
@@ -1374,20 +1370,53 @@ body:hover .cursor-follower {
 }
 
 .btn-primary {
-    background: var(--primary-maroon);
+    background: linear-gradient(135deg, var(--primary-maroon) 0%, #a52a2a 100%);
     color: var(--white);
-    border: none; /* Removed border */
-    padding: 0.8rem 2rem;
-    border-radius: 30px;
-    font-weight: 700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     text-decoration: none;
     cursor: none;
-    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: 0.5px;
+    gap: 12px;
+    box-shadow: 0 10px 20px rgba(139, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(35deg);
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity: 0;
+}
+
+.btn-primary:hover::after {
+    left: 120%;
+    opacity: 1;
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(139, 0, 0, 0.3), 0 0 20px rgba(212, 175, 55, 0.2);
+    border-color: var(--accent-gold);
+}
+
+.btn-primary:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 /* Traditional Thoranam Banner Styles (Integrated with Hero) */
@@ -5530,4 +5559,70 @@ body:hover .cursor-follower {
     .cart-header {
         padding: 1.5rem;
     }
+}
+
+/* NUCLEAR RESET FOR LOGO */
+.navbar .logo img, .logo img {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.navbar .logo img {
+    mix-blend-mode: multiply !important;
+    height: 60px !important;
+}
+
+/* ATTRACTIVE ENHANCEMENTS */
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.12) 0%, transparent 70%);
+    z-index: -1;
+    animation: pulseGlow 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+}
+
+.hero-title {
+    text-shadow: 0 10px 30px rgba(139, 0, 0, 0.15);
+    animation: floatTitle 6s ease-in-out infinite;
+}
+
+@keyframes floatTitle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Decorative Floral Corner */
+.hero::after {
+    content: '??';
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    font-size: 3rem;
+    opacity: 0.2;
+    filter: blur(1px);
+    animation: rotateFlower 20s linear infinite;
+}
+
+@keyframes rotateFlower {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

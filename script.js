@@ -934,16 +934,40 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
 
         // 2. Filter all product cards (Static + Dynamic)
+        applyCombinedFilters();
+
+        // 3. Sync scroll and Lenis
+        setTimeout(() => {
+            if (window.lenis) window.lenis.resize();
+            window.dispatchEvent(new Event('scroll'));
+        }, 450);
+    });
+
+    // 11. Search Functionality
+    const productSearch = document.getElementById('productSearch');
+    if (productSearch) {
+        productSearch.addEventListener('input', () => {
+            applyCombinedFilters();
+        });
+    }
+
+    function applyCombinedFilters() {
+        const searchQuery = productSearch ? productSearch.value.toLowerCase().trim() : '';
+        const activeBtn = document.querySelector('.filter-btn.active');
+        const filter = activeBtn ? activeBtn.getAttribute('data-filter').toLowerCase() : 'all';
         const cards = document.querySelectorAll('.product-card');
-        
-        // Use Flip-like logic for smooth transition
+
         cards.forEach(card => {
             const category = (card.getAttribute('data-category') || '').toLowerCase();
-            const shouldShow = filter === 'all' || category === filter;
+            const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+            const desc = card.querySelector('p')?.innerText.toLowerCase() || '';
             
-            if (shouldShow) {
+            const matchesFilter = filter === 'all' || category === filter;
+            const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
+
+            if (matchesFilter && matchesSearch) {
                 card.style.display = 'block';
-                // Trigger reflow
+                // Trigger reflow for animation
                 card.offsetHeight;
                 requestAnimationFrame(() => {
                     card.style.opacity = '1';
@@ -955,17 +979,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.transform = 'translate3d(0, 20px, 0) scale(0.92)';
                 card.style.pointerEvents = 'none';
                 setTimeout(() => {
-                    if (card.style.opacity === '0') card.style.display = 'none';
+                    if (card.style.opacity === '0') {
+                        card.style.display = 'none';
+                    }
                 }, 400);
             }
         });
 
-        // 3. Sync scroll and Lenis
+        // Resize Lenis after filters applied
         setTimeout(() => {
             if (window.lenis) window.lenis.resize();
-            window.dispatchEvent(new Event('scroll'));
-        }, 450);
-    });
+        }, 500);
+    }
 
     // 11b. Initial URL Filter Handler
     const handleUrlFilter = () => {
@@ -1216,3 +1241,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.CartManager.init();
 });
+
+/* ATTRACTIVE FLOATING PETALS */
+function createPetal() {
+    const petal = document.createElement('div');
+    petal.innerHTML = '🌸';
+    petal.style.position = 'fixed';
+    petal.style.top = '-50px';
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.fontSize = (Math.random() * 20 + 10) + 'px';
+    petal.style.opacity = Math.random() * 0.5 + 0.2;
+    petal.style.zIndex = '9999';
+    petal.style.pointerEvents = 'none';
+    petal.style.transition = 'transform 10s linear, opacity 10s linear';
+    document.body.appendChild(petal);
+
+    requestAnimationFrame(() => {
+        const tx = (Math.random() - 0.5) * 200;
+        const ty = window.innerHeight + 100;
+        const rot = Math.random() * 360;
+        petal.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+        petal.style.opacity = '0';
+    });
+
+    setTimeout(() => petal.remove(), 10000);
+}
+
+setInterval(createPetal, 1500);
+
