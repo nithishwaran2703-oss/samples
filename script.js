@@ -721,6 +721,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = {};
             formData.forEach((value, key) => data[key] = value);
 
+            // SYNC TO SUPABASE (Admin Dashboard)
+            const SUPA_URL = 'https://ekolvgrvqgpvedmoyzbb.supabase.co';
+            const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrb2x2Z3J2cWdwdmVkbW95emJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDE1NzEsImV4cCI6MjA5MzUxNzU3MX0.3OEV5MOyWXHY4smVxkp3RngKBlQ9KkJ-N_j2K_vY_BA';
+            
+            fetch(`${SUPA_URL}/rest/v1/enquiries`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPA_KEY,
+                    'Authorization': `Bearer ${SUPA_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: data.name || 'Anonymous',
+                    email: data.email || '',
+                    phone: data.phone || '',
+                    subject: data.subject || 'Website Inquiry',
+                    message: data.message || ''
+                })
+            }).catch(err => console.error('Supabase Sync Error:', err));
+
+            // Standard FormSubmit Email
             fetch(contactForm.action, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -858,8 +879,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const initParticles = () => {
             particles = [];
-            // Optimized density for smooth performance without lag
-            const starCount = window.innerWidth < 768 ? 100 : 250; 
+            // Adjusted density: 300 on desktop, 150 on mobile as requested
+            const starCount = window.innerWidth < 768 ? 150 : 300; 
 
             for (let i = 0; i < starCount; i++) {
                 const p = new Particle('star');
@@ -1242,30 +1263,34 @@ document.addEventListener('DOMContentLoaded', () => {
     window.CartManager.init();
 });
 
-/* ATTRACTIVE FLOATING PETALS */
-function createPetal() {
-    const petal = document.createElement('div');
-    petal.innerHTML = '🌸';
-    petal.style.position = 'fixed';
-    petal.style.top = '-50px';
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.fontSize = (Math.random() * 20 + 10) + 'px';
-    petal.style.opacity = Math.random() * 0.5 + 0.2;
-    petal.style.zIndex = '9999';
-    petal.style.pointerEvents = 'none';
-    petal.style.transition = 'transform 10s linear, opacity 10s linear';
-    document.body.appendChild(petal);
+/* ATTRACTIVE FLOATING PARTICLES (Replacing Petals) */
+function createBackgroundParticle() {
+    const p = document.createElement('div');
+    // Using a mix of dots and small stars for "Particle" feel
+    const isStar = Math.random() > 0.5;
+    p.innerHTML = isStar ? '✨' : '•';
+    p.style.position = 'fixed';
+    p.style.top = '-50px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = isStar ? (Math.random() * 10 + 5) + 'px' : (Math.random() * 15 + 5) + 'px';
+    p.style.color = 'var(--accent-gold)';
+    p.style.opacity = Math.random() * 0.4 + 0.1;
+    p.style.zIndex = '9999';
+    p.style.pointerEvents = 'none';
+    p.style.transition = 'transform 12s linear, opacity 12s linear';
+    document.body.appendChild(p);
 
     requestAnimationFrame(() => {
-        const tx = (Math.random() - 0.5) * 200;
-        const ty = window.innerHeight + 100;
-        const rot = Math.random() * 360;
-        petal.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
-        petal.style.opacity = '0';
+        const tx = (Math.random() - 0.5) * 300;
+        const ty = window.innerHeight + 150;
+        const rot = Math.random() * 720;
+        p.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg)`;
+        p.style.opacity = '0';
     });
 
-    setTimeout(() => petal.remove(), 10000);
+    setTimeout(() => p.remove(), 12000);
 }
 
-setInterval(createPetal, 1500);
+// Increased frequency for a more active background
+setInterval(createBackgroundParticle, 800);
 

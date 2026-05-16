@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import { Upload, X, CheckCircle2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { useUploadThing } from '@/utils/uploadthing';
 
 export default function EditProduct({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -19,6 +20,13 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    onUploadError: (error) => {
+      alert(`Upload failed: ${error.message}`);
+      setSaving(false);
+    },
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -67,21 +75,12 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
 
       // 1. Upload new image if selected
       if (newImage) {
-        const fileExt = newImage.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `products/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(filePath, newImage);
-
-        if (uploadError) throw uploadError;
-
-        const { data: { publicUrl } } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(filePath);
-        
-        finalImageUrl = publicUrl;
+        const res = await startUpload([newImage]);
+        if (res && res[0]) {
+          finalImageUrl = res[0].url;
+        } else {
+          throw new Error('Image upload failed');
+        }
       }
 
       // 2. Update product record
@@ -139,7 +138,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
                 required 
                 value={name} 
                 onChange={e => setName(e.target.value)} 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" 
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900" 
               />
             </div>
             
@@ -152,7 +151,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
                 step="0.01"
                 value={price} 
                 onChange={e => setPrice(e.target.value)} 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" 
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900" 
               />
             </div>
 
@@ -161,7 +160,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
               <select 
                 value={category} 
                 onChange={e => setCategory(e.target.value)} 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none appearance-none bg-white transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none appearance-none bg-white transition-all text-gray-900"
               >
                 <option value="birthday">Birthday</option>
                 <option value="wedding">Wedding</option>
@@ -179,7 +178,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
               required 
               value={description} 
               onChange={e => setDescription(e.target.value)} 
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all text-gray-900"
             ></textarea>
           </div>
 
@@ -210,12 +209,12 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
             >
               Cancel
             </Link>
-            <button 
+             <button 
               type="submit" 
-              disabled={saving || success} 
+              disabled={saving || isUploading || success} 
               className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 disabled:opacity-50 shadow-lg shadow-blue-200 transition-all transform active:scale-95"
             >
-              {saving ? 'Saving Changes...' : 'Save Changes'}
+              {isUploading ? 'Uploading Image...' : saving ? 'Saving Changes...' : 'Save Changes'}
             </button>
           </div>
         </form>

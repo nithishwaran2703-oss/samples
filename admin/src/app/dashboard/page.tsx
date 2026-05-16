@@ -15,8 +15,10 @@ interface Product {
 
 export default function Dashboard() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchProducts = async () => {
     setIsRefreshing(true);
@@ -28,6 +30,7 @@ export default function Dashboard() {
 
       if (error) throw error;
       setProducts(data || []);
+      setSelectedIds([]); // Clear selection on refresh
     } catch (error) {
       console.error('Error fetching products', error);
     } finally {
@@ -39,6 +42,20 @@ export default function Dashboard() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const toggleSelectAll = () => {
+    if (selectedIds.length === products.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(products.map(p => p.id));
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
 
   const deleteProduct = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
@@ -57,6 +74,33 @@ export default function Dashboard() {
     }
   };
 
+  const deleteSelected = async () => {
+    if (selectedIds.length === 0) return;
+    
+    if (window.confirm(`Are you sure you want to delete ${selectedIds.length} products? This cannot be undone.`)) {
+      setIsDeleting(true);
+      try {
+        const { error } = await supabase
+          .from('products')
+          .delete()
+          .in('id', selectedIds);
+
+        if (error) throw error;
+        
+        // Optimistic update
+        setProducts(prev => prev.filter(p => !selectedIds.includes(p.id)));
+        setSelectedIds([]);
+        alert('Selected products deleted successfully');
+      } catch (error) {
+        console.error('Error deleting multiple products', error);
+        alert('Failed to delete some products');
+      } finally {
+        setIsDeleting(false);
+        fetchProducts();
+      }
+    }
+  };
+
   if (loading) return (
     <div className="flex items-center justify-center min-h-[400px]">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -65,23 +109,33 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Product Management</h1>
-          <p className="text-gray-500">Manage your store's inventory and categories.</p>
+          <h1 className="text-xl md:text-2xl font-bold text-gray-900">Product Management</h1>
+          <p className="text-sm md:text-base text-gray-500">Manage your store's inventory and categories.</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-2 md:gap-3">
+          {selectedIds.length > 0 && (
+            <button 
+              onClick={deleteSelected}
+              disabled={isDeleting}
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition-colors font-semibold"
+            >
+              {isDeleting ? <RefreshCw size={18} className="animate-spin" /> : <Trash2 size={18} />}
+              Delete ({selectedIds.length})
+            </button>
+          )}
           <button 
             onClick={fetchProducts}
             disabled={isRefreshing}
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
           >
             <RefreshCw size={18} className={isRefreshing ? 'animate-spin' : ''} />
             Refresh
           </button>
           <Link 
             href="/dashboard/add"
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
           >
             <Plus size={18} />
             Add Product
@@ -94,7 +148,15 @@ export default function Dashboard() {
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
               <tr>
-                <th className="px-6 py-4 font-semibold">Preview</th>
+                <th className="px-6 py-4 w-10">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    checked={products.length > 0 && selectedIds.length === products.length}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
+                <th className="px-4 py-4 font-semibold">Preview</th>
                 <th className="px-6 py-4 font-semibold">Product Details</th>
                 <th className="px-6 py-4 font-semibold">Category</th>
                 <th className="px-6 py-4 font-semibold">Price</th>
@@ -104,7 +166,7 @@ export default function Dashboard() {
             <tbody className="divide-y divide-gray-200">
               {products.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-20 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-20 text-center text-gray-500">
                     <div className="flex flex-col items-center">
                       <div className="bg-gray-100 p-4 rounded-full mb-4 text-gray-400">
                         <Plus size={32} />
@@ -116,8 +178,16 @@ export default function Dashboard() {
                 </tr>
               ) : (
                 products.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50/80 transition-colors">
+                  <tr key={product.id} className={`hover:bg-gray-50/80 transition-colors ${selectedIds.includes(product.id) ? 'bg-blue-50/30' : ''}`}>
                     <td className="px-6 py-4">
+                      <input 
+                        type="checkbox" 
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        checked={selectedIds.includes(product.id)}
+                        onChange={() => toggleSelect(product.id)}
+                      />
+                    </td>
+                    <td className="px-4 py-4">
                       {product.image_url ? (
                         <img 
                           src={product.image_url} 

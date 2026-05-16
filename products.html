@@ -77,6 +77,40 @@
     </script>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <style>
+        /* Skeleton Loader Styles */
+        .skeleton-card {
+            background: #fff;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: pulse 1.5s infinite ease-in-out;
+            margin-bottom: 2rem;
+        }
+        .skeleton-img {
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+        }
+        .skeleton-text {
+            padding: 25px;
+        }
+        .skeleton-line {
+            height: 15px;
+            background: #f5f5f5;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+        .skeleton-title { width: 70%; height: 25px; }
+        .skeleton-desc { width: 90%; }
+        .skeleton-btn { width: 100%; height: 50px; border-radius: 15px; }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+    </style>
 </head>
 
 <body>
@@ -114,7 +148,7 @@
         <!-- Floating Ornaments for "More Dots/Particles" feel -->
         <div class="floating-ornament" style="top: 15%; left: 5%;">🪔</div>
         <div class="floating-ornament" style="top: 35%; right: 8%;">✨</div>
-        <div class="floating-ornament" style="top: 65%; left: 10%;">🪷</div>
+
         <div class="floating-ornament" style="bottom: 15%; right: 12%;">🌟</div>
         <div class="floating-ornament" style="top: 85%; left: 50%;">✨</div>
     </div>
@@ -134,11 +168,8 @@
             <li><a href="index.html#about">About Us</a></li>
             <li><a href="#gallery">Categories</a></li>
             <li><a href="index.html#why-us">Why Us?</a></li>
+            <li><a href="index.html#contact-us">Contact Us</a></li>
         </ul>
-        <a href="#gallery" class="btn-primary desktop-only">
-            <span>Shop Now</span>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        </a>
 
         <div class="cart-toggle" id="cartToggle">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -173,11 +204,8 @@
                 <li><a href="index.html#about">About Us</a></li>
                 <li><a href="#gallery">Categories</a></li>
                 <li><a href="index.html#why-us">Why Us?</a></li>
+                <li><a href="index.html#contact-us">Contact Us</a></li>
             </ul>
-            <a href="#gallery" class="btn-primary w-full" style="text-align: center; gap: 10px;">
-                <span>Shop Now</span>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-            </a>
         </div>
     </div>
 
@@ -1785,7 +1813,7 @@
             </div>
             <div class="footer-contact reveal-on-scroll">
                 <h3>Stay Connected</h3>
-                <p>Email: nithishwaran2703@gmail.com</p>
+                <p>Email: hello@vanakkamvandhanam.com</p>
                 <p>Phone: +91 97887 42627</p>
                 <p>Address: 10/56, Abirami Amman Kovil Street, Dindigul, Tamil Nadu</p>
                 <div class="social-icons">
@@ -1854,64 +1882,87 @@
 
 
 
+    <script src="master-control.js" defer></script>
     <script src="script.js?v=final_fix_101" defer></script>
+
     
     <!-- NUCLEAR FIX: Inline Supabase Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            console.log('🦾 NUCLEAR LOADER: Initializing Supabase Connection...');
+            console.log('🦾 NUCLEAR LOADER: Initializing Realtime Supabase Connection...');
             const grid = document.getElementById('dynamic-product-grid');
             if (!grid) return;
 
             const URL = 'https://ekolvgrvqgpvedmoyzbb.supabase.co';
             const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrb2x2Z3J2cWdwdmVkbW95emJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDE1NzEsImV4cCI6MjA5MzUxNzU3MX0.3OEV5MOyWXHY4smVxkp3RngKBlQ9KkJ-N_j2K_vY_BA';
 
-            try {
-                const res = await fetch(`${URL}/rest/v1/products?select=*&order=created_at.desc`, {
-                    headers: { 'apikey': KEY, 'Authorization': `Bearer ${KEY}` }
+            const supabaseClient = supabase.createClient(URL, KEY);
+
+            const renderProducts = (products) => {
+                grid.innerHTML = '';
+                if (!products || products.length === 0) return;
+
+                const activeBtn = document.querySelector('.filter-btn.active');
+                const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter').toLowerCase() : 'all';
+
+                products.forEach(p => {
+                    const card = document.createElement('div');
+                    const cat = p.category.toLowerCase();
+                    card.className = 'product-card dynamic-card visible';
+                    card.setAttribute('data-category', cat);
+                    
+                    if (activeFilter !== 'all' && cat !== activeFilter) {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                    } else {
+                        card.style.display = 'block';
+                        card.style.opacity = '1';
+                    }
+
+                    card.innerHTML = `
+                        <div class="product-img" style="position:relative;">
+                            <div class="new-badge" style="position:absolute; top:15px; left:15px; background:var(--accent-gold); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:bold; z-index:10; box-shadow:0 4px 10px rgba(0,0,0,0.2);">NEW ARRIVAL</div>
+                            <img src="${p.image_url}" alt="${p.name} - Premium Celebration Supply" style="width:100%; height:400px; object-fit:cover;">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-rating">⭐ 5.0</div>
+                            <h3 class="font-serif">${p.name}</h3>
+                            <p>${p.description}</p>
+                            <button class="btn-primary w-full add-to-cart">
+                                <span>Add to Cart</span>
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
                 });
-                const products = await res.json();
-                console.log('🦾 NUCLEAR LOADER: Data received:', products);
+            };
 
-                if (products && products.length > 0) {
-                    // Check which filter is currently active
-                    const activeBtn = document.querySelector('.filter-btn.active');
-                    const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter').toLowerCase() : 'all';
+            const fetchProducts = async () => {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (data) renderProducts(data);
+            };
 
-                    products.forEach(p => {
-                        const card = document.createElement('div');
-                        const cat = p.category.toLowerCase();
-                        card.className = 'product-card dynamic-card visible';
-                        card.setAttribute('data-category', cat);
-                        
-                        // Set initial visibility based on the active filter
-                        if (activeFilter !== 'all' && cat !== activeFilter) {
-                            card.style.display = 'none';
-                            card.style.opacity = '0';
-                        } else {
-                            card.style.display = 'block';
-                            card.style.opacity = '1';
-                        }
+            // Initial Load
+            fetchProducts();
 
-                        card.innerHTML = `
-                            <div class="product-img" style="position:relative;">
-                                <div class="new-badge" style="position:absolute; top:15px; left:15px; background:var(--accent-gold); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:bold; z-index:10; box-shadow:0 4px 10px rgba(0,0,0,0.2);">NEW ARRIVAL</div>
-                                <img src="${p.image_url}" alt="${p.name} - Premium Celebration Supply" style="width:100%; height:400px; object-fit:cover;">
-                            </div>
-                            <div class="product-info">
-                                <div class="product-rating">⭐ 5.0</div>
-                                <h3 class="font-serif">${p.name}</h3>
-                                <p>${p.description}</p>
-                                <button class="btn-primary w-full add-to-cart">Add to Cart</button>
-                            </div>
-                        `;
-                        grid.prepend(card);
-                    });
-                    console.log('🦾 NUCLEAR LOADER: Filter-Smart products prepended.');
-                }
-            } catch (e) {
-                console.error('🦾 NUCLEAR LOADER ERROR:', e);
-            }
+            // Subscribe to Realtime Changes
+            supabaseClient
+                .channel('public:products')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+                    console.log('🔄 NUCLEAR LOADER: Products changed! Syncing...');
+                    fetchProducts();
+                })
+                .subscribe();
         });
     </script>
 </body>
