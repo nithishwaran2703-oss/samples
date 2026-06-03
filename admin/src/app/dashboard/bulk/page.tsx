@@ -12,15 +12,69 @@ interface PendingUpload {
   preview: string;
   name: string;
   category: string;
+  description: string;
+  altText: string;
   status: 'pending' | 'uploading' | 'success' | 'error';
   error?: string;
+  isGenerating?: boolean;
 }
 
 export default function BulkUpload() {
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [globalCategory, setGlobalCategory] = useState('birthday');
+  const [globalCategory, setGlobalCategory] = useState('birthday-combo-pack');
   const router = useRouter();
+
+  const generateItemMetadata = async (file: File, categoryStr: string) => {
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+      });
+
+      const res = await fetch('/api/generate-meta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: base64,
+          fileName: file.name,
+          category: categoryStr
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return {
+          title: data.title || file.name.split('.')[0].replace(/[-_]/g, ' '),
+          description: data.description || `Premium quality event decor supply for your special celebrations.`,
+          altText: data.altText || `Artisan party decoration item.`
+        };
+      }
+    } catch (e) {
+      console.error('AI generation failed for file', file.name, e);
+    }
+    return null;
+  };
+
+  const triggerBulkGeneration = async (items: PendingUpload[]) => {
+    items.forEach(async (item) => {
+      const meta = await generateItemMetadata(item.file, item.category);
+      setPendingUploads(prev => prev.map(p => {
+        if (p.file === item.file) {
+          return {
+            ...p,
+            name: meta ? meta.title : p.name,
+            description: meta ? meta.description : `Bulk uploaded product: ${p.name}`,
+            altText: meta ? meta.altText : `Artisan party decoration item.`,
+            isGenerating: false
+          };
+        }
+        return p;
+      }));
+    });
+  };
 
   const { startUpload, isUploading: isUTUploading } = useUploadThing("bulkProductImage", {
     onUploadError: (error) => {
@@ -32,14 +86,25 @@ export default function BulkUpload() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
+      const MAX_LIMIT = 100;
+
+      if (pendingUploads.length + newFiles.length > MAX_LIMIT) {
+        alert(`You can only upload up to ${MAX_LIMIT} images in a single batch. Please keep your upload count within this number (Current queue: ${pendingUploads.length}, Selected: ${newFiles.length}).`);
+        return;
+      }
+
       const newPending = newFiles.map(file => ({
         file,
         preview: URL.createObjectURL(file),
         name: file.name.split('.')[0].replace(/[-_]/g, ' '),
         category: globalCategory,
-        status: 'pending' as const
+        description: '',
+        altText: '',
+        status: 'pending' as const,
+        isGenerating: true
       }));
       setPendingUploads(prev => [...prev, ...newPending]);
+      triggerBulkGeneration(newPending);
     }
   };
 
@@ -144,7 +209,7 @@ export default function BulkUpload() {
                 name: pendingItem.name,
                 price: 0,
                 category: pendingItem.category,
-                description: `Bulk uploaded product: ${pendingItem.name}`,
+                description: pendingItem.description + (pendingItem.altText ? `\n\n[Alt Text: ${pendingItem.altText}]` : ''),
                 image_url: fileUrl
               }]);
 
@@ -178,7 +243,7 @@ export default function BulkUpload() {
         <div className="px-6 md:px-8 py-5 md:py-6 border-b border-gray-200 bg-gray-50/50 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <h3 className="text-lg md:text-xl font-bold text-gray-900">Bulk Image Upload</h3>
-            <p className="text-xs md:text-sm text-gray-500 mt-1">Upload multiple images at once to create products quickly.</p>
+            <p className="text-xs md:text-sm text-gray-500 mt-1">Upload multiple images at once. <span className="text-blue-600 font-semibold">Please keep your upload count within 100 images.</span></p>
           </div>
           
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -187,11 +252,15 @@ export default function BulkUpload() {
               onChange={e => setGlobalCategory(e.target.value)}
               className="px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 bg-white"
             >
-              <option value="birthday">Default: Birthday</option>
-              <option value="wedding">Default: Wedding</option>
-              <option value="housewarming">Default: Housewarming</option>
-              <option value="corporate">Default: Corporate</option>
-              <option value="custom">Default: Custom</option>
+              <option value="birthday-combo-pack">Default: Birthday Combo Pack</option>
+              <option value="1st-birthday">Default: 1st Birthday</option>
+              <option value="babyshower">Default: Babyshower</option>
+              <option value="anniversary">Default: Anniversary</option>
+              <option value="haldi-mehandi">Default: Haldi & Mehandi</option>
+              <option value="love-theme">Default: Love Theme</option>
+              <option value="office-decoration">Default: Office Decoration</option>
+              <option value="car-decoration">Default: Car Decoration</option>
+              <option value="decoration-booking">Default: Decoration Booking</option>
             </select>
             
             <button 
@@ -212,7 +281,7 @@ export default function BulkUpload() {
                 <ImageIcon size={40} className="md:w-12 md:h-12" />
               </div>
               <h4 className="text-base md:text-lg font-bold text-gray-900">Select Multiple Images</h4>
-              <p className="text-xs md:text-sm text-gray-500 mt-2 max-w-xs mx-auto">Drop your product images here or click the button below.</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-2 max-w-xs mx-auto">Drop your product images here or click below. <span className="text-blue-600 font-semibold block mt-1">Please limit your selection within 100 files.</span></p>
               <label className="mt-6 inline-flex items-center gap-2 px-6 md:px-8 py-3 bg-white border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 cursor-pointer transition-all text-sm md:text-base">
                 <Plus size={20} />
                 <span>Select Images</span>
@@ -241,26 +310,65 @@ export default function BulkUpload() {
                     </div>
                     
                     <div className="space-y-3">
-                      <input 
-                        type="text" 
-                        value={item.name}
-                        onChange={e => updateItem(index, { name: e.target.value })}
-                        className="w-full text-sm font-bold bg-transparent border-b border-gray-200 focus:border-blue-500 outline-none pb-1 text-gray-900"
-                        placeholder="Product Name"
-                      />
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-[10px] font-bold text-gray-400">Product Name</label>
+                          {item.isGenerating && <span className="text-[10px] text-blue-500 font-medium animate-pulse">AI is writing...</span>}
+                        </div>
+                        <input 
+                          type="text" 
+                          value={item.name}
+                          onChange={e => updateItem(index, { name: e.target.value })}
+                          disabled={item.isGenerating}
+                          className={`w-full text-sm font-bold bg-transparent border-b border-gray-200 focus:border-blue-500 outline-none pb-1 text-gray-900 ${item.isGenerating ? 'animate-pulse text-blue-400' : ''}`}
+                          placeholder={item.isGenerating ? "Generating Title..." : "Product Name"}
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-[10px] font-bold text-gray-400">Description</label>
+                        </div>
+                        <textarea 
+                          rows={2}
+                          value={item.description}
+                          onChange={e => updateItem(index, { description: e.target.value })}
+                          disabled={item.isGenerating}
+                          className={`w-full text-xs bg-white border border-gray-200 rounded-lg p-2 focus:border-blue-500 outline-none resize-none text-gray-800 ${item.isGenerating ? 'animate-pulse text-blue-400 bg-blue-50/10' : ''}`}
+                          placeholder={item.isGenerating ? "AI is generating description..." : "Product Description"}
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="text-[10px] font-bold text-gray-400">SEO Alt Text</label>
+                        </div>
+                        <input 
+                          type="text" 
+                          value={item.altText}
+                          onChange={e => updateItem(index, { altText: e.target.value })}
+                          disabled={item.isGenerating}
+                          className={`w-full text-xs bg-white border border-gray-200 rounded-lg p-2 focus:border-blue-500 outline-none text-gray-800 ${item.isGenerating ? 'animate-pulse text-blue-400 bg-blue-50/10' : ''}`}
+                          placeholder={item.isGenerating ? "AI is generating alt text..." : "Image Alt Text"}
+                        />
+                      </div>
                       
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-500">Category:</span>
+                      <div className="flex justify-between items-center text-xs pt-1 border-t border-gray-100">
+                        <span className="text-gray-500 font-medium">Category:</span>
                         <select 
                           value={item.category}
                           onChange={e => updateItem(index, { category: e.target.value })}
-                          className="bg-transparent font-medium text-blue-600 outline-none cursor-pointer"
+                          className="bg-transparent font-bold text-blue-600 outline-none cursor-pointer"
                         >
-                          <option value="birthday">Birthday</option>
-                          <option value="wedding">Wedding</option>
-                          <option value="housewarming">Housewarming</option>
-                          <option value="corporate">Corporate</option>
-                          <option value="custom">Custom</option>
+                          <option value="birthday-combo-pack">Birthday Combo Pack</option>
+                          <option value="1st-birthday">1st Birthday</option>
+                          <option value="babyshower">Babyshower</option>
+                          <option value="anniversary">Anniversary</option>
+                          <option value="haldi-mehandi">Haldi & Mehandi</option>
+                          <option value="love-theme">Love Theme</option>
+                          <option value="office-decoration">Office Decoration</option>
+                          <option value="car-decoration">Car Decoration</option>
+                          <option value="decoration-booking">Decoration Booking</option>
                         </select>
                       </div>
                     </div>

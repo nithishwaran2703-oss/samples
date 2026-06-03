@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(renderCursor);
 
     // Hover states for cursor
-    const interactiveSelectors = 'a, button, .accordion-header, .filter-btn, .close-modal, .floating-wa, .product-card, .video-card';
+    const interactiveSelectors = 'a, button, .accordion-header, .filter-btn, .close-modal, .floating-wa, .floating-call, .product-card, .video-card';
     document.querySelectorAll(interactiveSelectors).forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('hovered');
@@ -660,53 +660,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    genBtn.addEventListener('click', () => {
-        const eventType = document.getElementById('aiEvent').value || "special celebration";
-        const palette = document.getElementById('aiPalette').value || "royal hues";
+    if (genBtn) {
+        genBtn.addEventListener('click', () => {
+            const eventType = document.getElementById('aiEvent').value || "special celebration";
+            const palette = document.getElementById('aiPalette').value || "royal hues";
 
-        genBtn.innerText = "Designing Magic...";
-        genBtn.disabled = true;
+            genBtn.innerText = "Designing Magic...";
+            genBtn.disabled = true;
 
-        setTimeout(() => {
-            modalBody.innerHTML = `
-                <div class="ai-result-card" style="background: rgba(212,175,55,0.05); padding: 30px; border-radius: 25px; border: 1px solid var(--accent-gold); box-shadow: 0 20px 50px rgba(128,0,0,0.1);">
-                    <h4 class="gradient-text font-serif" style="margin-bottom: 15px; font-size: 1.5rem;">Bespoke Product Collection</h4>
-                    <p id="typewriterText" style="line-height: 1.8; font-size: 1.1rem; color: var(--text-dark); min-height: 100px;"></p>
-                    <div class="header-line" style="margin: 20px 0;"></div>
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
-                        <span class="badge" style="background: rgba(128,0,0,0.1); color: var(--primary-maroon); border: none;">Luxury Styling</span>
-                        <span class="badge" style="background: rgba(212,175,55,0.1); color: var(--accent-gold); border: none;">Hand-Crafted</span>
+            setTimeout(() => {
+                modalBody.innerHTML = `
+                    <div class="ai-result-card" style="background: rgba(212,175,55,0.05); padding: 30px; border-radius: 25px; border: 1px solid var(--accent-gold); box-shadow: 0 20px 50px rgba(128,0,0,0.1);">
+                        <h4 class="gradient-text font-serif" style="margin-bottom: 15px; font-size: 1.5rem;">Bespoke Product Collection</h4>
+                        <p id="typewriterText" style="line-height: 1.8; font-size: 1.1rem; color: var(--text-dark); min-height: 100px;"></p>
+                        <div class="header-line" style="margin: 20px 0;"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <span class="badge" style="background: rgba(128,0,0,0.1); color: var(--primary-maroon); border: none;">Luxury Styling</span>
+                            <span class="badge" style="background: rgba(212,175,55,0.1); color: var(--accent-gold); border: none;">Hand-Crafted</span>
+                        </div>
                     </div>
-                </div>
-                <button class="btn-primary glow-effect" style="width: 100%; margin-top: 25px; padding: 1.2rem;" onclick="window.open('https://wa.me/919788742627', '_blank')">Order this Collection on WhatsApp</button>
-            `;
+                    <button class="btn-primary glow-effect" style="width: 100%; margin-top: 25px; padding: 1.2rem;" onclick="window.open('https://wa.me/919788742627', '_blank')">Order this Collection on WhatsApp</button>
+                `;
 
-            const text = `For your ${eventType}, we recommend a curated collection using ${palette}. We will bundle handcrafted traditional elements with premium modern accents to create a stunning atmosphere that celebrates luxury in every detail.`;
-            let i = 0;
-            const typewriter = () => {
-                const textEl = document.getElementById('typewriterText');
-                if (textEl && i < text.length) {
-                    textEl.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(typewriter, 30);
-                } else {
-                    genBtn.innerText = "Concept Ready";
-                    genBtn.disabled = false;
+                const text = `For your ${eventType}, we recommend a curated collection using ${palette}. We will bundle handcrafted traditional elements with premium modern accents to create a stunning atmosphere that celebrates luxury in every detail.`;
+                let i = 0;
+                const typewriter = () => {
+                    const textEl = document.getElementById('typewriterText');
+                    if (textEl && i < text.length) {
+                        textEl.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(typewriter, 30);
+                    } else {
+                        genBtn.innerText = "Concept Ready";
+                        genBtn.disabled = false;
+                    }
+                };
+                typewriter();
+
+                // Add keyframes for popIn dynamically
+                if (!document.getElementById('popInStyles')) {
+                    const style = document.createElement('style');
+                    style.id = 'popInStyles';
+                    style.innerHTML = `@keyframes popIn { to { transform: scale(1); opacity: 1; } }`;
+                    document.head.appendChild(style);
                 }
-            };
-            typewriter();
 
-            // Add keyframes for popIn dynamically
-            if (!document.getElementById('popInStyles')) {
-                const style = document.createElement('style');
-                style.id = 'popInStyles';
-                style.innerHTML = `@keyframes popIn { to { transform: scale(1); opacity: 1; } }`;
-                document.head.appendChild(style);
-            }
-
-            // Magnetic binding removed for stability
-        }, 1500);
-    });
+                // Magnetic binding removed for stability
+            }, 1500);
+        });
+    }
 
     const contactForm = document.querySelector('.contact-form-premium');
     if (contactForm) {
@@ -1212,52 +1214,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // 13. Visibility Logic for Cart Toggle (Show only in product section)
-    const productSection = document.getElementById('gallery') || document.getElementById('curated-collections');
+    // 13. Visibility Logic for Cart Toggle (Always show)
     const cartToggle = document.getElementById('cartToggle');
-    const isProductsPage = window.location.pathname.includes('products.html');
 
     if (cartToggle) {
-        const showCart = () => {
-            cartToggle.style.opacity = '1';
-            cartToggle.style.pointerEvents = 'all';
-            cartToggle.style.transform = 'scale(1)';
-        };
-
-        const hideCart = () => {
-            cartToggle.style.opacity = '0';
-            cartToggle.style.pointerEvents = 'none';
-            cartToggle.style.transform = 'scale(0.8)';
-        };
-
-        if (isProductsPage) {
-            // Always show on products page or show after brief scroll
-            showCart();
-        } else if (productSection) {
-            // Logic for index page
-            const cartObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting || window.scrollY > entry.target.offsetTop - 200) {
-                        showCart();
-                    } else {
-                        hideCart();
-                    }
-                });
-            }, { threshold: 0, rootMargin: '0px 0px -200px 0px' });
-
-            cartObserver.observe(productSection);
-            
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > productSection.offsetTop - 400) {
-                    showCart();
-                } else {
-                    hideCart();
-                }
-            }, { passive: true });
-        } else {
-            // Fallback: hide if no section found and not on products page
-            hideCart();
-        }
+        cartToggle.style.opacity = '1';
+        cartToggle.style.pointerEvents = 'all';
+        cartToggle.style.transform = 'scale(1)';
     }
 
     window.CartManager.init();

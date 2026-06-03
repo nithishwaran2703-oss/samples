@@ -10,13 +10,51 @@ import { useUploadThing } from '@/utils/uploadthing';
 export default function AddProduct() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('birthday');
+  const [category, setCategory] = useState('birthday-combo-pack');
   const [description, setDescription] = useState('');
+  const [altText, setAltText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+
+  const generateAIMetadata = async (file: File, currentCategory: string) => {
+    setIsGenerating(true);
+    setName('');
+    setDescription('');
+    setAltText('');
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+      });
+
+      const res = await fetch('/api/generate-meta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: base64,
+          fileName: file.name,
+          category: currentCategory
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.title) setName(data.title);
+        if (data.description) setDescription(data.description);
+        if (data.altText) setAltText(data.altText);
+      }
+    } catch (err) {
+      console.error('Failed to generate AI metadata', err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const { startUpload, isUploading } = useUploadThing("productImage", {
     onClientUploadComplete: async (res) => {
@@ -39,6 +77,7 @@ export default function AddProduct() {
       }
       setImage(file);
       setImagePreview(URL.createObjectURL(file));
+      generateAIMetadata(file, category);
     }
   };
 
@@ -50,7 +89,7 @@ export default function AddProduct() {
           name,
           price: parseFloat(price),
           category,
-          description,
+          description: description + (altText ? `\n\n[Alt Text: ${altText}]` : ''),
           image_url: url
         }]);
 
@@ -159,14 +198,18 @@ export default function AddProduct() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700">Product Name</label>
+              <label className="block text-sm font-semibold text-gray-700 flex items-center justify-between">
+                <span>Product Name</span>
+                {isGenerating && <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>}
+              </label>
               <input 
                 type="text" 
                 required 
                 value={name} 
                 onChange={e => setName(e.target.value)} 
-                placeholder="e.g. Traditional Brass Lamp"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900 text-sm md:text-base" 
+                placeholder={isGenerating ? "✨ AI is generating Title..." : "e.g. Traditional Brass Lamp"}
+                disabled={isGenerating}
+                className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900 text-sm md:text-base ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`} 
               />
             </div>
             
@@ -191,25 +234,53 @@ export default function AddProduct() {
                 onChange={e => setCategory(e.target.value)} 
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none appearance-none bg-white transition-all text-gray-900 text-sm md:text-base"
               >
-                <option value="birthday">Birthday</option>
-                <option value="wedding">Wedding</option>
-                <option value="housewarming">Housewarming</option>
-                <option value="corporate">Corporate</option>
-                <option value="custom">Custom</option>
+                <option value="birthday-combo-pack">Birthday Combo Pack</option>
+                <option value="1st-birthday">1st Birthday</option>
+                <option value="babyshower">Babyshower</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="haldi-mehandi">Haldi & Mehandi</option>
+                <option value="love-theme">Love Theme</option>
+                <option value="office-decoration">Office Decoration</option>
+                <option value="car-decoration">Car Decoration</option>
+                <option value="decoration-booking">Decoration Booking</option>
               </select>
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-700">Description</label>
+            <label className="block text-sm font-semibold text-gray-700 flex items-center justify-between">
+              <span>Description</span>
+              {isGenerating && <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>}
+            </label>
             <textarea 
               rows={4} 
               required 
               value={description} 
               onChange={e => setDescription(e.target.value)} 
-              placeholder="Write a brief description of the product..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all text-gray-900 text-sm md:text-base"
+              placeholder={isGenerating ? "✨ AI is writing description..." : "Write a brief description of the product..."}
+              disabled={isGenerating}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all text-gray-900 text-sm md:text-base ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`}
             ></textarea>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-700 flex items-center justify-between">
+              <span>Image Alt Text (SEO)</span>
+              {isGenerating ? (
+                <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>
+              ) : (
+                <span className="text-xs font-normal text-gray-400">Guarantees distinct SEO metadata for this image</span>
+              )}
+            </label>
+            <input 
+              type="text" 
+              required 
+              value={altText} 
+              onChange={e => setAltText(e.target.value)} 
+              placeholder={isGenerating ? "✨ AI is generating Alt Text..." : "e.g. Elegant decorative item for festive styling"}
+              disabled={isGenerating}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900 text-sm md:text-base ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`} 
+            />
           </div>
 
           <div className="space-y-2">
@@ -221,11 +292,24 @@ export default function AddProduct() {
                     <img src={imagePreview} alt="Preview" className="mx-auto h-48 md:h-56 rounded-lg object-contain shadow-lg" />
                     <button 
                       type="button"
-                      onClick={() => { setImage(null); setImagePreview(null); }}
+                      onClick={() => { setImage(null); setImagePreview(null); setName(''); setDescription(''); setAltText(''); }}
                       className="absolute -top-3 -right-3 bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-600 transition-colors"
                     >
                       <X size={20} />
                     </button>
+                    {image && (
+                      <div className="mt-4">
+                        <button
+                          type="button"
+                          onClick={() => generateAIMetadata(image, category)}
+                          disabled={isGenerating}
+                          className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all text-xs shadow-md disabled:opacity-50 active:scale-95 transform cursor-pointer"
+                        >
+                          {isGenerating ? <Loader2 size={14} className="animate-spin" /> : '✨'}
+                          {isGenerating ? 'Generating Metadata...' : 'Regenerate AI Copy'}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="py-6 md:py-10">

@@ -43,7 +43,9 @@ async function initMasterControl() {
         if (settings.contact_phone) {
             document.querySelectorAll('a[href^="tel:"]').forEach(a => {
                 a.href = `tel:${settings.contact_phone.replace(/\s+/g, '')}`;
-                a.innerText = settings.contact_phone;
+                if (!a.classList.contains('floating-call')) {
+                    a.innerText = settings.contact_phone;
+                }
             });
             document.querySelectorAll('.info-item').forEach(item => {
                 if (item.querySelector('.info-icon')?.innerText === '📞') {

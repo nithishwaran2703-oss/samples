@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanakkam Vandhanam | Curated Combo Packages</title>
+    <meta name="description"
+        content="Explore our curated celebration combo packages. Complete decoration kits with balloons, banners, and backdrops for a hassle-free party setup.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#8B0000">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    
+    <link rel="preload" href="assets/logo.png" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Tiro+Tamil:ital@0;1&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <style>
+        .combo-tags-container {
+            margin-top: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+        }
+        .combo-tag {
+            font-size: 0.75rem;
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--accent-gold);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .combo-tag:hover {
+            background: var(--primary-maroon);
+            color: white;
+            border-color: var(--primary-maroon);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.2);
+        }
+
+        /* Lightbox Slider styling */
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(139, 0, 0, 0.4);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 30005;
+        }
+        .lightbox-nav-btn:hover {
+            background: var(--primary-maroon);
+            transform: translateY(-50%) scale(1.1);
+        }
+        .lightbox-prev { left: 30px; }
+        .lightbox-next { right: 30px; }
+        .lightbox-thumbnails {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+            z-index: 30005;
+            flex-wrap: wrap;
+        }
+        .lightbox-thumb {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s, opacity 0.3s;
+            opacity: 0.5;
+        }
+        .lightbox-thumb:hover, .lightbox-thumb.active {
+            border-color: var(--accent-gold);
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .lightbox-nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
+            .lightbox-thumb {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Premium Loader -->
+    <div class="loader">
+        <img src="assets/logo.png" alt="Vanakkam Vandhanam Logo" fetchpriority="high"
+            width="120" height="120"
+            style="height: 120px; width: auto; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 15px rgba(255,179,0,0.4)); background: white; padding: 15px; border-radius: 12px;">
+        <div class="loader-text font-serif">
+            <span style="display: block; line-height: 1;">Vanakkam <span class="text-gold">Vandhanam</span></span>
+            <div class="loader-subtitle" style="font-size: 1rem; margin-top: 0.5rem; letter-spacing: 0.1em; color: var(--text-light);">Party-na 🙏 Vanakkam Vandhanam dhaan !</div>
+        </div>
+        <div class="loader-progress"></div>
+    </div>
+
+    <!-- Canvas for Particle Animation -->
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="cursor"></div>
+    <div class="cursor-follower">
+        <svg class="cursor-progress" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent-gold)" stroke-width="2"
+                stroke-dasharray="283" stroke-dashoffset="283"></circle>
+        </svg>
+    </div>
+
+    <!-- Background Animated Blobs -->
+    <div class="bg-blobs">
+        <div class="floating-ornament" style="top: 15%; left: 5%;">🪔</div>
+        <div class="floating-ornament" style="top: 35%; right: 8%;">✨</div>
+        <div class="floating-ornament" style="bottom: 15%; right: 12%;">🌟</div>
+        <div class="floating-ornament" style="top: 85%; left: 50%;">✨</div>
+    </div>
+
+    <!-- Advanced Cursor Hover Reveal Image -->
+    <img src="" alt="" class="hover-preview-img" id="hoverPreviewImg">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <img src="assets/logo.png" alt="Logo" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: normal !important; object-fit: contain;">
+            <div class="logo-info" style="display: flex; flex-direction: column; justify-content: center;">
+                <span class="logo-text font-serif" style="line-height: 1; font-size: 1.5rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
+                <span class="logo-tagline">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html#">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li class="dropdown-item">
+                <a href="products.html">Decoration <span class="arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="products.html?filter=all">All Items</a></li>
+                    <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                    <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                    <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                    <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                    <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                    <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                    <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                    <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                    <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                </ul>
+            </li>
+            <li><a href="combos.html" class="active">Combo</a></li>
+            <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+            <li><a href="index.html#why-us">Why Us?</a></li>
+            <li><a href="index.html#contact-us">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <div class="cart-toggle" id="cartToggle">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart-count-badge" id="cartCount">0</span>
+            </div>
+            <div class="hamburger" id="hamburgerBtn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-inner">
+            <div class="mobile-menu-header">
+                <a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                    <img src="assets/logo.png" alt="Logo" style="height: 55px; width: auto; background: transparent;">
+                    <div class="logo-info" style="display: flex; flex-direction: column;">
+                        <span class="logo-text font-serif" style="line-height: 1; font-size: 1.3rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
+                        <span class="logo-tagline" style="font-size: 0.6rem; color: var(--text-light); margin-top: 2px;">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+                    </div>
+                </a>
+                <button class="mobile-close" id="mobileClose">&times;</button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="index.html#">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li class="mobile-dropdown">
+                    <a href="products.html">Decoration</a>
+                    <ul class="mobile-submenu">
+                        <li><a href="products.html?filter=all">All Items</a></li>
+                        <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                        <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                        <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                        <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                        <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                        <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                        <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                        <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                        <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                    </ul>
+                </li>
+                <li><a href="combos.html" class="active">Combo</a></li>
+                <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+                <li><a href="index.html#why-us">Why Us?</a></li>
+                <li><a href="index.html#contact-us">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Cart <span id="cartTotalCount">(0)</span></h3>
+            <div class="cart-header-actions">
+                <button class="clear-all-btn" id="clearAllBtn">Clear All</button>
+                <button class="close-cart" id="closeCart">&times;</button>
+            </div>
+        </div>
+        <div class="cart-items" id="cartItemsList" data-lenis-prevent>
+            <div class="empty-cart-msg">Your cart is empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <span>Total Items:</span>
+                <span id="finalItemsCount">0</span>
+            </div>
+            <button class="btn-primary w-full" id="cartContactBtn">Contact for Purchase</button>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <section id="gallery" class="gallery-section relative-z" style="padding-top: 10rem;">
+        <div class="section-header text-center reveal-on-scroll">
+            <h2 class="section-title">Curated <span class="italic-serif text-gold">Combos</span></h2>
+            <div class="section-divider">
+                <div class="divider-line"></div>
+                <div class="divider-ornament">🏵️</div>
+                <div class="divider-line"></div>
+            </div>
+            <p class="section-subtitle">Complete party sets, themed backdrops, and balloon packages curated based on visual styles.</p>
+
+            <div class="search-container" style="max-width: 600px; margin: 0 auto 2.5rem; display: flex; justify-content: center; position: relative; z-index: 20;">
+                <div class="search-bar" style="width: 100%; max-width: 500px; height: 50px; background: white; border: 1px solid rgba(139, 0, 0, 0.15); border-radius: 25px; display: flex; align-items: center; padding: 0 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary-maroon)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-right: 12px; opacity: 0.7;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="productSearch" placeholder="Search combos..." style="width: 100%; border: none; outline: none; background: transparent; font-size: 1.1rem; color: var(--text-dark); font-weight: 500;">
+                </div>
+            </div>
+
+            <div class="filter-btns">
+                <button class="filter-btn active" data-filter="all">All Combos</button>
+                <button class="filter-btn" data-filter="birthday">Birthday Themes</button>
+                <button class="filter-btn" data-filter="kids">Kids Specials</button>
+                <button class="filter-btn" data-filter="premium">Premium Sets</button>
+            </div>
+        </div>
+
+        <div id="combo-product-grid" class="product-grid">
+            <!-- Spiderman Theme Combo -->
+            <div class="product-card reveal-on-scroll" data-category="kids">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0033_Mockup1.jpg (2).png,assets/products/birthday/birthday_item_0033_Mockup2.jpg (2).jpeg,https://images.unsplash.com/photo-1608889175123-8ee362201f81?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1508349937151-22b68b72d5b1?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0033_Mockup1.jpg (2).png" alt="Superhero Spiderman Theme Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Spiderman Theme Combo</h3>
+                    <p>Complete Spiderman action backdrop with red/blue chrome balloon arch and character foil cutouts.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">💥 1x Spiderman Foil Balloon</span>
+                        <span class="combo-tag">🌃 1x Skyline Banner</span>
+                        <span class="combo-tag">🎈 100x Chrome Balloons</span>
+                        <span class="combo-tag">🕸️ 2x Spiderweb Props</span>
+                        <span class="combo-tag">🎉 1x Name Banner</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Disney Frozen Theme Combo -->
+            <div class="product-card reveal-on-scroll" data-category="kids">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0034_Mockup1.jpg (2).png,assets/products/birthday/birthday_item_0034_Mockup2.jpg (2).png,https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0034_Mockup1.jpg (2).png" alt="Magical Disney Frozen Theme Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 4.9</div>
+                    <h3 class="font-serif">Disney Frozen Theme Combo</h3>
+                    <p>Magical winter backdrop with snowflake curtains, pastel blue & silver balloon decorations, and Frozen characters.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">❄️ 1x Elsa & Anna Foil</span>
+                        <span class="combo-tag">✨ 1x Snowflake Backdrop</span>
+                        <span class="combo-tag">🎈 100x Pastel Balloons</span>
+                        <span class="combo-tag">🌟 10x Snowflake Ornaments</span>
+                        <span class="combo-tag">👑 1x Frozen Banner</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Little Prince Theme Combo -->
+            <div class="product-card reveal-on-scroll" data-category="kids">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0015_Mockup1.jpg,assets/products/birthday/birthday_item_0015_Mockup2.jpg,https://images.unsplash.com/photo-1590247813693-5541d1c609fd?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0015_Mockup1.jpg" alt="Little Prince Theme Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Little Prince Theme Combo</h3>
+                    <p>Royal blue and gold themed combo kit containing crown balloons, blue curtain backdrop, and milestone board.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">👑 1x Prince Crown Foil</span>
+                        <span class="combo-tag">🎭 1x Royal Blue Backdrop</span>
+                        <span class="combo-tag">🎈 80x Blue & Gold Balloons</span>
+                        <span class="combo-tag">📋 1x Milestone Board</span>
+                        <span class="combo-tag">✨ 1x Prince Script Banner</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Premium Gold & Black Combo -->
+            <div class="product-card reveal-on-scroll" data-category="premium">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0002_Mockup1.jpg,assets/products/birthday/birthday_item_0002_Mockup2.jpg,https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0002_Mockup1.jpg" alt="Premium Gold & Black Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Classic Gold & Black Combo</h3>
+                    <p>Elegant black curtain background matching gold chrome balloon arch and metallic confetti set.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">🖤 1x Black Sequin Backdrop</span>
+                        <span class="combo-tag">🎈 100x Gold & Black Balloons</span>
+                        <span class="combo-tag">⭐ 2x Star Foil Balloons</span>
+                        <span class="combo-tag">⚜️ 1x Golden Banner</span>
+                        <span class="combo-tag">🎗️ 1x Arch Strip Set</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Pastel Pink & Gold Celebration Combo -->
+            <div class="product-card reveal-on-scroll" data-category="birthday">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0001_Mockup1.jpg,assets/products/birthday/birthday_item_0001_Mockup2.jpg,https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0001_Mockup1.jpg" alt="Pastel Pink & Gold Celebration Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 4.8</div>
+                    <h3 class="font-serif">Pastel Pink & Gold Combo</h3>
+                    <p>Feminine and warm pastel pink backdrop with rose gold metallic accents and marquee letters.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">🌸 1x Pastel Pink Backdrop</span>
+                        <span class="combo-tag">🎈 80x Pink & Rose Gold Balloons</span>
+                        <span class="combo-tag">💡 1x LED Light Setup</span>
+                        <span class="combo-tag">💖 2x Heart Foil Balloons</span>
+                        <span class="combo-tag">✨ 1x Fairy Lights Set</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Unicorn Magic Pastel Combo -->
+            <div class="product-card reveal-on-scroll" data-category="birthday">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0027_Mockup1.jpg (2).png,assets/products/birthday/birthday_item_0027_Mockup2.jpg (2).png,https://images.unsplash.com/photo-1558244661-d248897f7bc4?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1482862549707-f63cb32c5fd9?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0027_Mockup1.jpg (2).png" alt="Unicorn Magic Pastel Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Unicorn Magic Pastel Combo</h3>
+                    <p>Dreamy pastel gradient banner set with matching balloon arch, unicorn horns, and star cutouts.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">🦄 1x Unicorn Foil Balloon</span>
+                        <span class="combo-tag">🌈 1x Dreamy Banner</span>
+                        <span class="combo-tag">🎈 70x Pastel Balloons</span>
+                        <span class="combo-tag">⭐ 5x Star Hangings</span>
+                        <span class="combo-tag">🎊 1x Unicorn Banner</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Golden Jubilee Golden Combo -->
+            <div class="product-card reveal-on-scroll" data-category="premium">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0026_Mockup1.jpg (2).png,assets/products/birthday/birthday_item_0026_Mockup2.jpg (2).png,https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0026_Mockup1.jpg (2).png" alt="Golden Jubilee Anniversary Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 5.0</div>
+                    <h3 class="font-serif">Golden Jubilee Anniversary Combo</h3>
+                    <p>Luxury gold sequin backdrop panels decorated with heavy chrome balloon garlands for ultimate warmth.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">✨ 1x Golden Sequin Set</span>
+                        <span class="combo-tag">🎈 80x Chrome Balloons</span>
+                        <span class="combo-tag">🔮 20x Confetti Balloons</span>
+                        <span class="combo-tag">💛 2x Heart Foil Balloons</span>
+                        <span class="combo-tag">🌟 1x "50 Years" Banner</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Metallic Rose Gold Birthday Combo -->
+            <div class="product-card reveal-on-scroll" data-category="birthday">
+                <div class="product-img" data-images="assets/products/birthday/birthday_item_0012_Mockup1.jpg,assets/products/birthday/birthday_item_0012_Mockup2.jpg,https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=50,https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50">
+                    <img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0012_Mockup1.jpg" alt="Metallic Rose Gold Birthday Combo" width="400" height="400" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-rating">⭐ 4.9</div>
+                    <h3 class="font-serif">Metallic Rose Gold Combo</h3>
+                    <p>Elegant rose gold foil curtain panels matched with chrome balloon garlands and standard script banner.</p>
+                    <div class="combo-tags-container">
+                        <span class="combo-tag">🌹 2x Foil Curtains</span>
+                        <span class="combo-tag">🎈 80x Rose Gold/White Balloons</span>
+                        <span class="combo-tag">📜 1x Script Banner</span>
+                        <span class="combo-tag">⭐ 4x Foil Balloons</span>
+                        <span class="combo-tag">🎗️ 1x Accessories Kit</span>
+                    </div>
+                    <button class="btn-primary w-full add-to-cart" style="margin-top: 15px;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer relative-z">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 1.5rem;">
+                    <img src="assets/logo.png" alt="Logo" width="60" height="60" style="background: transparent;">
+                    <div class="logo-info" style="display: flex; flex-direction: column;">
+                        <span class="logo-text font-serif" style="color: white; line-height: 1; font-size: 1.6rem; font-weight: 700;">Vanakkam <span class="accent" style="color: var(--accent-gold);">Vandhanam</span></span>
+                        <span class="logo-tagline" style="color: var(--text-light); font-size: 0.7rem; margin-top: 4px;">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+                    </div>
+                </a>
+                <p>Rooted in tradition, crafted with precision. We deliver premium event decoration sets, custom balloon styling, and complete cultural celebration supplies in Dindigul and surrounding areas.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#">Home</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="products.html">Decorations</a></li>
+                    <li><a href="combos.html">Combo Packs</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Get In Touch</h3>
+                <p>📍 Dindigul, Tamil Nadu, India</p>
+                <p>📞 +91 97887 42627</p>
+                <p>✉️ support@vanakkamvandhanam.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Vanakkam Vandhanam. All rights reserved. Made with ❤️ for traditional celebrations.</p>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav-btn lightbox-prev" id="lightboxPrev">&lt;</button>
+        <div style="text-align: center; max-width: 90%;">
+            <img src="" alt="Lightbox" id="lightboxImg">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
+        </div>
+        <button class="lightbox-nav-btn lightbox-next" id="lightboxNext">&gt;</button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="master-control.js" defer></script>
+    <script src="script.js?v=final_fix_101" defer></script>
+    <script>
+        // Custom combo filtering script helper
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('productSearch');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('#combo-product-grid .product-card');
+
+            const filterCombos = () => {
+                const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const activeBtn = document.querySelector('.filter-btn.active');
+                const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+
+                cards.forEach(card => {
+                    const category = card.getAttribute('data-category') || '';
+                    const title = card.querySelector('h3').innerText.toLowerCase();
+                    const desc = card.querySelector('p').innerText.toLowerCase();
+
+                    const matchesFilter = activeFilter === 'all' || category === activeFilter;
+                    const matchesSearch = title.includes(query) || desc.includes(query);
+
+                    if (matchesFilter && matchesSearch) {
+                        card.style.display = 'block';
+                        card.offsetHeight; // trigger reflow
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            if (card.style.opacity === '0') {
+                                card.style.display = 'none';
+                            }
+                        }, 400);
+                    }
+                });
+            };
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterCombos);
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterCombos();
+                    setTimeout(() => {
+                        if (window.lenis) window.lenis.resize();
+                    }, 450);
+                });
+            });
+
+            // Enhanced Lightbox logic for multi-image sliders
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const lightboxClose = document.getElementById('lightboxClose');
+            const lightboxPrev = document.getElementById('lightboxPrev');
+            const lightboxNext = document.getElementById('lightboxNext');
+            const lightboxThumbnails = document.getElementById('lightboxThumbnails');
+
+            let currentImages = [];
+            let currentIndex = 0;
+
+            const updateLightboxImage = (index) => {
+                currentIndex = index;
+                lightboxImg.src = currentImages[currentIndex];
+                
+                // Update active thumbnail
+                const thumbs = lightboxThumbnails.querySelectorAll('.lightbox-thumb');
+                thumbs.forEach((thumb, idx) => {
+                    if (idx === currentIndex) thumb.classList.add('active');
+                    else thumb.classList.remove('active');
+                });
+            };
+
+            document.querySelectorAll('#combo-product-grid .product-img').forEach(imgContainer => {
+                imgContainer.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevent script.js document listener from overriding this
+
+                    const card = imgContainer.closest('.product-card');
+                    const imagesAttr = imgContainer.getAttribute('data-images') || card.querySelector('img').src;
+                    currentImages = imagesAttr.split(',');
+                    const title = card.querySelector('h3').innerText;
+
+                    lightboxCaption.innerText = title;
+                    lightboxThumbnails.innerHTML = '';
+
+                    currentImages.forEach((imgSrc, idx) => {
+                        const thumb = document.createElement('img');
+                        thumb.src = imgSrc;
+                        thumb.className = 'lightbox-thumb';
+                        thumb.onclick = (event) => {
+                            event.stopPropagation();
+                            updateLightboxImage(idx);
+                        };
+                        lightboxThumbnails.appendChild(thumb);
+                    });
+
+                    updateLightboxImage(0);
+                    lightbox.classList.add('active');
+                });
+            });
+
+            if (lightboxClose) {
+                lightboxClose.onclick = () => lightbox.classList.remove('active');
+            }
+
+            lightbox.onclick = (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('active');
+            };
+
+            lightboxPrev.onclick = (e) => {
+                e.stopPropagation();
+                let nextIdx = currentIndex - 1;
+                if (nextIdx < 0) nextIdx = currentImages.length - 1;
+                updateLightboxImage(nextIdx);
+            };
+
+            lightboxNext.onclick = (e) => {
+                e.stopPropagation();
+                let nextIdx = currentIndex + 1;
+                if (nextIdx >= currentImages.length) nextIdx = 0;
+                updateLightboxImage(nextIdx);
+            };
+        });
+    </script>
+</body>
+
+</html>

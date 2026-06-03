@@ -158,32 +158,51 @@
 
     <nav class="navbar">
         <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="assets/logo.png" alt="Logo - வணக்கம்! வந்தனம்" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: multiply !important; object-fit: contain;">
+            <img src="assets/logo.png" alt="Logo - வணக்கம்! வந்தனம்" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: normal !important; object-fit: contain;">
             <div class="logo-info" style="display: flex; flex-direction: column; justify-content: center;">
                 <span class="logo-text font-serif" style="line-height: 1; font-size: 1.5rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
                 <span class="logo-tagline">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
             </div>
         </a>
         <ul class="nav-links">
-            <li><a href="index.html#about">About Us</a></li>
-            <li><a href="#gallery">Categories</a></li>
+            <li><a href="index.html#">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li class="dropdown-item">
+                <a href="products.html">Decoration <span class="arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="products.html?filter=all">All Items</a></li>
+                    <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                    <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                    <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                    <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                    <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                    <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                    <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                    <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                    <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                </ul>
+            </li>
+            <li><a href="combos.html">Combo</a></li>
+            <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
             <li><a href="index.html#why-us">Why Us?</a></li>
-            <li><a href="index.html#contact-us">Contact Us</a></li>
+            <li><a href="index.html#contact-us">Contact</a></li>
         </ul>
 
-        <div class="cart-toggle" id="cartToggle">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            <span class="cart-count-badge" id="cartCount">0</span>
-        </div>
+        <div class="nav-actions">
+            <div class="cart-toggle" id="cartToggle">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart-count-badge" id="cartCount">0</span>
+            </div>
 
-        <div class="hamburger" id="hamburgerBtn">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+            <div class="hamburger" id="hamburgerBtn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </div>
     </nav>
 
@@ -201,10 +220,27 @@
                 <button class="mobile-close" id="mobileClose">&times;</button>
             </div>
             <ul class="mobile-nav-links">
-                <li><a href="index.html#about">About Us</a></li>
-                <li><a href="#gallery">Categories</a></li>
+                <li><a href="index.html#">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li class="mobile-dropdown">
+                    <a href="products.html">Decoration</a>
+                    <ul class="mobile-submenu">
+                        <li><a href="products.html?filter=all">All Items</a></li>
+                        <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                        <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                        <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                        <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                        <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                        <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                        <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                        <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                        <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                    </ul>
+                </li>
+                <li><a href="combos.html">Combo</a></li>
+                <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
                 <li><a href="index.html#why-us">Why Us?</a></li>
-                <li><a href="index.html#contact-us">Contact Us</a></li>
+                <li><a href="index.html#contact-us">Contact</a></li>
             </ul>
         </div>
     </div>
@@ -254,11 +290,15 @@
 
             <div class="filter-btns">
                 <button class="filter-btn active" data-filter="all">All Items</button>
-                <button class="filter-btn" data-filter="birthday">Birthday</button>
-                <button class="filter-btn" data-filter="wedding">Wedding</button>
-                <button class="filter-btn" data-filter="housewarming">Housewarming</button>
-                <button class="filter-btn" data-filter="corporate">Corporate</button>
-                <button class="filter-btn" data-filter="custom">Custom</button>
+                <button class="filter-btn" data-filter="birthday-combo-pack">Birthday Combo Pack</button>
+                <button class="filter-btn" data-filter="1st-birthday">1st Birthday</button>
+                <button class="filter-btn" data-filter="babyshower">Babyshower</button>
+                <button class="filter-btn" data-filter="anniversary">Anniversary</button>
+                <button class="filter-btn" data-filter="haldi-mehandi">Haldi & Mehandi</button>
+                <button class="filter-btn" data-filter="love-theme">Love Theme</button>
+                <button class="filter-btn" data-filter="office-decoration">Office Decoration</button>
+                <button class="filter-btn" data-filter="car-decoration">Car Decoration</button>
+                <button class="filter-btn" data-filter="decoration-booking">Decoration Booking</button>
             </div>
         </div>
 
@@ -1873,6 +1913,13 @@
         </svg>
     </a>
 
+    <!-- Floating Call Button -->
+    <a href="tel:+919788742627" class="floating-call" title="Call Us">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.27 1.11l-2.2 2.2z" />
+        </svg>
+    </a>
+
     <!-- Image Lightbox -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightboxClose">&times;</button>
@@ -1920,15 +1967,23 @@
                         card.style.opacity = '1';
                     }
 
+                    let displayDesc = p.description || '';
+                    let imgAlt = `${p.name} - Premium Celebration Supply`;
+                    if (displayDesc.includes('[Alt Text:')) {
+                        const parts = displayDesc.split('[Alt Text:');
+                        displayDesc = parts[0].trim();
+                        imgAlt = parts[1].replace(']', '').trim();
+                    }
+
                     card.innerHTML = `
                         <div class="product-img" style="position:relative;">
                             <div class="new-badge" style="position:absolute; top:15px; left:15px; background:var(--accent-gold); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:bold; z-index:10; box-shadow:0 4px 10px rgba(0,0,0,0.2);">NEW ARRIVAL</div>
-                            <img src="${p.image_url}" alt="${p.name} - Premium Celebration Supply" style="width:100%; height:400px; object-fit:cover;">
+                            <img src="${p.image_url}" alt="${imgAlt}" style="width:100%; height:400px; object-fit:cover;">
                         </div>
                         <div class="product-info">
                             <div class="product-rating">⭐ 5.0</div>
                             <h3 class="font-serif">${p.name}</h3>
-                            <p>${p.description}</p>
+                            <p>${displayDesc}</p>
                             <button class="btn-primary w-full add-to-cart">
                                 <span>Add to Cart</span>
                                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">

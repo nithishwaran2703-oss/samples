@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Edit, Trash2, RefreshCw, Plus } from 'lucide-react';
+import { Edit, Trash2, RefreshCw, Plus, Search, X } from 'lucide-react';
 import Link from 'next/link';
 
 interface Product {
@@ -19,6 +19,39 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
+
+  // Deterministic unique product number generator (produces double or triple digit numbers)
+  const getProductNumber = (id: string): string => {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const num = Math.abs(hash) % 990 + 10; // Generates a number between 10 and 999
+    return `#${num}`;
+  };
+
+  // Live filter by Name, Category, or #number (with or without # prefix)
+  const filteredProducts = products.filter(product => {
+    if (selectedCategoryFilter !== 'all' && product.category !== selectedCategoryFilter) {
+      return false;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return true;
+
+    const prodNum = getProductNumber(product.id).toLowerCase();
+    const prodName = product.name.toLowerCase();
+    const prodCat = product.category.toLowerCase();
+
+    return (
+      prodName.includes(query) ||
+      prodCat.includes(query) ||
+      prodNum.includes(query) ||
+      prodNum.replace('#', '').includes(query)
+    );
+  });
 
   const fetchProducts = async () => {
     setIsRefreshing(true);
@@ -44,10 +77,10 @@ export default function Dashboard() {
   }, []);
 
   const toggleSelectAll = () => {
-    if (selectedIds.length === products.length) {
+    if (selectedIds.length === filteredProducts.length) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(products.map(p => p.id));
+      setSelectedIds(filteredProducts.map(p => p.id));
     }
   };
 
@@ -58,6 +91,9 @@ export default function Dashboard() {
   };
 
   const deleteProduct = async (id: string) => {
+    const productToDelete = products.find(p => p.id === id);
+    if (!productToDelete) return;
+
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         const { error } = await supabase
@@ -66,6 +102,16 @@ export default function Dashboard() {
           .eq('id', id);
 
         if (error) throw error;
+
+        // Safely trigger unlinking/deletion from UploadThing in the background
+        if (productToDelete.image_url) {
+          fetch('/api/delete-image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ urls: [productToDelete.image_url] })
+          }).catch(err => console.error('UploadThing delete error:', err));
+        }
+
         fetchProducts();
       } catch (error) {
         console.error('Error deleting product', error);
@@ -80,12 +126,26 @@ export default function Dashboard() {
     if (window.confirm(`Are you sure you want to delete ${selectedIds.length} products? This cannot be undone.`)) {
       setIsDeleting(true);
       try {
+        // Collect image URLs of selected products to delete from UploadThing
+        const urlsToDelete = products
+          .filter(p => selectedIds.includes(p.id) && p.image_url)
+          .map(p => p.image_url);
+
         const { error } = await supabase
           .from('products')
           .delete()
           .in('id', selectedIds);
 
         if (error) throw error;
+
+        // Trigger bulk unlinking/deletion from UploadThing in the background
+        if (urlsToDelete.length > 0) {
+          fetch('/api/delete-image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ urls: urlsToDelete })
+          }).catch(err => console.error('UploadThing bulk delete error:', err));
+        }
         
         // Optimistic update
         setProducts(prev => prev.filter(p => !selectedIds.includes(p.id)));
@@ -144,6 +204,57 @@ export default function Dashboard() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        {/* Search & Filter Container */}
+        <div className="p-4 md:p-6 border-b border-gray-200 bg-gray-50/20 flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="relative w-full md:max-w-md">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                <Search size={18} />
+              </span>
+              <input
+                type="text"
+                placeholder="Search by name, category, or #number (e.g. wedding, #120)..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-sm text-gray-900 transition-all placeholder:text-gray-400 bg-white"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            
+            <div className="text-xs font-semibold text-gray-400 flex items-center gap-2">
+              <span>Showing {filteredProducts.length} of {products.length} products</span>
+            </div>
+          </div>
+          
+          {/* Category Filter */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-gray-700">Filter by Category:</span>
+            <select
+              value={selectedCategoryFilter}
+              onChange={(e) => setSelectedCategoryFilter(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20 text-gray-900 bg-white min-w-[200px]"
+            >
+              <option value="all">All Categories</option>
+              <option value="birthday-combo-pack">Birthday Combo Pack</option>
+              <option value="1st-birthday">1st Birthday</option>
+              <option value="babyshower">Babyshower</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="haldi-mehandi">Haldi & Mehandi</option>
+              <option value="love-theme">Love Theme</option>
+              <option value="office-decoration">Office Decoration</option>
+              <option value="car-decoration">Car Decoration</option>
+              <option value="decoration-booking">Decoration Booking</option>
+            </select>
+          </div>
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
@@ -152,7 +263,7 @@ export default function Dashboard() {
                   <input 
                     type="checkbox" 
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    checked={products.length > 0 && selectedIds.length === products.length}
+                    checked={filteredProducts.length > 0 && selectedIds.length === filteredProducts.length}
                     onChange={toggleSelectAll}
                   />
                 </th>
@@ -164,20 +275,24 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {products.length === 0 ? (
+              {filteredProducts.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-20 text-center text-gray-500">
                     <div className="flex flex-col items-center">
                       <div className="bg-gray-100 p-4 rounded-full mb-4 text-gray-400">
-                        <Plus size={32} />
+                        {searchQuery ? <Search size={32} /> : <Plus size={32} />}
                       </div>
-                      <p className="text-lg font-medium text-gray-900">No products yet</p>
-                      <p className="mt-1">Add your first product to see it appear here.</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {searchQuery ? 'No matching products found' : 'No products yet'}
+                      </p>
+                      <p className="mt-1">
+                        {searchQuery ? 'Try adjusting your search keywords or filter terms.' : 'Add your first product to see it appear here.'}
+                      </p>
                     </div>
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
+                filteredProducts.map((product) => (
                   <tr key={product.id} className={`hover:bg-gray-50/80 transition-colors ${selectedIds.includes(product.id) ? 'bg-blue-50/30' : ''}`}>
                     <td className="px-6 py-4">
                       <input 
@@ -204,8 +319,13 @@ export default function Dashboard() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-gray-900">{product.name}</div>
-                      <div className="text-xs text-gray-400 mt-0.5 line-clamp-1 max-w-[200px]">{product.id}</div>
+                      <div className="flex items-center gap-2.5">
+                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-[10px] font-bold font-mono border border-gray-200 whitespace-nowrap shadow-sm">
+                          {getProductNumber(product.id)}
+                        </span>
+                        <div className="font-semibold text-gray-900">{product.name}</div>
+                      </div>
+                      <div className="text-[10px] text-gray-400 mt-0.5 line-clamp-1 max-w-[200px] font-mono">{product.id}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium capitalize">

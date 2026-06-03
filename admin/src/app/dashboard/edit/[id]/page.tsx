@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { Upload, X, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Upload, X, CheckCircle2, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useUploadThing } from '@/utils/uploadthing';
 
@@ -11,17 +11,63 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
   const { id } = use(params);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('birthday');
+  const [category, setCategory] = useState('birthday-combo-pack');
   const [description, setDescription] = useState('');
+  const [altText, setAltText] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [newImage, setNewImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
 
-  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+  const generateAIMetadata = async (source: File | string, currentCategory: string) => {
+    setIsGenerating(true);
+    setName('');
+    setDescription('');
+    setAltText('');
+    try {
+      let imageParam = '';
+      let fileNameParam = 'product_image';
+
+      if (typeof source === 'string') {
+        imageParam = source;
+      } else {
+        fileNameParam = source.name;
+        imageParam = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(source);
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = error => reject(error);
+        });
+      }
+
+      const res = await fetch('/api/generate-meta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: imageParam,
+          fileName: fileNameParam,
+          category: currentCategory
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.title) setName(data.title);
+        if (data.description) setDescription(data.description);
+        if (data.altText) setAltText(data.altText);
+      }
+    } catch (err) {
+      console.error('Failed to generate AI metadata', err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const { startUpload, isUploading } = useUploadThing("productImage", {
     onUploadError: (error) => {
       alert(`Upload failed: ${error.message}`);
       setSaving(false);
@@ -39,10 +85,19 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
 
         if (error) throw error;
         if (data) {
+          let desc = data.description || '';
+          let parsedAlt = '';
+          if (desc.includes('[Alt Text:')) {
+            const parts = desc.split('[Alt Text:');
+            desc = parts[0].trim();
+            parsedAlt = parts[1].replace(']', '').trim();
+          }
+
           setName(data.name);
           setPrice(data.price.toString());
           setCategory(data.category);
-          setDescription(data.description);
+          setDescription(desc);
+          setAltText(parsedAlt);
           setImageURL(data.image_url);
           setImagePreview(data.image_url);
         }
@@ -63,6 +118,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
       const file = e.target.files[0];
       setNewImage(file);
       setImagePreview(URL.createObjectURL(file));
+      generateAIMetadata(file, category);
     }
   };
 
@@ -77,7 +133,17 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
       if (newImage) {
         const res = await startUpload([newImage]);
         if (res && res[0]) {
+          const oldImageUrl = imageURL;
           finalImageUrl = res[0].url;
+
+          // Trigger unlinking/deletion of the old replaced image in the background
+          if (oldImageUrl) {
+            fetch('/api/delete-image', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ urls: [oldImageUrl] })
+            }).catch(err => console.error('UploadThing delete old image error:', err));
+          }
         } else {
           throw new Error('Image upload failed');
         }
@@ -90,7 +156,7 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
           name,
           price: parseFloat(price),
           category,
-          description,
+          description: description + (altText ? `\n\n[Alt Text: ${altText}]` : ''),
           image_url: finalImageUrl
         })
         .eq('id', id);
@@ -132,13 +198,18 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Product Name</label>
+              <label className="block text-sm font-medium text-gray-700 flex items-center justify-between">
+                <span>Product Name</span>
+                {isGenerating && <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>}
+              </label>
               <input 
                 type="text" 
                 required 
                 value={name} 
                 onChange={e => setName(e.target.value)} 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900" 
+                placeholder={isGenerating ? "✨ AI is generating Title..." : "e.g. Traditional Brass Lamp"}
+                disabled={isGenerating}
+                className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900 ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`} 
               />
             </div>
             
@@ -162,24 +233,53 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
                 onChange={e => setCategory(e.target.value)} 
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none appearance-none bg-white transition-all text-gray-900"
               >
-                <option value="birthday">Birthday</option>
-                <option value="wedding">Wedding</option>
-                <option value="housewarming">Housewarming</option>
-                <option value="corporate">Corporate</option>
-                <option value="custom">Custom</option>
+                <option value="birthday-combo-pack">Birthday Combo Pack</option>
+                <option value="1st-birthday">1st Birthday</option>
+                <option value="babyshower">Babyshower</option>
+                <option value="anniversary">Anniversary</option>
+                <option value="haldi-mehandi">Haldi & Mehandi</option>
+                <option value="love-theme">Love Theme</option>
+                <option value="office-decoration">Office Decoration</option>
+                <option value="car-decoration">Car Decoration</option>
+                <option value="decoration-booking">Decoration Booking</option>
               </select>
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-gray-700 flex items-center justify-between">
+              <span>Description</span>
+              {isGenerating && <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>}
+            </label>
             <textarea 
               rows={4} 
               required 
               value={description} 
               onChange={e => setDescription(e.target.value)} 
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all text-gray-900"
+              placeholder={isGenerating ? "✨ AI is writing description..." : "Write a brief description of the product..."}
+              disabled={isGenerating}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none transition-all text-gray-900 ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`}
             ></textarea>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 flex items-center justify-between">
+              <span>Image Alt Text (SEO)</span>
+              {isGenerating ? (
+                <span className="text-xs text-blue-500 font-medium animate-pulse">AI is writing...</span>
+              ) : (
+                <span className="text-xs font-normal text-gray-400">Guarantees distinct SEO metadata for this image</span>
+              )}
+            </label>
+            <input 
+              type="text" 
+              required 
+              value={altText} 
+              onChange={e => setAltText(e.target.value)} 
+              placeholder={isGenerating ? "✨ AI is generating Alt Text..." : "e.g. Elegant decorative item for festive styling"}
+              disabled={isGenerating}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-gray-900 ${isGenerating ? 'animate-pulse bg-blue-50/20 border-blue-300 text-blue-400' : ''}`} 
+            />
           </div>
 
           <div className="space-y-2">
@@ -187,12 +287,25 @@ export default function EditProduct({ params }: { params: Promise<{ id: string }
             <div className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-2xl transition-colors ${imagePreview ? 'border-blue-400 bg-blue-50/30' : 'border-gray-300 hover:border-blue-400'}`}>
               <div className="space-y-1 text-center w-full">
                 {imagePreview ? (
-                  <div className="relative inline-block">
+                  <div className="relative inline-block w-full">
                     <img src={imagePreview} alt="Preview" className="mx-auto h-48 rounded-lg object-contain shadow-md" />
                     <label className="absolute -top-2 -right-2 bg-blue-600 text-white p-1.5 rounded-full shadow-lg hover:bg-blue-700 cursor-pointer transition-colors">
                       <Upload size={16} />
                       <input type="file" accept="image/*" className="sr-only" onChange={handleImageChange} />
                     </label>
+                    {(newImage || imageURL) && (
+                      <div className="mt-4">
+                        <button
+                          type="button"
+                          onClick={() => generateAIMetadata(newImage || imageURL, category)}
+                          disabled={isGenerating}
+                          className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all text-xs shadow-md disabled:opacity-50 active:scale-95 transform cursor-pointer"
+                        >
+                          {isGenerating ? <Loader2 size={12} className="animate-spin" /> : '✨'}
+                          {isGenerating ? 'Generating Metadata...' : 'Regenerate AI Copy'}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="py-8 text-gray-400">No image available</div>

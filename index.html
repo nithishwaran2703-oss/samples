@@ -141,29 +141,55 @@
 
     <nav class="navbar">
         <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="assets/logo.png" alt="Logo - வணக்கம்! வந்தனம்" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: multiply !important; object-fit: contain;">
+            <img src="assets/logo.png" alt="Logo - வணக்கம்! வந்தனம்" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: normal !important; object-fit: contain;">
             <div class="logo-info" style="display: flex; flex-direction: column; justify-content: center;">
                 <span class="logo-text font-serif" style="line-height: 1; font-size: 1.5rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
                 <span class="logo-tagline">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
             </div>
         </a>
         <ul class="nav-links">
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#curated-collections">Categories</a></li>
-            <li><a href="#why-us">Why Us?</a></li>
-            <li><a href="#contact-us">Contact Us</a></li>
+            <li><a href="index.html#">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li class="dropdown-item">
+                <a href="products.html">Decoration <span class="arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="products.html?filter=all">All Items</a></li>
+                    <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                    <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                    <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                    <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                    <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                    <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                    <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                    <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                    <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                </ul>
+            </li>
+            <li><a href="combos.html">Combo</a></li>
+            <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+            <li><a href="index.html#why-us">Why Us?</a></li>
+            <li><a href="index.html#contact-us">Contact</a></li>
         </ul>
-        <a href="products.html" class="btn-primary desktop-only">
-            <span>Shop Now</span>
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-        </a>
+        <div class="nav-actions">
+            <div class="cart-toggle" id="cartToggle">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart-count-badge" id="cartCount">0</span>
+            </div>
 
+            <a href="products.html" class="btn-primary desktop-only">
+                <span>Shop Now</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            </a>
 
-
-        <div class="hamburger" id="hamburgerBtn">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+            <div class="hamburger" id="hamburgerBtn">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
         </div>
     </nav>
 
@@ -181,15 +207,55 @@
                 <button class="mobile-close" id="mobileClose">&times;</button>
             </div>
             <ul class="mobile-nav-links">
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#curated-collections">Categories</a></li>
-                <li><a href="#why-us">Why Us?</a></li>
-                <li><a href="#contact-us">Contact Us</a></li>
+                <li><a href="index.html#">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li class="mobile-dropdown">
+                    <a href="products.html">Decoration</a>
+                    <ul class="mobile-submenu">
+                        <li><a href="products.html?filter=all">All Items</a></li>
+                        <li><a href="products.html?filter=birthday-combo-pack">Birthday Combo Pack</a></li>
+                        <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
+                        <li><a href="products.html?filter=babyshower">Babyshower</a></li>
+                        <li><a href="products.html?filter=anniversary">Anniversary</a></li>
+                        <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
+                        <li><a href="products.html?filter=love-theme">Love Theme</a></li>
+                        <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
+                        <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
+                        <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                    </ul>
+                </li>
+                <li><a href="combos.html">Combo</a></li>
+                <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+                <li><a href="index.html#why-us">Why Us?</a></li>
+                <li><a href="index.html#contact-us">Contact</a></li>
             </ul>
             <a href="products.html" class="btn-primary w-full" style="text-align: center; gap: 10px;">
                 <span>Shop Now</span>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
             </a>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Cart <span id="cartTotalCount">(0)</span></h3>
+            <div class="cart-header-actions">
+                <button class="clear-all-btn" id="clearAllBtn">Clear All</button>
+                <button class="close-cart" id="closeCart">&times;</button>
+            </div>
+        </div>
+        <div class="cart-items" id="cartItemsList" data-lenis-prevent>
+            <!-- Cart items will be injected here -->
+            <div class="empty-cart-msg">Your cart is empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <span>Total Items:</span>
+                <span id="finalItemsCount">0</span>
+            </div>
+            <button class="btn-primary w-full" id="cartContactBtn">Contact for Purchase</button>
         </div>
     </div>
 
@@ -222,7 +288,7 @@
                 decoration supplies including diyas, thoranams, and artificial marigolds online.
             </p>
             <div class="brand-signature reveal-text delay-1-5">
-                Party-na 🙏 <span class="text-gold">Vanakkam Vandhanam</span> dhaan !
+                பார்ட்டினா 🙏 <span class="text-gold">வணக்கம் வந்தனம்</span> தான்!
             </div>
             <div class="hero-actions reveal-text delay-2">
                 <a href="https://wa.me/919788742627" target="_blank" class="btn-primary glow-effect">Contact for Purchase</a>
@@ -236,11 +302,11 @@
 
     <div class="marquee-section relative-z">
         <div class="marquee-content font-tamil">
-            <span>Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+            <span>பார்ட்டினா 🙏 வணக்கம் வந்தனம் தான்!</span>
             <span>✨</span>
-            <span>Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+            <span>பார்ட்டினா 🙏 வணக்கம் வந்தனம் தான்!</span>
             <span>✨</span>
-            <span>Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+            <span>பார்ட்டினா 🙏 வணக்கம் வந்தனம் தான்!</span>
             <span>✨</span>
         </div>
     </div>
@@ -257,19 +323,39 @@
     <section id="about" class="digital-section relative-z">
         <div class="digital-container reveal-on-scroll">
             <div class="section-header text-center">
-                <h2 class="section-title">Heritage <span class="italic-serif gradient-text">Goes Digital</span></h2>
+                <h2 class="section-title">About <span class="italic-serif gradient-text">Us</span></h2>
                 <div class="section-divider">
                     <div class="divider-line"></div>
-                    <div class="divider-ornament">🏮</div>
+                    <div class="divider-ornament">🎈</div>
                     <div class="divider-line"></div>
                 </div>
-                <p class="section-subtitle">Digital Heritage • Bringing centuries of tradition to your modern screen.</p>
+                <p class="section-subtitle">Creative & Memorable Decorations • Turning moments into beautiful memories</p>
             </div>
             
-            <div class="about-narrative reveal-on-scroll">
-                <p class="premium-para">
-                    At <span class="highlight">Vanakam Vandhanam</span>, we believe that tradition should not be bound by distance or time. Our digital platform serves as a bridge between the <strong>ancient artistry of Tamil Nadu</strong> and your celebration, offering a meticulously curated showcase of premium decor. Every piece in our collection—from the intricate brass lamps hand-carved by master artisans to our temple-grade silk garlands—is a testament to our commitment to <strong>absolute quality and cultural authenticity</strong>. 
-                </p>
+            <div class="about-modern-layout reveal-on-scroll">
+                <div class="about-image-wrapper">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=70" alt="Beautiful Event Decoration" class="about-main-img">
+                    <div class="about-floating-badge">
+                        <span class="badge-number">10+</span>
+                        <span class="badge-text">Years of<br>Magic</span>
+                    </div>
+                </div>
+                <div class="about-content-wrapper">
+                    <h3 class="about-heading font-serif text-maroon">Crafting <span class="text-gold">Memories</span></h3>
+                    <p class="about-text">
+                        Welcome to <strong>Vanakkam Vandhanam</strong> — your ultimate destination for creative and unforgettable decorations. We specialize in transforming spaces, bringing joy to every celebration with our curated selection of premium party items and bespoke styling services.
+                    </p>
+                    <p class="about-text">
+                        Our true passion lies in turning your fleeting special moments into eternal memories. By blending vibrant aesthetics, pure joy, and a uniquely artistic touch, we ensure every event tells your unique story.
+                    </p>
+                    <div class="about-signature-block">
+                        <div class="sig-line"></div>
+                        <div class="about-signature font-serif text-maroon">
+                            PARTY NA VANAKKAM VANDHANAM DHAN!
+                        </div>
+                        <div class="sig-line"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -281,19 +367,42 @@
         </svg>
     </div>
 
-    <section id="why-us" class="stats-section parallax-section relative-z">
-        <div class="stats-container stagger-reveal reveal-on-scroll">
-            <div class="stat-item">
-                <h3 class="counter" data-target="5000">0</h3><span>+</span>
-                <p>Orders Delivered</p>
+    <section id="why-us" class="why-us-section relative-z">
+        <div class="why-us-bar stagger-reveal reveal-on-scroll">
+            <div class="why-us-item">
+                <img src="assets/delivery_icon.png" alt="Fast & Safe Delivery" class="why-us-image-icon">
+                <div class="why-us-text">
+                    <h4>Fast & Safe Delivery</h4>
+                    <p>On Time, Every Time</p>
+                </div>
             </div>
-            <div class="stat-item">
-                <h3 class="counter" data-target="500">0</h3><span>+</span>
-                <p>Premium Items</p>
+            <div class="why-us-item">
+                <img src="assets/quality_icon.png" alt="Premium Quality" class="why-us-image-icon">
+                <div class="why-us-text">
+                    <h4>Premium Quality</h4>
+                    <p>Best Materials</p>
+                </div>
             </div>
-            <div class="stat-item">
-                <h3 class="counter" data-target="100">0</h3><span>%</span>
-                <p>Happy Customers</p>
+            <div class="why-us-item">
+                <img src="assets/themes_icon.png" alt="Custom Themes" class="why-us-image-icon">
+                <div class="why-us-text">
+                    <h4>Custom Themes</h4>
+                    <p>Made Just For You</p>
+                </div>
+            </div>
+            <div class="why-us-item">
+                <img src="assets/prices_icon.png" alt="Affordable Prices" class="why-us-image-icon">
+                <div class="why-us-text">
+                    <h4>Affordable Prices</h4>
+                    <p>Best Value For Every Budget</p>
+                </div>
+            </div>
+            <div class="why-us-item">
+                <img src="assets/support_icon.png" alt="24/7 Customer Support" class="why-us-image-icon">
+                <div class="why-us-text">
+                    <h4>24/7 Customer Support</h4>
+                    <p>We're Here To Help</p>
+                </div>
             </div>
         </div>
     </section>
@@ -309,52 +418,92 @@
         </div>
         <div class="curated-grid reveal-on-scroll">
 
-            <a href="products.html?filter=birthday" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0002_Mockup1.jpg" alt="Birthday Celebration"></div>
+            <a href="products.html?filter=birthday-combo-pack" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0002_Mockup1.jpg" alt="Birthday Combo Pack"></div>
                 <div class="curated-content">
-                    <h3>Birthdays</h3>
-                    <h4>Magical Moments</h4>
-                    <p>Vibrant balloon decors and themed setups for a perfect birthday bash.</p>
+                    <h3>Birthday Combo Pack</h3>
+                    <h4>Hassle-Free Celebrations</h4>
+                    <p>Complete setup kits with balloons, banners, and backdrops for a perfect party.</p>
                     <span class="btn-text">View Collection <span>→</span></span>
                 </div>
             </a>
 
-            <a href="products.html?filter=wedding" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/wedding_decor.png" alt="Wedding Celebration"></div>
+            <a href="products.html?filter=1st-birthday" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0015_Mockup1.jpg" alt="1st Birthday Celebration"></div>
                 <div class="curated-content">
-                    <h3>Weddings</h3>
-                    <h4>Royal Celebrations</h4>
-                    <p>Grand traditional setups and luxury backdrops for your special day.</p>
+                    <h3>1st Birthday</h3>
+                    <h4>Precious Milestones</h4>
+                    <p>Adorable theme decors and custom setups to celebrate your baby's first year.</p>
                     <span class="btn-text">View Collection <span>→</span></span>
                 </div>
             </a>
 
-            <a href="products.html?filter=housewarming" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/housewarming_decor.png" alt="Housewarming Ceremony"></div>
+            <a href="products.html?filter=babyshower" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=50" alt="Babyshower Ceremony"></div>
                 <div class="curated-content">
-                    <h3>Housewarmings</h3>
-                    <h4>Sacred Beginnings</h4>
-                    <p>Auspicious traditional decor to welcome prosperity into your new home.</p>
+                    <h3>Babyshower</h3>
+                    <h4>Sweet Beginnings</h4>
+                    <p>Warm and elegant decorations to welcome the arrival of your little bundle of joy.</p>
                     <span class="btn-text">View Collection <span>→</span></span>
                 </div>
             </a>
 
-            <a href="products.html?filter=corporate" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80" alt="Corporate Events"></div>
+            <a href="products.html?filter=anniversary" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/wedding_decor.png" alt="Anniversary Celebration"></div>
                 <div class="curated-content">
-                    <h3>Corporate</h3>
-                    <h4>Professional Cultural</h4>
-                    <p>Professional yet traditional aesthetics for office inaugurations and festive meets.</p>
+                    <h3>Anniversary</h3>
+                    <h4>Love & Togetherness</h4>
+                    <p>Romantic backdrop themes, elegant balloon arches, and fairy lights for your special milestone.</p>
                     <span class="btn-text">View Collection <span>→</span></span>
                 </div>
             </a>
 
-            <a href="products.html?filter=custom" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80" alt="Custom Cultural Events and Festival Decorations"></div>
+            <a href="products.html?filter=haldi-mehandi" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=50" alt="Haldi & Mehandi Decor"></div>
                 <div class="curated-content">
-                    <h3>Custom Visions</h3>
-                    <h4>Bespoke Magic</h4>
-                    <p>Tailored decorations and unique setups created specifically for your unique vision.</p>
+                    <h3>Haldi & Mehandi</h3>
+                    <h4>Festive Traditions</h4>
+                    <p>Vibrant marigold hangings, colorful drapes, and traditional setups for pre-wedding functions.</p>
+                    <span class="btn-text">View Collection <span>→</span></span>
+                </div>
+            </a>
+
+            <a href="products.html?filter=love-theme" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50" alt="Love Theme Setup"></div>
+                <div class="curated-content">
+                    <h3>Love Theme</h3>
+                    <h4>Romantic Evenings</h4>
+                    <p>Beautiful red & pink themes, canopy setups, and intimate proposals or date night decors.</p>
+                    <span class="btn-text">View Collection <span>→</span></span>
+                </div>
+            </a>
+
+            <a href="products.html?filter=office-decoration" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=50" alt="Office Decoration"></div>
+                <div class="curated-content">
+                    <h3>Office Decoration</h3>
+                    <h4>Professional Celebrations</h4>
+                    <p>Clean, modern, and festive setups for office inaugurations, corporate events, and milestones.</p>
+                    <span class="btn-text">View Collection <span>→</span></span>
+                </div>
+            </a>
+
+            <a href="products.html?filter=car-decoration" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=50" alt="Car Decoration"></div>
+                <div class="curated-content">
+                    <h3>Car Decoration</h3>
+                    <h4>Just Married Style</h4>
+                    <p>Premium floral, ribbon, and balloon arrangements to beautifully decorate ceremony cars.</p>
+                    <span class="btn-text">View Collection <span>→</span></span>
+                </div>
+            </a>
+
+            <a href="products.html?filter=decoration-booking" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
+                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50" alt="Decoration Booking"></div>
+                <div class="curated-content">
+                    <h3>Decoration Booking</h3>
+                    <h4>Bespoke Custom Setup</h4>
+                    <p>Consult with our designers to create a tailored theme specifically for your venue and style.</p>
                     <span class="btn-text">View Collection <span>→</span></span>
                 </div>
             </a>
@@ -409,55 +558,8 @@
         </div>
     </section>
 
-    <section class="journal-section relative-z">
-        <div class="section-header text-center reveal-on-scroll">
-            <h2 class="section-title">
-                <span class="split-parent"><span class="split-child">Our</span></span>
-                <span class="split-parent"><span class="split-child italic-serif gradient-text">Journal</span></span>
-            </h2>
-            <div class="section-divider">
-                <div class="divider-line"></div>
-                <div class="divider-ornament">🪔</div>
-                <div class="divider-line"></div>
-            </div>
-            <p class="section-subtitle">Insights into luxury product trends, color palettes, and cultural artistry • Deep dives into traditional excellence.</p>
-        </div>
-        <div class="journal-grid">
-            <article class="journal-card reveal-on-scroll">
-                <div class="journal-img-box">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80" alt="Latest Trends in Traditional Tamil Celebration Decor">
-                    <span class="journal-date">April 2024</span>
-                </div>
-                <div class="journal-info">
-                    <h3>2024 Decor Color Palettes: Beyond Traditional Maroon</h3>
-                    <p>The rise of sage green, burnt orange, and ivory in South Indian celebrations...</p>
-                    <a href="#" class="read-more">Read More <span>→</span></a>
-                </div>
-            </article>
-            <article class="journal-card reveal-on-scroll">
-                <div class="journal-img-box">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1590766940554-634a7ed41450?auto=format&fit=crop&q=80" alt="Artisanal Heritage Craftsmanship for Festivals">
-                    <span class="journal-date">March 2024</span>
-                </div>
-                <div class="journal-info">
-                    <h3>Temple Theme Decor: A Cultural Revival</h3>
-                    <p>How our artisans bring ancient architectural wonders into modern celebration spaces...</p>
-                    <a href="#" class="read-more">Read More <span>→</span></a>
-                </div>
-            </article>
-            <article class="journal-card reveal-on-scroll">
-                <div class="journal-img-box">
-                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80" alt="Modern Fusion Decorations for Cultural Events">
-                    <span class="journal-date">February 2024</span>
-                </div>
-                <div class="journal-info">
-                    <h3>Minimalist Decorations: Where Less is More Magic</h3>
-                    <p>Boho-chic, pampas grass, and subtle natural balloon decor items...</p>
-                    <a href="#" class="read-more">Read More <span>→</span></a>
-                </div>
-            </article>
-        </div>
-    </section>
+    <!-- Spacer replacing Journal section -->
+    <section class="spacer-section relative-z" style="height: 350px; background-color: var(--bg-cream);"></section>
 
     <section class="testimonials-section relative-z">
         <div class="section-header text-center reveal-on-scroll">
@@ -786,6 +888,13 @@
         <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+        </svg>
+    </a>
+
+    <!-- Floating Call Button -->
+    <a href="tel:+919788742627" class="floating-call" title="Call Us">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.27c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.27 1.11l-2.2 2.2z" />
         </svg>
     </a>
 
