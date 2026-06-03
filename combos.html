@@ -40,6 +40,8 @@
             gap: 5px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            max-width: 100%;
+            white-space: normal;
         }
         .combo-tag:hover {
             background: var(--primary-maroon);
@@ -262,7 +264,7 @@
     </div>
 
     <!-- Main Content Section -->
-    <section id="gallery" class="gallery-section relative-z" style="padding-top: 10rem;">
+    <section id="gallery" class="gallery-section relative-z" style="padding-top: clamp(6rem, 15vw, 10rem);">
         <div class="section-header text-center reveal-on-scroll">
             <h2 class="section-title">Curated <span class="italic-serif text-gold">Combos</span></h2>
             <div class="section-divider">
