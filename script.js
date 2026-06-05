@@ -606,13 +606,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         mobileLinks.forEach(link => {
-            link.addEventListener('click', () => toggleMobileMenu(false));
-            link.addEventListener('touchstart', () => toggleMobileMenu(false));
+            link.addEventListener('click', (e) => {
+                if (!link.classList.contains('mobile-dropdown-toggle')) {
+                    toggleMobileMenu(false);
+                }
+            });
+            link.addEventListener('touchstart', (e) => {
+                if (!link.classList.contains('mobile-dropdown-toggle')) {
+                    toggleMobileMenu(false);
+                }
+            }, { passive: true });
         });
 
         // Close on overlay click
         mobileMenu.addEventListener('click', (e) => {
             if (e.target === mobileMenu) toggleMobileMenu(false);
+        });
+
+        // Mobile Dropdown Toggle Logic
+        const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggle.parentElement.classList.toggle('active');
+            });
+            toggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                toggle.parentElement.classList.toggle('active');
+            }, { passive: false });
         });
     }
 
