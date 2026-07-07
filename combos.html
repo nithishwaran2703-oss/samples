@@ -125,7 +125,7 @@
             style="height: 120px; width: auto; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 15px rgba(255,179,0,0.4)); background: white; padding: 15px; border-radius: 12px;">
         <div class="loader-text font-serif">
             <span style="display: block; line-height: 1;">Vanakkam <span class="text-gold">Vandhanam</span></span>
-            <div class="loader-subtitle" style="font-size: 1rem; margin-top: 0.5rem; letter-spacing: 0.1em; color: var(--text-light);">Party-na 🙏 Vanakkam Vandhanam dhaan !</div>
+            <div class="loader-subtitle" style="font-size: 1rem; margin-top: 0.5rem; letter-spacing: 0.1em; color: var(--text-light);">For every celebration 🙏 it's Vanakkam Vandhanam!</div>
         </div>
         <div class="loader-progress"></div>
     </div>
@@ -154,13 +154,17 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="assets/logo.png" alt="Logo" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: normal !important; object-fit: contain;">
-            <div class="logo-info" style="display: flex; flex-direction: column; justify-content: center;">
-                <span class="logo-text font-serif" style="line-height: 1; font-size: 1.5rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
-                <span class="logo-tagline">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
-            </div>
+        <div class="hamburger" id="hamburgerBtn">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <a href="index.html" class="logo-brand">
+            <img src="assets/logo.png" alt="Vanakkam Vandhanam Logo" fetchpriority="high">
         </a>
+
+        <!-- Desktop Only Nav Links -->
         <ul class="nav-links">
             <li><a href="index.html#">Home</a></li>
             <li><a href="index.html#about">About</a></li>
@@ -169,35 +173,58 @@
                 <ul class="dropdown-menu">
                     <li><a href="products.html?filter=all">All Items</a></li>
                     <li><a href="combos.html">Birthday Combo Pack</a></li>
-                    <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
-                    <li><a href="products.html?filter=babyshower">Babyshower</a></li>
-                    <li><a href="products.html?filter=anniversary">Anniversary</a></li>
-                    <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
-                    <li><a href="products.html?filter=love-theme">Love Theme</a></li>
-                    <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
-                    <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
-                    <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                    <li><a href="category.html?type=1st-birthday">1st Birthday</a></li>
+                    <li><a href="category.html?type=babyshower">Babyshower</a></li>
+                    <li><a href="category.html?type=anniversary">Anniversary</a></li>
+                    <li><a href="category.html?type=haldi-mehandi">Haldi & Mehandi</a></li>
+                    <li><a href="category.html?type=love-theme">Love Theme</a></li>
+                    <li><a href="category.html?type=office-decoration">Office Decoration</a></li>
+                    <li><a href="category.html?type=car-decoration">Car Decoration</a></li>
+                    <li><a href="category.html?type=decoration-booking">Decoration Booking</a></li>
                 </ul>
             </li>
             <li><a href="combos.html" class="active">Combo</a></li>
-            <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+            <li>
+                <a href="https://wa.me/919788742627" target="_blank">Bookings <sup class="new-tag">NEW</sup></a>
+            </li>
             <li><a href="index.html#why-us">Why Us?</a></li>
             <li><a href="index.html#contact-us">Contact</a></li>
         </ul>
 
-        <div class="nav-actions">
-            <div class="cart-toggle" id="cartToggle">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        <!-- Search bar with VV Logo replacing camera -->
+        <div class="nav-search-row">
+            <div class="search-bar-wrapper">
+                <svg class="search-bar-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <span class="cart-count-badge" id="cartCount">0</span>
+                <input type="text" id="navProductSearch" placeholder="Search for products, collections & more...">
+                <img class="search-bar-logo" src="assets/logo.png" alt="VV Logo">
             </div>
-            <div class="hamburger" id="hamburgerBtn">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+        </div>
+
+        <div class="nav-actions">
+            <!-- Wishlist -->
+            <div class="action-item wishlist-toggle" id="wishlistToggle">
+                <div class="wishlist-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="wishlist-count-badge" id="wishlistCount">0</span>
+                </div>
+                <span>Wishlist</span>
+            </div>
+            <!-- Bag/Cart -->
+            <div class="action-item cart-toggle" id="cartToggle">
+                <div class="cart-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count-badge" id="cartCount">0</span>
+                </div>
+                <span>Bag</span>
             </div>
         </div>
     </nav>
@@ -221,14 +248,14 @@
                     <ul class="mobile-submenu">
                         <li><a href="products.html?filter=all">All Items</a></li>
                         <li><a href="combos.html">Birthday Combo Pack</a></li>
-                        <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
-                        <li><a href="products.html?filter=babyshower">Babyshower</a></li>
-                        <li><a href="products.html?filter=anniversary">Anniversary</a></li>
-                        <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
-                        <li><a href="products.html?filter=love-theme">Love Theme</a></li>
-                        <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
-                        <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
-                        <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                        <li><a href="category.html?type=1st-birthday">1st Birthday</a></li>
+                        <li><a href="category.html?type=babyshower">Babyshower</a></li>
+                        <li><a href="category.html?type=anniversary">Anniversary</a></li>
+                        <li><a href="category.html?type=haldi-mehandi">Haldi & Mehandi</a></li>
+                        <li><a href="category.html?type=love-theme">Love Theme</a></li>
+                        <li><a href="category.html?type=office-decoration">Office Decoration</a></li>
+                        <li><a href="category.html?type=car-decoration">Car Decoration</a></li>
+                        <li><a href="category.html?type=decoration-booking">Decoration Booking</a></li>
                     </ul>
                 </li>
                 <li><a href="combos.html" class="active">Combo</a></li>
@@ -458,7 +485,7 @@
                     <img src="assets/logo.png" alt="Logo" width="60" height="60" style="background: transparent;">
                     <div class="logo-info" style="display: flex; flex-direction: column;">
                         <span class="logo-text font-serif" style="color: white; line-height: 1; font-size: 1.6rem; font-weight: 700;">Vanakkam <span class="accent" style="color: var(--accent-gold);">Vandhanam</span></span>
-                        <span class="logo-tagline" style="color: var(--text-light); font-size: 0.7rem; margin-top: 4px;">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
+                        <span class="logo-tagline" style="color: var(--text-light); font-size: 0.7rem; margin-top: 4px;">For every celebration 🙏 it's Vanakkam Vandhanam!</span>
                     </div>
                 </a>
                 <p>Rooted in tradition, crafted with precision. We deliver premium event decoration sets, custom balloon styling, and complete cultural celebration supplies in Dindigul and surrounding areas.</p>
@@ -506,11 +533,22 @@
         // Custom combo filtering script helper
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('productSearch');
+            const navSearchInput = document.getElementById('navProductSearch');
             const filterBtns = document.querySelectorAll('.filter-btn');
             const cards = document.querySelectorAll('#combo-product-grid .product-card');
 
+            const getQuery = () => {
+                let query = '';
+                if (searchInput && searchInput.value) {
+                    query = searchInput.value.toLowerCase().trim();
+                } else if (navSearchInput && navSearchInput.value) {
+                    query = navSearchInput.value.toLowerCase().trim();
+                }
+                return query;
+            };
+
             const filterCombos = () => {
-                const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const query = getQuery();
                 const activeBtn = document.querySelector('.filter-btn.active');
                 const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
 
@@ -539,8 +577,34 @@
                 });
             };
 
+            const syncAndFilter = (e) => {
+                const val = e.target.value;
+                if (searchInput && searchInput !== e.target) searchInput.value = val;
+                if (navSearchInput && navSearchInput !== e.target) navSearchInput.value = val;
+                filterCombos();
+            };
+
             if (searchInput) {
-                searchInput.addEventListener('input', filterCombos);
+                searchInput.addEventListener('input', syncAndFilter);
+            }
+            if (navSearchInput) {
+                navSearchInput.addEventListener('input', syncAndFilter);
+                
+                navSearchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const val = navSearchInput.value.trim();
+                        // Redirection helper (though already on combos.html)
+                    }
+                });
+            }
+
+            // URL Search param loader
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialSearch = urlParams.get('search');
+            if (initialSearch) {
+                if (searchInput) searchInput.value = initialSearch;
+                if (navSearchInput) navSearchInput.value = initialSearch;
+                setTimeout(filterCombos, 100);
             }
 
             filterBtns.forEach(btn => {
@@ -631,7 +695,42 @@
             };
         });
     </script>
-</body>
 
+    <!-- Bottom Navigation Bar (Mobile Only) -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="products.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="9"></rect>
+                <rect x="14" y="3" width="7" height="5"></rect>
+                <rect x="14" y="12" width="7" height="9"></rect>
+                <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+            <span>Products</span>
+        </a>
+        <a href="combos.html" class="bottom-nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>Combos</span>
+        </a>
+        <a href="https://wa.me/919788742627" target="_blank" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>Bookings</span>
+        </a>
+    </nav>
+</body>
 </html>
 

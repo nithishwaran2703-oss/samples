@@ -43,7 +43,7 @@ async function initMasterControl() {
         if (settings.contact_phone) {
             document.querySelectorAll('a[href^="tel:"]').forEach(a => {
                 a.href = `tel:${settings.contact_phone.replace(/\s+/g, '')}`;
-                if (!a.classList.contains('floating-call')) {
+                if (!a.classList.contains('floating-call') && !a.classList.contains('keep-text')) {
                     a.innerText = settings.contact_phone;
                 }
             });

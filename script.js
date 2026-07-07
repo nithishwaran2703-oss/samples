@@ -61,16 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         curtain.style.transform = 'translateY(100%)';
                         triggerHeroAnimations();
-
-                        // Restart the CSS hero reveal animation if needed
-                        if (heroBg) {
-                            heroBg.style.animation = 'none';
-                            heroBg.offsetHeight; // trigger reflow
-                            heroBg.style.animation = 'heroReveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards';
+                        if (typeof window.startHeroSlider === 'function') {
+                            window.startHeroSlider();
                         }
                     }, 400);
                 } else {
                     triggerHeroAnimations();
+                    if (typeof window.startHeroSlider === 'function') {
+                        window.startHeroSlider();
+                    }
                 }
             }, 300);
 
@@ -185,7 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lastMouseY = mouseY;
 
         if (cursor) {
-            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            cursor.style.setProperty('--mouse-x', mouseX + 'px');
+            cursor.style.setProperty('--mouse-y', mouseY + 'px');
         }
 
         if (cursorFollower) {
@@ -243,14 +244,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // window.initMagnetics(); // Logic removed to prevent shaking
 
     // 4. Hero Animations (Triggered after loader)
-    function triggerHeroAnimations() {
-        const lineContents = document.querySelectorAll('.line-content');
+    function triggerHeroAnimations(container = document) {
+        let target = container;
+        if (container === document) {
+            const activeSlide = document.querySelector('.hero-slide.active');
+            if (activeSlide) target = activeSlide;
+        }
+
+        // Badge animation
+        const badge = target.querySelector('.hero-badge');
+        if (badge) {
+            badge.style.opacity = '0';
+            badge.style.transform = 'translateY(20px) scale(0.9)';
+            badge.style.transition = 'opacity 0.6s ease 0.05s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.05s';
+            setTimeout(() => {
+                badge.style.opacity = '1';
+                badge.style.transform = 'translateY(0) scale(1)';
+            }, 50);
+        }
+
+        const lineContents = target.querySelectorAll('.line-content');
         lineContents.forEach((el, index) => {
-            // High-end skew reveal
             el.style.transform = 'translateY(110%) skewY(7deg)';
             el.style.opacity = '0';
-            el.style.transition = `transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1 + 0.1}s, opacity 0.8s ease ${index * 0.1 + 0.1}s`;
-
+            el.style.transition = `transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12 + 0.15}s, opacity 0.8s ease ${index * 0.12 + 0.15}s`;
             setTimeout(() => {
                 el.style.transform = 'translateY(0) skewY(0deg)';
                 el.style.opacity = '1';
@@ -258,17 +275,201 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 50);
         });
 
-        const fadeUps = document.querySelectorAll('.hero-content .reveal-text');
+        const fadeUps = target.querySelectorAll('.hero-content .reveal-text');
         fadeUps.forEach((el, index) => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = `opacity 0.6s ease ${index * 0.1 + 0.3}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1 + 0.3}s`;
-
+            el.style.transition = `opacity 0.6s ease ${index * 0.12 + 0.4}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12 + 0.4}s`;
             setTimeout(() => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
             }, 50);
         });
+
+        // Stagger feature tags
+        const featureTags = target.querySelectorAll('.hero-feature-tag');
+        featureTags.forEach((tag, i) => {
+            tag.style.opacity = '0';
+            tag.style.transform = 'translateY(15px) scale(0.9)';
+            tag.style.transition = `opacity 0.4s ease ${i * 0.08 + 0.6}s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.08 + 0.6}s`;
+            setTimeout(() => {
+                tag.style.opacity = '1';
+                tag.style.transform = 'translateY(0) scale(1)';
+            }, 50);
+        });
+    }
+
+    // --- Advanced Hero Slider Logic ---
+    const slides = document.querySelectorAll('.hero-slide');
+    const navItems = document.querySelectorAll('.slider-nav-item');
+    const sliderPrev = document.getElementById('sliderPrev');
+    const sliderNext = document.getElementById('sliderNext');
+    const slideCounterCurrent = document.querySelector('.slide-counter-current');
+    let currentSlide = 0;
+    let slideInterval;
+    let isTransitioning = false;
+    const SLIDE_DURATION = 2700;
+
+    function resetAnimations(slide) {
+        const badge = slide.querySelector('.hero-badge');
+        if (badge) {
+            badge.style.opacity = '0';
+            badge.style.transform = 'translateY(20px) scale(0.9)';
+            badge.style.transition = 'none';
+        }
+
+        const lineContents = slide.querySelectorAll('.line-content');
+        lineContents.forEach(el => {
+            el.style.transform = 'translateY(110%) skewY(7deg)';
+            el.style.opacity = '0';
+            el.style.transition = 'none';
+            el.classList.remove('visible');
+        });
+
+        const fadeUps = slide.querySelectorAll('.hero-content .reveal-text');
+        fadeUps.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'none';
+        });
+
+        const featureTags = slide.querySelectorAll('.hero-feature-tag');
+        featureTags.forEach(tag => {
+            tag.style.opacity = '0';
+            tag.style.transform = 'translateY(15px) scale(0.9)';
+            tag.style.transition = 'none';
+        });
+    }
+
+    function goToSlide(index) {
+        if (index === currentSlide || isTransitioning) return;
+        isTransitioning = true;
+
+        const prevSlide = slides[currentSlide];
+        const nextSlideEl = slides[index];
+
+        // Reset progress bars
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            const progress = item.querySelector('.slider-nav-progress');
+            if (progress) {
+                progress.style.animation = 'none';
+                progress.offsetHeight;
+                progress.style.width = '0%';
+            }
+        });
+
+        // Leaving animation on current slide
+        prevSlide.classList.remove('active');
+        prevSlide.classList.add('leaving');
+
+        // Prepare & activate new slide
+        resetAnimations(nextSlideEl);
+        nextSlideEl.classList.add('active');
+
+        currentSlide = index;
+
+        // Set active nav
+        navItems[currentSlide].classList.add('active');
+        const activeProgress = navItems[currentSlide].querySelector('.slider-nav-progress');
+        if (activeProgress) {
+            activeProgress.style.animation = `sliderProgressFill ${SLIDE_DURATION}ms linear forwards`;
+        }
+
+        // Update counter
+        if (slideCounterCurrent) {
+            slideCounterCurrent.textContent = String(currentSlide + 1).padStart(2, '0');
+        }
+
+        // Trigger entrance animations
+        setTimeout(() => {
+            triggerHeroAnimations(nextSlideEl);
+        }, 100);
+
+        // Remove leaving class after transition
+        setTimeout(() => {
+            prevSlide.classList.remove('leaving');
+            prevSlide.style.opacity = '';
+            prevSlide.style.visibility = '';
+            isTransitioning = false;
+        }, 1100);
+    }
+
+    function nextSlide() {
+        goToSlide((currentSlide + 1) % slides.length);
+    }
+
+    function prevSlideFn() {
+        goToSlide((currentSlide - 1 + slides.length) % slides.length);
+    }
+
+    function startAutoplay() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, SLIDE_DURATION);
+    }
+
+    function restartAutoplay() {
+        clearInterval(slideInterval);
+        startAutoplay();
+    }
+
+    // Expose slider start function to hideLoader
+    window.startHeroSlider = () => {
+        if (slides.length > 1) {
+            const firstProgress = navItems[0]?.querySelector('.slider-nav-progress');
+            if (firstProgress) {
+                firstProgress.style.animation = `sliderProgressFill ${SLIDE_DURATION}ms linear forwards`;
+            }
+            startAutoplay();
+        }
+    };
+
+    if (slides.length > 1) {
+        // Nav item clicks
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                restartAutoplay();
+                goToSlide(index);
+            });
+        });
+
+        // Arrow clicks
+        if (sliderPrev) {
+            sliderPrev.addEventListener('click', () => { restartAutoplay(); prevSlideFn(); });
+        }
+        if (sliderNext) {
+            sliderNext.addEventListener('click', () => { restartAutoplay(); nextSlide(); });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { restartAutoplay(); prevSlideFn(); }
+            if (e.key === 'ArrowRight') { restartAutoplay(); nextSlide(); }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const heroEl = document.getElementById('heroSlider');
+        if (heroEl) {
+            heroEl.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            heroEl.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    restartAutoplay();
+                    if (diff > 0) nextSlide();
+                    else prevSlideFn();
+                }
+            }, { passive: true });
+        }
+
+        // Slider pause on hover removed so it changes continuously
+        if (heroEl) {
+            // No pause action
+        }
     }
 
     // 5. Scroll Animations & Counters
@@ -447,11 +648,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Hero Window Parallax Effect
-            if (heroBg && heroContent && scrolled < window.innerHeight) {
+            const activeSlide = document.querySelector('.hero-slide.active');
+            if (activeSlide && scrolled < window.innerHeight) {
+                const activeBg = activeSlide.querySelector('.hero-bg-wrapper');
+                const activeContent = activeSlide.querySelector('.hero-content');
                 const scrollRatio = scrolled / window.innerHeight;
-                heroBg.style.transform = `scale(${1 - (scrollRatio * 0.1)}) translateY(${scrolled * 0.4}px)`;
-                heroContent.style.transform = `translateY(${scrolled * 0.6}px)`;
-                heroContent.style.opacity = 1 - (scrollRatio * 1.5);
+                if (activeBg) activeBg.style.transform = `translateY(${scrolled * 0.4}px)`;
+                if (activeContent) {
+                    activeContent.style.transform = `translateY(${scrolled * 0.6}px)`;
+                    activeContent.style.opacity = 1 - (scrollRatio * 1.5);
+                }
             }
 
             // Show/Hide back to top
@@ -970,6 +1176,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = e.target.closest('.filter-btn');
         if (!btn) return;
 
+        const href = btn.getAttribute('href');
+        if (href && !href.startsWith('#')) {
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            const targetPath = href.split('?')[0];
+            if (currentPath !== targetPath) {
+                return; // Let browser handle the link navigation
+            }
+        }
+
         e.preventDefault();
         const filter = btn.getAttribute('data-filter').toLowerCase();
 
@@ -989,14 +1204,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 11. Search Functionality
     const productSearch = document.getElementById('productSearch');
+    const navProductSearch = document.getElementById('navProductSearch');
+    
+    const handleSearchInput = (e) => {
+        const query = e.target.value;
+        if (productSearch && productSearch !== e.target) {
+            productSearch.value = query;
+        }
+        if (navProductSearch && navProductSearch !== e.target) {
+            navProductSearch.value = query;
+        }
+        applyCombinedFilters();
+    };
+
     if (productSearch) {
-        productSearch.addEventListener('input', () => {
-            applyCombinedFilters();
+        productSearch.addEventListener('input', handleSearchInput);
+    }
+    if (navProductSearch) {
+        navProductSearch.addEventListener('input', handleSearchInput);
+        
+        // Enter key redirect to products page if not on a listing page
+        navProductSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const query = navProductSearch.value.trim();
+                const isListingPage = window.location.pathname.includes('products.html') || window.location.pathname.includes('combos.html');
+                if (!isListingPage && query) {
+                    window.location.href = `products.html?search=${encodeURIComponent(query)}`;
+                }
+            }
         });
     }
 
+    // Load initial search query from URL parameter if present, or clear if not
+    const handleUrlSearch = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        if (searchQuery) {
+            if (productSearch) productSearch.value = searchQuery;
+            if (navProductSearch) navProductSearch.value = searchQuery;
+            setTimeout(() => {
+                applyCombinedFilters();
+            }, 200);
+        } else {
+            if (productSearch) productSearch.value = '';
+            if (navProductSearch) navProductSearch.value = '';
+        }
+    };
+    handleUrlSearch();
+
     function applyCombinedFilters() {
-        const searchQuery = productSearch ? productSearch.value.toLowerCase().trim() : '';
+        let searchQuery = '';
+        if (productSearch) {
+            searchQuery = productSearch.value.toLowerCase().trim();
+        } else if (navProductSearch) {
+            searchQuery = navProductSearch.value.toLowerCase().trim();
+        }
         const activeBtn = document.querySelector('.filter-btn.active');
         const filter = activeBtn ? activeBtn.getAttribute('data-filter').toLowerCase() : 'all';
         const cards = document.querySelectorAll('.product-card');
@@ -1230,7 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const encodedMsg = encodeURIComponent(message);
-            window.open(`https://wa.me/919788742627?text=${encodedMsg}`, '_blank');
+            window.open(`https://api.whatsapp.com/send?phone=919788742627&text=${encodedMsg}`, '_blank');
         }
     };
 
@@ -1245,6 +1507,258 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.CartManager.init();
+
+    // ===== WISHLIST MANAGER =====
+    window.WishlistManager = {
+        items: [],
+        
+        init() {
+            this.load();
+            this.injectDrawer();
+            this.setupListeners();
+            this.setupFavButtons();
+            this.render();
+        },
+
+        injectDrawer() {
+            if (!document.getElementById('wishlistDrawer')) {
+                const wishlistHtml = `
+                    <div class="wishlist-overlay" id="wishlistOverlay"></div>
+                    <div class="wishlist-drawer" id="wishlistDrawer">
+                        <div class="wishlist-header">
+                            <h3>Your Wishlist <span id="wishlistTotalCount">(0)</span></h3>
+                            <div class="wishlist-header-actions">
+                                <button class="clear-all-btn" id="clearWishlistBtn">Clear All</button>
+                                <button class="close-wishlist" id="closeWishlist">&times;</button>
+                            </div>
+                        </div>
+                        <div class="wishlist-items" id="wishlistItemsList" data-lenis-prevent>
+                            <div class="empty-wishlist-msg">Your wishlist is empty.</div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', wishlistHtml);
+            }
+        },
+
+        load() {
+            const savedWishlist = localStorage.getItem('vv_wishlist');
+            if (savedWishlist) {
+                try {
+                    this.items = JSON.parse(savedWishlist);
+                } catch(e) {
+                    this.items = [];
+                }
+            }
+        },
+
+        save() {
+            localStorage.setItem('vv_wishlist', JSON.stringify(this.items));
+            this.render();
+            this.syncFavButtons();
+        },
+
+        addItem(name, image) {
+            if (!name) return;
+            const imgPath = image || '';
+            if (!this.hasItem(name, imgPath)) {
+                this.items.push({ name, image: imgPath });
+                this.save();
+            }
+        },
+
+        removeItemByName(name, image) {
+            const imgPath = image || '';
+            const idx = this.items.findIndex(item => item.name === name && item.image === imgPath);
+            if (idx > -1) {
+                this.items.splice(idx, 1);
+                this.save();
+            }
+        },
+
+        removeItem(index) {
+            if (this.items[index]) {
+                this.items.splice(index, 1);
+                this.save();
+            }
+        },
+
+        clearAll() {
+            if (this.items.length > 0 && confirm('Are you sure you want to clear your wishlist?')) {
+                this.items = [];
+                this.save();
+            }
+        },
+
+        hasItem(name, image) {
+            const imgPath = image || '';
+            return this.items.some(item => item.name === name && item.image === imgPath);
+        },
+
+        setupListeners() {
+            document.getElementById('wishlistToggle')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.open();
+            });
+            document.addEventListener('click', (e) => {
+                const closeBtn = e.target.closest('#closeWishlist');
+                const overlay = e.target.closest('#wishlistOverlay');
+                const clearBtn = e.target.closest('#clearWishlistBtn');
+                
+                if (closeBtn || overlay) {
+                    this.close();
+                }
+                if (clearBtn) {
+                    this.clearAll();
+                }
+            });
+        },
+
+        setupFavButtons() {
+            const addButtons = () => {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const imgContainer = card.querySelector('.product-img');
+                    if (imgContainer && !imgContainer.querySelector('.fav-btn')) {
+                        const favBtn = document.createElement('button');
+                        favBtn.className = 'fav-btn';
+                        favBtn.setAttribute('aria-label', 'Add to Wishlist');
+                        favBtn.innerHTML = `
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        `;
+                        imgContainer.appendChild(favBtn);
+                        
+                        const h3 = card.querySelector('h3');
+                        const name = h3 ? h3.innerText : 'Exclusive Product';
+                        const img = card.querySelector('img');
+                        const image = img ? img.src : '';
+
+                        if (this.hasItem(name, image)) {
+                            favBtn.classList.add('active');
+                        }
+
+                        favBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            if (this.hasItem(name, image)) {
+                                this.removeItemByName(name, image);
+                                favBtn.classList.remove('active');
+                            } else {
+                                this.addItem(name, image);
+                                favBtn.classList.add('active');
+                                
+                                favBtn.style.transform = 'scale(1.3)';
+                                setTimeout(() => favBtn.style.transform = 'scale(1)', 200);
+                            }
+                        });
+                    }
+                });
+            };
+
+            addButtons();
+            
+            // Watch for changes/clicks (for filtering or dyn loaded cards)
+            document.addEventListener('click', () => {
+                setTimeout(addButtons, 100);
+            });
+            setTimeout(addButtons, 1000);
+        },
+
+        syncFavButtons() {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const h3 = card.querySelector('h3');
+                const name = h3 ? h3.innerText : '';
+                const img = card.querySelector('img');
+                const image = img ? img.src : '';
+                const favBtn = card.querySelector('.fav-btn');
+                if (favBtn) {
+                    if (this.hasItem(name, image)) {
+                        favBtn.classList.add('active');
+                    } else {
+                        favBtn.classList.remove('active');
+                    }
+                }
+            });
+        },
+
+        render() {
+            const list = document.getElementById('wishlistItemsList');
+            const totalCountText = document.getElementById('wishlistTotalCount');
+            const wishlistCountBadge = document.getElementById('wishlistCount');
+            const total = this.items.length;
+            
+            if (totalCountText) totalCountText.innerText = `(${total})`;
+
+            if (wishlistCountBadge) {
+                wishlistCountBadge.innerText = total;
+                wishlistCountBadge.classList.toggle('visible', total > 0);
+            }
+
+            if (!list) return;
+
+            if (this.items.length === 0) {
+                list.innerHTML = '<div class="empty-wishlist-msg">Your wishlist is empty.</div>';
+            } else {
+                list.innerHTML = this.items.map((item, index) => `
+                    <div class="wishlist-item" style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; background: var(--white); padding: 1.2rem; border-radius: 16px; border: 2px solid rgba(255, 107, 157, 0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                        <img src="${item.image}" class="wishlist-item-img" style="width: 70px; height: 70px; border-radius: 12px; object-fit: cover; background: #f5f5f5;" alt="${item.name}">
+                        <div class="wishlist-item-info" style="flex: 1;">
+                            <h4 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-dark); font-family: var(--font-serif) !important;">${item.name}</h4>
+                            <div class="wishlist-item-controls" style="display: flex; gap: 10px; align-items: center;">
+                                <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.8rem; border-radius: 20px; text-transform: uppercase;" onclick="WishlistManager.moveToCart(${index})">Add to Cart</button>
+                                <button class="item-remove" style="background: none; border: none; color: #ff4444; font-size: 0.85rem; cursor: pointer; transition: opacity 0.3s;" onclick="WishlistManager.removeItem(${index})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        },
+
+        moveToCart(index) {
+            const item = this.items[index];
+            if (item) {
+                if (window.CartManager) {
+                    window.CartManager.addItem(item.name, item.image);
+                    window.CartManager.open();
+                }
+                this.items.splice(index, 1);
+                this.save();
+                this.close();
+            }
+        },
+
+        open() {
+            document.getElementById('wishlistDrawer')?.classList.add('active');
+            document.getElementById('wishlistOverlay')?.classList.add('active');
+            if (window.lenis) window.lenis.stop();
+        },
+
+        close() {
+            document.getElementById('wishlistDrawer')?.classList.remove('active');
+            document.getElementById('wishlistOverlay')?.classList.remove('active');
+            if (window.lenis) window.lenis.start();
+        }
+    };
+
+    window.WishlistManager.init();
+
+    // Intercept logo clicks to scroll to top smoothly instead of full page reload on homepage
+    const logoBrand = document.querySelector('.logo-brand');
+    if (logoBrand) {
+        logoBrand.addEventListener('click', (e) => {
+            const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+            if (currentPath === 'index.html' || currentPath === '') {
+                e.preventDefault();
+                if (window.lenis) {
+                    window.lenis.scrollTo(0, { duration: 1.5 });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        });
+    }
 });
 
 /* ATTRACTIVE FLOATING PARTICLES (Replacing Petals) */

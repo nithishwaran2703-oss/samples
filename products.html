@@ -121,12 +121,12 @@
 
     <!-- Premium Loader -->
     <div class="loader">
-        <img src="assets/logo.png" alt="Vanakkam Vandhanam Logo - வணக்கம்! வந்தனம்" fetchpriority="high"
+        <img src="assets/logo.png" alt="Vanakkam Vandhanam Logo" fetchpriority="high"
             width="120" height="120"
             style="height: 120px; width: auto; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 15px rgba(255,179,0,0.4)); background: white; padding: 15px; border-radius: 12px;">
         <div class="loader-text font-serif">
             <span style="display: block; line-height: 1;">Vanakkam <span class="text-gold">Vandhanam</span></span>
-            <div class="loader-subtitle" style="font-size: 1rem; margin-top: 0.5rem; letter-spacing: 0.1em; color: var(--text-light);">Party-na 🙏 Vanakkam Vandhanam dhaan !</div>
+            <div class="loader-subtitle" style="font-size: 1rem; margin-top: 0.5rem; letter-spacing: 0.1em; color: var(--text-light);">For every celebration 🙏 it's Vanakkam Vandhanam!</div>
         </div>
         <div class="loader-progress"></div>
     </div>
@@ -157,13 +157,17 @@
     <img src="" alt="" class="hover-preview-img" id="hoverPreviewImg">
 
     <nav class="navbar">
-        <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <img src="assets/logo.png" alt="Logo - வணக்கம்! வந்தனம்" fetchpriority="high" width="50" height="50" style="background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; mix-blend-mode: normal !important; object-fit: contain;">
-            <div class="logo-info" style="display: flex; flex-direction: column; justify-content: center;">
-                <span class="logo-text font-serif" style="line-height: 1; font-size: 1.5rem; font-weight: 700;">Vanakkam <span class="accent">Vandhanam</span></span>
-                <span class="logo-tagline">Party-na 🙏 Vanakkam Vandhanam dhaan !</span>
-            </div>
+        <div class="hamburger" id="hamburgerBtn">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <a href="index.html" class="logo-brand">
+            <img src="assets/logo.png" alt="Vanakkam Vandhanam Logo" fetchpriority="high">
         </a>
+
+        <!-- Desktop Only Nav Links -->
         <ul class="nav-links">
             <li><a href="index.html#">Home</a></li>
             <li><a href="index.html#about">About</a></li>
@@ -172,36 +176,58 @@
                 <ul class="dropdown-menu">
                     <li><a href="products.html?filter=all">All Items</a></li>
                     <li><a href="combos.html">Birthday Combo Pack</a></li>
-                    <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
-                    <li><a href="products.html?filter=babyshower">Babyshower</a></li>
-                    <li><a href="products.html?filter=anniversary">Anniversary</a></li>
-                    <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
-                    <li><a href="products.html?filter=love-theme">Love Theme</a></li>
-                    <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
-                    <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
-                    <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                    <li><a href="category.html?type=1st-birthday">1st Birthday</a></li>
+                    <li><a href="category.html?type=babyshower">Babyshower</a></li>
+                    <li><a href="category.html?type=anniversary">Anniversary</a></li>
+                    <li><a href="category.html?type=haldi-mehandi">Haldi & Mehandi</a></li>
+                    <li><a href="category.html?type=love-theme">Love Theme</a></li>
+                    <li><a href="category.html?type=office-decoration">Office Decoration</a></li>
+                    <li><a href="category.html?type=car-decoration">Car Decoration</a></li>
+                    <li><a href="category.html?type=decoration-booking">Decoration Booking</a></li>
                 </ul>
             </li>
             <li><a href="combos.html">Combo</a></li>
-            <li><a href="https://wa.me/919788742627" target="_blank">Bookings</a></li>
+            <li>
+                <a href="https://wa.me/919788742627" target="_blank">Bookings <sup class="new-tag">NEW</sup></a>
+            </li>
             <li><a href="index.html#why-us">Why Us?</a></li>
             <li><a href="index.html#contact-us">Contact</a></li>
         </ul>
 
-        <div class="nav-actions">
-            <div class="cart-toggle" id="cartToggle">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        <!-- Search bar with VV Logo replacing camera -->
+        <div class="nav-search-row">
+            <div class="search-bar-wrapper">
+                <svg class="search-bar-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <span class="cart-count-badge" id="cartCount">0</span>
+                <input type="text" id="navProductSearch" placeholder="Search for products, collections & more...">
+                <img class="search-bar-logo" src="assets/logo.png" alt="VV Logo">
             </div>
+        </div>
 
-            <div class="hamburger" id="hamburgerBtn">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+        <div class="nav-actions">
+            <!-- Wishlist -->
+            <div class="action-item wishlist-toggle" id="wishlistToggle">
+                <div class="wishlist-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="wishlist-count-badge" id="wishlistCount">0</span>
+                </div>
+                <span>Wishlist</span>
+            </div>
+            <!-- Bag/Cart -->
+            <div class="action-item cart-toggle" id="cartToggle">
+                <div class="cart-icon-wrapper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="cart-count-badge" id="cartCount">0</span>
+                </div>
+                <span>Bag</span>
             </div>
         </div>
     </nav>
@@ -225,14 +251,14 @@
                     <ul class="mobile-submenu">
                         <li><a href="products.html?filter=all">All Items</a></li>
                         <li><a href="combos.html">Birthday Combo Pack</a></li>
-                        <li><a href="products.html?filter=1st-birthday">1st Birthday</a></li>
-                        <li><a href="products.html?filter=babyshower">Babyshower</a></li>
-                        <li><a href="products.html?filter=anniversary">Anniversary</a></li>
-                        <li><a href="products.html?filter=haldi-mehandi">Haldi & Mehandi</a></li>
-                        <li><a href="products.html?filter=love-theme">Love Theme</a></li>
-                        <li><a href="products.html?filter=office-decoration">Office Decoration</a></li>
-                        <li><a href="products.html?filter=car-decoration">Car Decoration</a></li>
-                        <li><a href="products.html?filter=decoration-booking">Decoration Booking</a></li>
+                        <li><a href="category.html?type=1st-birthday">1st Birthday</a></li>
+                        <li><a href="category.html?type=babyshower">Babyshower</a></li>
+                        <li><a href="category.html?type=anniversary">Anniversary</a></li>
+                        <li><a href="category.html?type=haldi-mehandi">Haldi & Mehandi</a></li>
+                        <li><a href="category.html?type=love-theme">Love Theme</a></li>
+                        <li><a href="category.html?type=office-decoration">Office Decoration</a></li>
+                        <li><a href="category.html?type=car-decoration">Car Decoration</a></li>
+                        <li><a href="category.html?type=decoration-booking">Decoration Booking</a></li>
                     </ul>
                 </li>
                 <li><a href="combos.html">Combo</a></li>
@@ -287,16 +313,16 @@
             </div>
 
             <div class="filter-btns">
-                <button class="filter-btn active" data-filter="all">All Items</button>
-                <button class="filter-btn" data-filter="birthday-combo-pack">Birthday Combo Pack</button>
-                <button class="filter-btn" data-filter="1st-birthday">1st Birthday</button>
-                <button class="filter-btn" data-filter="babyshower">Babyshower</button>
-                <button class="filter-btn" data-filter="anniversary">Anniversary</button>
-                <button class="filter-btn" data-filter="haldi-mehandi">Haldi & Mehandi</button>
-                <button class="filter-btn" data-filter="love-theme">Love Theme</button>
-                <button class="filter-btn" data-filter="office-decoration">Office Decoration</button>
-                <button class="filter-btn" data-filter="car-decoration">Car Decoration</button>
-                <button class="filter-btn" data-filter="decoration-booking">Decoration Booking</button>
+                <a href="products.html" class="filter-btn active" data-filter="all">All Items</a>
+                <a href="combos.html" class="filter-btn" data-filter="birthday-combo-pack">Birthday Combo Pack</a>
+                <a href="category.html?type=1st-birthday" class="filter-btn" data-filter="1st-birthday">1st Birthday</a>
+                <a href="category.html?type=babyshower" class="filter-btn" data-filter="babyshower">Babyshower</a>
+                <a href="category.html?type=anniversary" class="filter-btn" data-filter="anniversary">Anniversary</a>
+                <a href="category.html?type=haldi-mehandi" class="filter-btn" data-filter="haldi-mehandi">Haldi & Mehandi</a>
+                <a href="category.html?type=love-theme" class="filter-btn" data-filter="love-theme">Love Theme</a>
+                <a href="category.html?type=office-decoration" class="filter-btn" data-filter="office-decoration">Office Decoration</a>
+                <a href="category.html?type=car-decoration" class="filter-btn" data-filter="car-decoration">Car Decoration</a>
+                <a href="category.html?type=decoration-booking" class="filter-btn" data-filter="decoration-booking">Decoration Booking</a>
             </div>
         </div>
 
@@ -1837,11 +1863,10 @@
         <div class="footer-bg-animation"></div>
         <div class="footer-top">
             <div class="footer-brand reveal-on-scroll">
-                <img loading="lazy" decoding="async" src="assets/logo.png" alt="Vanakkam Vandhanam Logo - வணக்கம்! வந்தனம்"
+                <img loading="lazy" decoding="async" src="assets/logo.png" alt="Vanakkam Vandhanam Logo"
                     style="height: 100px; width: auto; margin-bottom: 1rem; filter: drop-shadow(0 2px 10px rgba(255,179,0,0.3)); background: white; padding: 10px; border-radius: 10px;">
                 <h2 class="font-serif">Vanakkam <span class="text-gold">Vandhanam</span></h2>
-                <p>Parambariya Panbattu Marabudan Ninaivugalai Padaikkirom • Crafting memories with rich heritage and modern
-                    luxury.</p>
+                <p>Crafting memories rooted in tradition • Delivering rich heritage with modern luxury for every celebration.</p>
             </div>
             <div class="footer-links reveal-on-scroll">
                 <h3>Quick Links</h3>
@@ -1892,7 +1917,7 @@
                 <p class="italic">Describe your vision, and let our AI suggest the perfect product collection.</p>
                 <div class="input-group">
                     <label>Celebration Type</label>
-                    <input type="text" id="aiEvent" placeholder="e.g. Parambariyam Home Decor">
+                    <input type="text" id="aiEvent" placeholder="e.g. Traditional Home Decor">
                 </div>
                 <div class="input-group">
                     <label>Palette & Vibe</label>
@@ -1904,7 +1929,7 @@
     </div>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/919788742627" target="_blank" class="floating-wa">
+    <a href="https://api.whatsapp.com/send?phone=919788742627" target="_blank" class="floating-wa">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
@@ -1939,14 +1964,28 @@
             const grid = document.getElementById('dynamic-product-grid');
             if (!grid) return;
 
+            if (typeof supabase === 'undefined') {
+                console.error('Supabase library is not loaded. Displaying static fallback items.');
+                return;
+            }
+
             const URL = 'https://ekolvgrvqgpvedmoyzbb.supabase.co';
             const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrb2x2Z3J2cWdwdmVkbW95emJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDE1NzEsImV4cCI6MjA5MzUxNzU3MX0.3OEV5MOyWXHY4smVxkp3RngKBlQ9KkJ-N_j2K_vY_BA';
 
-            const supabaseClient = supabase.createClient(URL, KEY);
+            let supabaseClient;
+            try {
+                supabaseClient = supabase.createClient(URL, KEY);
+            } catch (err) {
+                console.error('Failed to create Supabase client:', err);
+                return;
+            }
 
             const renderProducts = (products) => {
                 grid.innerHTML = '';
-                if (!products || products.length === 0) return;
+                if (!products || products.length === 0) {
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem; color: var(--primary-maroon); font-size: 1.2rem; font-weight: bold;">No products found in the database. Please add items from the Admin Panel!</div>';
+                    return;
+                }
 
                 const activeBtn = document.querySelector('.filter-btn.active');
                 const activeFilter = activeBtn ? activeBtn.getAttribute('data-filter').toLowerCase() : 'all';
@@ -1997,28 +2036,83 @@
             };
 
             const fetchProducts = async () => {
-                const { data, error } = await supabaseClient
-                    .from('products')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (data) renderProducts(data);
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('products')
+                        .select('*')
+                        .order('created_at', { ascending: false });
+                    
+                    if (error) throw error;
+                    if (data) {
+                        renderProducts(data);
+                        
+                        // Force click active filter button to trigger script.js filtering & layout re-calc
+                        const activeBtn = document.querySelector('.filter-btn.active');
+                        if (activeBtn) {
+                            setTimeout(() => {
+                                activeBtn.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                            }, 50);
+                        }
+                    }
+                } catch (err) {
+                    console.error('Supabase fetch error:', err);
+                    // Do not clear the static fallback products so the site remains operational
+                }
             };
 
             // Initial Load
             fetchProducts();
 
             // Subscribe to Realtime Changes
-            supabaseClient
-                .channel('public:products')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
-                    console.log('🔄 NUCLEAR LOADER: Products changed! Syncing...');
-                    fetchProducts();
-                })
-                .subscribe();
+            try {
+                supabaseClient
+                    .channel('public:products')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => {
+                        console.log('🔄 NUCLEAR LOADER: Products changed! Syncing...');
+                        fetchProducts();
+                    })
+                    .subscribe();
+            } catch (realtimeErr) {
+                console.warn('Realtime sync subscription failed:', realtimeErr);
+            }
         });
     </script>
-</body>
 
+    <!-- Bottom Navigation Bar (Mobile Only) -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="products.html" class="bottom-nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="9"></rect>
+                <rect x="14" y="3" width="7" height="5"></rect>
+                <rect x="14" y="12" width="7" height="9"></rect>
+                <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+            <span>Products</span>
+        </a>
+        <a href="combos.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                <rect x="2" y="7" width="20" height="5"></rect>
+                <line x1="12" y1="22" x2="12" y2="7"></line>
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>Combos</span>
+        </a>
+        <a href="https://wa.me/919788742627" target="_blank" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            <span>Bookings</span>
+        </a>
+    </nav>
+</body>
 </html>
 
