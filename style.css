@@ -4153,3 +4153,17 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
 .mobile-submenu a {
     color: rgba(255, 255, 255, 0.7) !important;
 }
+
+/* Testimonials Mobile Responsive Override */
+@media (max-width: 768px) {
+    .testimonials-track {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+    .testimonial-card {
+        padding: 1.8rem !important;
+    }
+    .testimonials-section {
+        padding: 5rem 1.5rem !important;
+    }
+}
