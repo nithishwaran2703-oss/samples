@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fallback if load takes too long
     setTimeout(hideLoader, 500);
 
-    // 2. Advanced Custom Cursor
-    const cursor = document.querySelector('.cursor');
-    const cursorFollower = document.querySelector('.cursor-follower');
+    // 2. Advanced Custom Cursor (Disabled - Restored Default Browser Cursor)
+    const cursor = null;
+    const cursorFollower = null;
 
     let mouseX = 0;
     let mouseY = 0;
@@ -101,130 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let followerY = 0;
     let speed = 0;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    }, { passive: true });
-
-    document.addEventListener('mousedown', () => {
-        if (cursorFollower) cursorFollower.style.transform = 'translate(-50%, -50%) scale(0.9)';
-        createRipple(mouseX, mouseY);
-        // Smaller burst
-        for (let i = 0; i < 4; i++) createSparkle(mouseX, mouseY, true);
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (cursorFollower) cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
-    });
-
-    function createSparkle(x, y, isBurst) {
-        const dot = document.createElement('div');
-        dot.className = 'cursor-sparkle';
-
-        const size = isBurst ? (Math.random() * 4 + 2) : (Math.random() * 3 + 1);
-        const color = 'var(--accent-gold)';
-        const duration = isBurst ? (Math.random() * 600 + 300) : (Math.random() * 500 + 300);
-
-        dot.style.width = size + 'px';
-        dot.style.height = size + 'px';
-        dot.style.left = x + 'px';
-        dot.style.top = y + 'px';
-        dot.style.background = color;
-        dot.style.color = color;
-        dot.style.opacity = '0.8';
-        dot.style.animation = `sparkleFade ${duration}ms ease-out forwards`;
-
-        // Random velocity
-        const vx = (Math.random() - 0.5) * (isBurst ? 100 : 15);
-        const vy = (Math.random() - 0.5) * (isBurst ? 100 : 15);
-
-        document.body.appendChild(dot);
-
-        // Animate movement via JS for smoother physics
-        let start = null;
-        function step(timestamp) {
-            if (!start) start = timestamp;
-            const progress = timestamp - start;
-            const p = progress / duration;
-
-            const curX = x + vx * p;
-            const curY = y + vy * p + (isBurst ? p * p * 30 : 0);
-
-            dot.style.transform = `translate(${vx * p}px, ${vy * p + (isBurst ? p * p * 30 : 0)}px)`;
-
-            if (progress < duration) {
-                requestAnimationFrame(step);
-            } else {
-                dot.remove();
-            }
-        }
-        requestAnimationFrame(step);
-    }
-
-    function createRipple(x, y) {
-        const ripple = document.createElement('div');
-        ripple.className = 'click-ripple';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        document.body.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-    }
-
-    // Physics-based cursor lerp loop
-    const renderCursor = (time) => {
-        // Calculate speed for velocity-based effects
-        const deltaX = mouseX - lastMouseX;
-        const deltaY = mouseY - lastMouseY;
-        
-        // Use a small alpha for speed smoothing to avoid jitter
-        const targetSpeed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        speed += (targetSpeed - speed) * 0.15;
-        
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-
-        if (cursor) {
-            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-            cursor.style.setProperty('--mouse-x', mouseX + 'px');
-            cursor.style.setProperty('--mouse-y', mouseY + 'px');
-        }
-
-        if (cursorFollower) {
-            followerX += (mouseX - followerX) * 0.15;
-            followerY += (mouseY - followerY) * 0.15;
-            
-            // Dynamic scaling based on speed (stretching effect)
-            const scaleX = 1 + speed * 0.005;
-            const scaleY = 1 - speed * 0.002;
-            const angle = Math.atan2(mouseY - followerY, mouseX - followerX) * (180 / Math.PI);
-
-            cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%) rotate(${angle}deg) scale(${scaleX}, ${scaleY})`;
-        }
-
-        const previewImg = document.getElementById('hoverPreviewImg');
-        if (previewImg && previewImg.classList.contains('active')) {
-            previewImg.style.transform = `translate3d(${followerX}px, ${followerY}px, 0) translate(-50%, -50%)`;
-        }
-
-        requestAnimationFrame(renderCursor);
-    };
-    requestAnimationFrame(renderCursor);
-
-    // Hover states for cursor
-    const interactiveSelectors = 'a, button, .accordion-header, .filter-btn, .close-modal, .floating-wa, .floating-call, .product-card, .video-card';
-    document.querySelectorAll(interactiveSelectors).forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.classList.add('hovered');
-            cursorFollower.classList.add('hovered');
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.classList.remove('hovered');
-            cursorFollower.classList.remove('hovered');
-        });
-    });
-
-    // Advanced Hover Image Reveal for Services
+    // Advanced Hover Image Reveal for Services (Positioning only)
     const hoverPreviewImg = document.getElementById('hoverPreviewImg');
+    if (hoverPreviewImg) {
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            hoverPreviewImg.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+        }, { passive: true });
+    }
+
+
     document.querySelectorAll('.scc-sub').forEach(item => {
         const imgSource = item.querySelector('img').src;
         item.addEventListener('mouseenter', () => {

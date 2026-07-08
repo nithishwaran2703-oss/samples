@@ -30,7 +30,17 @@
     padding: 0;
     box-sizing: border-box;
     font-family: var(--font-main) !important;
+    cursor: auto !important;
 }
+
+a, button, [role="button"], select, input[type="submit"], input[type="button"], .qty-btn, .close-cart, .close-modal, .filter-btn, .nav-btn, .slider-btn, .item-remove {
+    cursor: pointer !important;
+}
+
+.cursor, .cursor-follower, .cursor-sparkle, .click-ripple {
+    display: none !important;
+}
+
 
 html {
     scrollbar-width: none;
@@ -3752,39 +3762,4 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
         border-radius: 8px !important;
         font-weight: 600 !important;
     }
-}
-
-/* ==========================================================================
-   🚨 DISABLE CUSTOM CURSOR & RESTORE SYSTEM DEFAULT POINTER
-   ========================================================================== */
-.cursor, 
-.cursor-follower, 
-.cursor-sparkle {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
-
-* {
-    cursor: auto !important;
-}
-
-a, 
-button, 
-select, 
-summary,
-input[type="submit"], 
-input[type="button"], 
-[role="button"], 
-.qty-btn, 
-.item-remove, 
-.close-cart, 
-.clickable,
-.btn,
-.nav-link,
-.card-combo,
-.product-card,
-.wishlist-btn {
-    cursor: pointer !important;
 }
