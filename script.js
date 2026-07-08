@@ -34,8 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
+                const isMobile = window.innerWidth <= 1023;
+                const navbarOffset = isMobile ? -145 : -100; // Mobile header with search bar is taller
                 lenis.scrollTo(targetElement, {
-                    offset: -100, // Adjust for navbar height
+                    offset: navbarOffset,
                     duration: 1.5,
                     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
                 });
