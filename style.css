@@ -4127,3 +4127,29 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
         height: 32px !important;
     }
 }
+
+/* ===== BLACK MOBILE MENU OVERRIDES ===== */
+.mobile-menu {
+    background: #000000 !important;
+}
+.mobile-menu-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+.mobile-close {
+    color: #ffffff !important;
+}
+.mobile-menu-header .logo-text {
+    color: #ffffff !important;
+}
+.mobile-menu-header .logo-text .accent {
+    color: var(--accent-gold) !important;
+}
+.mobile-nav-links a {
+    color: #ffffff !important;
+}
+.mobile-nav-links a:hover {
+    color: var(--primary-pink) !important;
+}
+.mobile-submenu a {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
