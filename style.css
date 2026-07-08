@@ -2279,6 +2279,7 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
     font-weight: 800;
     font-size: 1.2rem;
     box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 .testimonial-author strong { display: block; color: var(--white); font-size: 1.1rem; }
 .testimonial-author span { color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
@@ -3758,6 +3759,75 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
     body {
         padding-bottom: 75px !important;
     }
+
+    /* Curated Collections 2-Column Grid for Mobile */
+    .curated-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem !important;
+        padding: 0 0.8rem !important;
+        max-width: 100% !important;
+    }
+    .curated-item {
+        flex: none !important;
+        max-width: none !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 12px rgba(45, 27, 105, 0.05), var(--cartoon-shadow) !important;
+    }
+    .curated-image {
+        height: 130px !important;
+    }
+    .curated-content {
+        padding: 0.8rem !important;
+    }
+    .curated-content h3 {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.2rem !important;
+        line-height: 1.2 !important;
+        font-weight: 700 !important;
+    }
+    .curated-content h4 {
+        font-size: 0.7rem !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 0.3rem !important;
+    }
+    .curated-content p {
+        display: none !important;
+    }
+    .curated-content .btn-text {
+        font-size: 0.7rem !important;
+        margin-top: 0.3rem !important;
+        gap: 4px !important;
+    }
+
+    /* Why Us Horizontal Scroll on Mobile */
+    .why-us-bar {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 1rem !important;
+        border-radius: 25px !important;
+        padding: 1rem !important;
+        scrollbar-width: none !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    .why-us-bar::-webkit-scrollbar {
+        display: none !important;
+    }
+    .why-us-item {
+        flex: 0 0 auto !important;
+        width: 240px !important;
+        scroll-snap-align: start !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        padding: 0.5rem 1rem !important;
+        justify-content: flex-start !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        border-radius: 16px !important;
+        border: 1px solid rgba(255, 107, 157, 0.08) !important;
+    }
 }
 
 @media (max-width: 550px) {
@@ -3821,5 +3891,195 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
         font-size: 0.75rem !important;
         border-radius: 8px !important;
         font-weight: 600 !important;
+    }
+}
+
+/* ===== MOBILE RESPONSIVE FIXES ===== */
+@media (max-width: 768px) {
+    /* About Us Section mobile fixes */
+    .digital-section {
+        padding: 3rem 1rem !important;
+    }
+    .digital-container {
+        padding: 2rem 1.2rem !important;
+        border-radius: 1.5rem !important;
+    }
+    .about-modern-layout {
+        gap: 1.5rem !important;
+        padding: 0 !important;
+        margin-top: 1.5rem !important;
+    }
+    .about-heading {
+        font-size: 1.8rem !important;
+    }
+    .about-text {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+    }
+    .about-signature-block {
+        gap: 0.5rem !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+    .about-signature {
+        font-size: 0.9rem !important;
+        white-space: normal !important;
+        line-height: 1.4 !important;
+    }
+
+    /* Process Section (How to Purchase) mobile fixes */
+    .process-section {
+        padding: 4rem 5% !important;
+    }
+    .process-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+    }
+    .process-step {
+        padding: 2rem 1.5rem !important;
+    }
+    .process-step::after {
+        content: '↓' !important;
+        left: 50% !important;
+        top: 100% !important;
+        transform: translateX(-50%) translateY(0.3rem) !important;
+        width: auto !important;
+        height: auto !important;
+        font-size: 1.8rem !important;
+    }
+
+    /* Contact Section mobile fixes */
+    .contact-section-v4 {
+        padding: 4rem 5% !important;
+    }
+    .contact-v4-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    .info-card {
+        padding: 2rem 1.5rem !important;
+    }
+    .contact-v4-form-box {
+        padding: 2rem 1.5rem !important;
+    }
+    .v4-form .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+    }
+    .v4-form input, .v4-form textarea {
+        padding: 1rem !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Vision Parallax Section mobile fixes */
+    .vision-parallax {
+        height: auto !important;
+        padding: 4rem 1rem !important;
+    }
+    .vision-content h2 {
+        font-size: 1.5rem !important;
+        line-height: 1.4 !important;
+    }
+
+    /* Floating action buttons stack above bottom navigation bar */
+    .floating-call {
+        bottom: calc(75px + 10px) !important;
+        width: 50px !important;
+        height: 50px !important;
+        right: 1.5rem !important;
+    }
+    .floating-call svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    .floating-wa {
+        bottom: calc(75px + 10px + 60px) !important;
+        width: 50px !important;
+        height: 50px !important;
+        right: 1.5rem !important;
+    }
+    .floating-wa svg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    .back-to-top {
+        bottom: calc(75px + 10px + 120px) !important;
+        width: 50px !important;
+        height: 50px !important;
+        right: 1.5rem !important;
+    }
+
+    /* Footer mobile fixes */
+    .footer {
+        padding: 4rem 5% calc(75px + 2rem) !important;
+    }
+    .footer-top {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+        margin-bottom: 3rem !important;
+    }
+    .footer-brand {
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .footer-brand h2 {
+        font-size: 2rem !important;
+    }
+    .footer-brand h2::after {
+        margin: 1rem auto 0 !important;
+    }
+    .footer-brand p {
+        max-width: 100% !important;
+        font-size: 0.95rem !important;
+    }
+    .footer-links, .footer-contact {
+        text-align: center !important;
+    }
+    .footer-links h3, .footer-contact h3 {
+        margin-bottom: 1rem !important;
+        font-size: 1.2rem !important;
+    }
+    .footer-links a {
+        transform-origin: center !important;
+        font-size: 0.95rem !important;
+    }
+    .footer-links a:hover {
+        transform: scale(1.05) !important;
+    }
+    .footer-contact p {
+        font-size: 0.95rem !important;
+    }
+    .social-icons {
+        justify-content: center !important;
+        margin-top: 1.5rem !important;
+    }
+    .social-icons a {
+        width: 44px !important;
+        height: 44px !important;
+    }
+    .footer-bottom {
+        padding-top: 2rem !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Logo brand text styling */
+.logo-brand-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-maroon) !important;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 8px;
+}
+.logo-brand-text .text-gold {
+    color: var(--accent-gold) !important;
+}
+@media (max-width: 768px) {
+    .logo-brand-text {
+        font-size: 0.95rem !important;
+        margin-left: 4px;
     }
 }
