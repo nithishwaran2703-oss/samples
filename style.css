@@ -4083,3 +4083,33 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
         margin-left: 4px;
     }
 }
+
+/* ===== BLACK NAVBAR OVERRIDES ===== */
+.navbar {
+    background: #000000 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.navbar.scrolled {
+    background: #000000 !important;
+}
+.navbar .nav-links > li > a {
+    color: #ffffff !important;
+}
+.navbar .nav-links > li > a:hover {
+    color: var(--primary-pink) !important;
+}
+.logo-brand-text {
+    color: #ffffff !important;
+}
+.logo-brand-text .text-gold {
+    color: var(--accent-gold) !important;
+}
+.nav-actions .action-item {
+    color: #ffffff !important;
+}
+.nav-actions .action-item:hover {
+    color: var(--primary-pink) !important;
+}
+.hamburger .bar {
+    background-color: #ffffff !important;
+}
