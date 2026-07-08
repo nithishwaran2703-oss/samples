@@ -4176,3 +4176,10 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
         padding: 5rem 1.5rem !important;
     }
 }
+
+/* Gallery Section Mobile Responsive Override */
+@media (max-width: 768px) {
+    .gallery-section {
+        padding-top: 6.5rem !important;
+    }
+}
