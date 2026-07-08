@@ -4113,3 +4113,17 @@ body:hover .cursor, body:hover .cursor-follower { opacity: 1; }
 .hamburger .bar {
     background-color: #ffffff !important;
 }
+
+/* Logo brand image alignment and sizing fixes */
+.navbar .logo-brand img, .logo-brand img {
+    height: 40px !important;
+    width: auto !important;
+    transform: none !important;
+    object-fit: contain !important;
+    mix-blend-mode: normal !important;
+}
+@media (max-width: 768px) {
+    .navbar .logo-brand img, .logo-brand img {
+        height: 32px !important;
+    }
+}
