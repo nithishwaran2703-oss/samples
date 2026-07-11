@@ -1,16 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lenis for Premium Smooth Scrolling
     window.lenis = new Lenis({
-        duration: 2.0, // Increased for a more buttery, luxurious flow
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing for smoother stop
+        duration: 1.2, // Balanced for responsive, buttery scrolling
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 0.8, // Softer wheel reaction
-        smoothTouch: true,
-        touchMultiplier: 1.5,
+        wheelMultiplier: 1.0, 
+        smoothTouch: false, // Use native touch scrolling on mobile to prevent freeze/lag
         infinite: false,
-        lerp: 0.08 // Softer lerp for a more fluid feel
+        lerp: 0.1
     });
 
     function raf(time) {
@@ -168,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fadeUps.forEach((el, index) => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = `opacity 0.6s ease ${index * 0.12 + 0.4}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12 + 0.4}s`;
+            el.style.transition = `opacity 0.6s ease ${index * 0.12 + 0.25}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.12 + 0.25}s`;
             setTimeout(() => {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
@@ -176,11 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Stagger feature tags
-        const featureTags = target.querySelectorAll('.hero-feature-tag');
+        const featureTags = target.querySelectorAll('.hero-feature-tag, .creative-tag');
         featureTags.forEach((tag, i) => {
             tag.style.opacity = '0';
             tag.style.transform = 'translateY(15px) scale(0.9)';
-            tag.style.transition = `opacity 0.4s ease ${i * 0.08 + 0.6}s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.08 + 0.6}s`;
+            tag.style.transition = `opacity 0.4s ease ${i * 0.08 + 0.45}s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.08 + 0.45}s`;
             setTimeout(() => {
                 tag.style.opacity = '1';
                 tag.style.transform = 'translateY(0) scale(1)';
@@ -247,6 +246,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 progress.style.width = '0%';
             }
         });
+
+        // Reset scroll parallax transforms to prevent stuck states
+        document.querySelectorAll('.hero-bg-wrapper').forEach(bg => {
+            bg.style.transform = '';
+        });
+        document.querySelectorAll('.hero-content').forEach(c => {
+            c.style.transform = '';
+            c.style.opacity = '';
+        });
+
 
         // Leaving animation on current slide
         prevSlide.classList.remove('active');
@@ -425,10 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal-on-scroll, .stagger-reveal').forEach(el => scrollObserver.observe(el));
+    document.querySelectorAll('.reveal-on-scroll:not(.stagger-reveal .reveal-on-scroll), .stagger-reveal').forEach(el => scrollObserver.observe(el));
 
     // Interactive Card Glow Tracking (mouse-following highlight)
-    document.querySelectorAll('.service-category-card, .journal-card, .pricing-card').forEach(card => {
+    document.querySelectorAll('.service-category-card, .journal-card, .pricing-card, .curated-item, .product-card').forEach(card => {
         let cardThrottle = false;
         let rect;
         card.addEventListener('mouseenter', () => rect = card.getBoundingClientRect());
@@ -1659,9 +1668,12 @@ function createBackgroundParticle() {
     p.style.position = 'fixed';
     p.style.top = '-50px';
     p.style.left = Math.random() * 100 + 'vw';
-    p.style.fontSize = isStar ? (Math.random() * 10 + 5) + 'px' : (Math.random() * 15 + 5) + 'px';
-    p.style.color = 'var(--accent-gold)';
-    p.style.opacity = Math.random() * 0.4 + 0.1;
+    p.style.fontSize = isStar ? (Math.random() * 6 + 3) + 'px' : (Math.random() * 8 + 3) + 'px';
+    const colors = ['#FFD700', '#FF6B9D', '#6EC6FF', '#C471ED', '#FFB347', '#00E676'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    p.style.color = color;
+    p.style.opacity = Math.random() * 0.5 + 0.2;
     p.style.zIndex = '9999';
     p.style.pointerEvents = 'none';
     p.style.transition = 'transform 12s linear, opacity 12s linear';
@@ -1680,4 +1692,41 @@ function createBackgroundParticle() {
 
 // Increased frequency for a more active background
 setInterval(createBackgroundParticle, 800);
+
+/* STARLIGHT CURSOR TRAILS LOGIC */
+let starThrottle = false;
+document.addEventListener('mousemove', (e) => {
+    if (starThrottle) return;
+    starThrottle = true;
+    setTimeout(() => starThrottle = false, 50); // Spawn rate limiter
+
+    const star = document.createElement('div');
+    star.className = 'magic-star';
+    star.style.left = e.clientX + 'px';
+    star.style.top = e.clientY + 'px';
+    
+    const colors = ['#FFD700', '#FF6B9D', '#6EC6FF', '#C471ED', '#FFB347', '#00E676'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    star.style.setProperty('--star-color', randomColor);
+    
+    document.body.appendChild(star);
+
+    // Give it a random spread direction
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 50 + 20; // 20px to 70px spread
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance + 30; // Tendency to fall downwards
+
+    // Next frame, start the fade and movement
+    requestAnimationFrame(() => {
+        star.style.setProperty('--tx', tx + 'px');
+        star.style.setProperty('--ty', ty + 'px');
+        star.classList.add('fade-out');
+    });
+
+    // Remove the element after animation completes
+    setTimeout(() => {
+        star.remove();
+    }, 600);
+});
 
