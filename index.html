@@ -33,9 +33,7 @@
     <noscript>
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Tiro+Tamil:ital@0;1&display=swap" rel="stylesheet">
     </noscript>
-
-    <link rel="stylesheet" href="style.css?v=3">
-    
+    <link rel="stylesheet" href="style.css?v=4">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nithishwaran2703-oss.github.io/vanakkam-vandham-/">
@@ -94,8 +92,8 @@
       ]
     }
     </script>
-
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+
 </head>
 
 <body>
@@ -307,7 +305,7 @@
                             <div class="line-content"><span class="italic-serif text-gold">SUPPLIES</span></div>
                         </div>
                     </h1>
-                    <p class="hero-subtitle reveal-text delay-1">Shop premium balloons, neon signs, backdrops & 500+ party decoration items for your <span class="flip-word-container" data-words="Birthday,Baby Shower,Anniversary,Haldi,Wedding,House Warming,Engagement"></span> — delivered to your doorstep.</p>
+                    <p class="hero-subtitle reveal-text delay-1">Shop premium balloons, neon signs, backdrops & 500+ party decoration items for your next event — delivered right to your doorstep.</p>
                     <div class="hero-features reveal-text delay-1">
                         <div class="hero-feature-tag"><span>🎈</span> Balloons & Arches</div>
                         <div class="hero-feature-tag"><span>🎂</span> Birthday Combos</div>
@@ -338,59 +336,58 @@
                     <div class="slide-decor slide-decor-2">🎈</div>
                     <div class="slide-decor slide-decor-3">🎉</div>
                     <div class="slide-decor slide-decor-4">💖</div>
+                    <!-- Interactive Particles System -->
+                    <canvas class="interactive-particles-canvas" id="particlesCanvas"></canvas>
+                    
+                        <div class="bright-party-layout">
+                            <!-- Bright Glass Panel (Left) -->
+                            <div class="bright-glass-panel holographic-tilt">
+                                <div class="holo-glare"></div>
+                                <div class="hero-badge hero-badge--bright" style="transform: translateZ(30px);">
+                                    <span class="hero-badge-icon">✨</span>
+                                    <span>OUR SERVICE</span>
+                                </div>
+                                <h1 class="hero-title creative-title text-maroon">
+                                    MINI DECOR <br><span class="italic-serif text-pink glow-text-light">SHOP & SETUP</span>
+                                </h1>
+                                <p class="hero-subtitle text-dark">We bring magical decor to your doorstep! From premium backdrops and custom theme designs to full setup styling—our team handles everything so you can focus on the memories.</p>
+                                
+                                <div class="service-highlights bright-pills">
+                                    <div class="highlight-pill">✨ Custom Themes</div>
+                                    <div class="highlight-pill">🎈 Premium Balloon Art</div>
+                                    <div class="highlight-pill">📍 Doorstep Setup</div>
+                                    <div class="highlight-pill">⏱ Fast 3-Hr Assembly</div>
+                                </div>
 
-                    <div class="creative-glass-panel wobble-3d-card">
-                        <!-- Liquid Blob behind the text -->
-                        <div class="glass-blob blob-1"></div>
-                        <div class="glass-blob blob-2"></div>
+                                <div class="hero-actions">
+                                    <a href="https://api.whatsapp.com/send?phone=919788742627" target="_blank" class="btn-primary glow-effect-pink">
+                                        <span>Book Decoration</span>
+                                    </a>
+                                </div>
+                            </div>
 
-                        <div class="hero-badge hero-badge--service">
-                            <span class="hero-badge-icon">✨</span>
-                            <span>OUR SERVICE</span>
-                        </div>
-                        <h1 class="hero-title creative-title">
-                            MINI DECOR <br><span class="italic-serif text-gold glow-text">SHOP & SETUP</span>
-                        </h1>
-                        <p class="hero-subtitle">We bring magical decor to your doorstep! From premium backdrops and custom theme designs to full setup styling—our team handles everything so you can focus on the memories.</p>
-                        
-                        <!-- Service Feature Highlights -->
-                        <div class="service-highlights">
-                            <div class="highlight-pill">✨ Custom Themes</div>
-                            <div class="highlight-pill">🎈 Premium Balloon Art</div>
-                            <div class="highlight-pill">📍 Doorstep Delivery & Setup</div>
-                            <div class="highlight-pill">⏱️ Fast 3-Hour Assembly</div>
-                        </div>
-
-                        <!-- Booking prompt with typewriter words -->
-                        <div class="booking-prompt">
-                            ✨ Booking setups for: <strong class="text-gold"><span class="flip-word-container" data-words="Birthday Party,Baby Shower,Anniversary,Haldi Ceremony,Wedding,House Warming,Naming Ceremony"></span></strong>
-                        </div>
-                        
-                        <div class="creative-tags-grid">
-                            <div class="creative-tag">
-                                <span class="tag-icon">🎉</span>
-                                <span class="tag-text">Birthday</span>
+                            <!-- Innovative 3D Services Showcase (Right) -->
+                            <div class="innovative-services-container">
+                                <div class="balloon-booking-prompt text-maroon" style="margin-bottom: 0.5rem; text-shadow: 0 2px 5px rgba(255,255,255,0.8); font-weight: bold;">✨ Select a service to explore:</div>
+                                <div class="innovative-services-grid">
+                                    <div class="service-3d-card" onclick="window.location.href='category.html?type=1st-birthday'">
+                                        <div class="card-bg" style="background-image: url('assets/products/1st_birthday_decor.png');"></div>
+                                        <div class="card-glass-label">Birthdays</div>
+                                    </div>
+                                    <div class="service-3d-card" onclick="window.location.href='category.html?type=babyshower'">
+                                        <div class="card-bg" style="background-image: url('assets/products/babyshower_decor.png');"></div>
+                                        <div class="card-glass-label">Baby Shower</div>
+                                    </div>
+                                    <div class="service-3d-card" onclick="window.location.href='category.html?type=anniversary'">
+                                        <div class="card-bg" style="background-image: url('assets/products/wedding_decor.png');"></div>
+                                        <div class="card-glass-label">Anniversary</div>
+                                    </div>
+                                    <div class="service-3d-card" onclick="window.location.href='category.html?type=office-decoration'">
+                                        <div class="card-bg" style="background-image: url('assets/products/office_decor.png');"></div>
+                                        <div class="card-glass-label">Events</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="creative-tag">
-                                <span class="tag-icon">👶</span>
-                                <span class="tag-text">Baby Shower</span>
-                            </div>
-                            <div class="creative-tag">
-                                <span class="tag-icon">💍</span>
-                                <span class="tag-text">Anniversary</span>
-                            </div>
-                            <div class="creative-tag">
-                                <span class="tag-icon">🏢</span>
-                                <span class="tag-text">Events</span>
-                            </div>
-                        </div>
-
-                        <div class="hero-actions">
-                            <a href="https://api.whatsapp.com/send?phone=919788742627&text=Hi%20Vanakkam%20Vandhanam!%20I%20want%20to%20book%20a%20decoration%20service." target="_blank" class="btn-primary glow-effect">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                                <span>Book Decoration</span>
-                            </a>
-                            <a href="tel:+919788742627" class="btn-secondary keep-text">📞 Call Us</a>
                         </div>
                     </div>
                 </div>
@@ -532,270 +529,347 @@
         </div>
     </section>
     <section id="curated-collections" class="curated-section relative-z">
-        <div class="section-header text-center reveal-on-scroll">
-            <h2 class="section-title">Curated <span class="italic-serif text-gold">Collections</span></h2>
-            <div class="section-divider">
-                <div class="divider-line"></div>
-                <div class="divider-ornament">🎁</div>
-                <div class="divider-line"></div>
+        <div class="stage-container reveal-on-scroll">
+            <h2 class="stage-title text-center">Curated <span class="italic-serif text-gold">Collections</span></h2>
+            <p class="stage-subtitle text-center">Step into our different setups</p>
+
+            <div class="theatrical-stage">
+                <!-- Curtains -->
+                <div class="stage-curtain left-curtain"></div>
+                <div class="stage-curtain right-curtain"></div>
+                
+                <!-- Stage Floor & Lighting -->
+                <div class="stage-floor"></div>
+                <div class="spotlight"></div>
+                
+                <!-- Collections (Sets) -->
+                <div class="stage-sets" id="stageSets">
+                    <!-- Set 1: Birthday Combo Pack -->
+                    <div class="stage-set active-set" data-set-index="0">
+                        <img src="assets/products/birthday/birthday_item_0002_Mockup1.jpg" alt="Birthday Combo Pack" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Birthday Combo Pack</h3>
+                            <p>Complete setup kits with balloons & banners.</p>
+                            <a href="category.html?type=birthday-combo" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Set 2: 1st Birthday -->
+                    <div class="stage-set" data-set-index="1">
+                        <img src="assets/products/1st_birthday_decor.png" alt="1st Birthday" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>1st Birthday</h3>
+                            <p>Adorable decorations for your little one's special milestone.</p>
+                            <a href="category.html?type=1st-birthday" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Set 3: Babyshower -->
+                    <div class="stage-set" data-set-index="2">
+                        <img src="assets/products/babyshower_decor.png" alt="Babyshower" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Babyshower</h3>
+                            <p>Warm and elegant welcoming decorations.</p>
+                            <a href="category.html?type=babyshower" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Set 4: Anniversary -->
+                    <div class="stage-set" data-set-index="3">
+                        <img src="assets/products/wedding_decor.png" alt="Anniversary" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Anniversary</h3>
+                            <p>Romantic backdrop themes & elegant arches.</p>
+                            <a href="category.html?type=anniversary" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+
+                    <!-- Set 5: Haldi & Mehandi -->
+                    <div class="stage-set" data-set-index="4">
+                        <img src="assets/products/haldi_decor.png" alt="Haldi" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Haldi & Mehandi</h3>
+                            <p>Vibrant marigold hangings and colorful drapes.</p>
+                            <a href="category.html?type=haldi-mehandi" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Set 6: Love Theme -->
+                    <div class="stage-set" data-set-index="5">
+                        <img src="assets/products/love_decor.png" alt="Love Theme" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Love Theme</h3>
+                            <p>Romantic candle paths and gorgeous floral hearts.</p>
+                            <a href="category.html?type=love-theme" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+
+                    <!-- Set 7: Office Decoration -->
+                    <div class="stage-set" data-set-index="6">
+                        <img src="assets/products/office_decor.png" alt="Office Decoration" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Office Decoration</h3>
+                            <p>Professional festive setups for corporate celebrations.</p>
+                            <a href="category.html?type=office-decoration" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+
+                    <!-- Set 8: Car Decoration -->
+                    <div class="stage-set" data-set-index="7">
+                        <img src="assets/products/car_decor.png" alt="Car Decoration" class="set-backdrop">
+                        <div class="set-content">
+                            <h3>Car Decoration</h3>
+                            <p>Stunning floral ribbons and bouquets for special drives.</p>
+                            <a href="category.html?type=car-decoration" class="set-btn">Explore Set</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage Controls -->
+                <button class="stage-control stage-prev" id="stagePrev">◀</button>
+                <button class="stage-control stage-next" id="stageNext">▶</button>
             </div>
-            <p class="section-subtitle">Handpicked Sets • Discover the perfect items selected for your most cherished life events.</p>
-        </div>
-        <div class="curated-grid reveal-on-scroll">
-
-            <a href="combos.html" class="curated-item bento-large-w" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0002_Mockup1.jpg" alt="Birthday Combo Pack"></div>
-                <div class="curated-content">
-                    <h3>Birthday Combo Pack</h3>
-                    <h4>Hassle-Free Celebrations</h4>
-                    <p>Complete setup kits with balloons, banners, and backdrops for a perfect party.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=1st-birthday" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/birthday/birthday_item_0015_Mockup1.jpg" alt="1st Birthday Celebration"></div>
-                <div class="curated-content">
-                    <h3>1st Birthday</h3>
-                    <h4>Precious Milestones</h4>
-                    <p>Adorable theme decors and custom setups to celebrate your baby's first year.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=babyshower" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=50" alt="Babyshower Ceremony"></div>
-                <div class="curated-content">
-                    <h3>Babyshower</h3>
-                    <h4>Sweet Beginnings</h4>
-                    <p>Warm and elegant decorations to welcome the arrival of your little bundle of joy.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=anniversary" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="assets/products/wedding_decor.png" alt="Anniversary Celebration"></div>
-                <div class="curated-content">
-                    <h3>Anniversary</h3>
-                    <h4>Love & Togetherness</h4>
-                    <p>Romantic backdrop themes, elegant balloon arches, and fairy lights for your special milestone.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=haldi-mehandi" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=50" alt="Haldi & Mehandi Decor"></div>
-                <div class="curated-content">
-                    <h3>Haldi & Mehandi</h3>
-                    <h4>Festive Traditions</h4>
-                    <p>Vibrant marigold hangings, colorful drapes, and traditional setups for pre-wedding functions.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=love-theme" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50" alt="Love Theme Setup"></div>
-                <div class="curated-content">
-                    <h3>Love Theme</h3>
-                    <h4>Romantic Evenings</h4>
-                    <p>Beautiful red & pink themes, canopy setups, and intimate proposals or date night decors.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=office-decoration" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=50" alt="Office Decoration"></div>
-                <div class="curated-content">
-                    <h3>Office Decoration</h3>
-                    <h4>Professional Celebrations</h4>
-                    <p>Clean, modern, and festive setups for office inaugurations, corporate events, and milestones.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=car-decoration" class="curated-item" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=50" alt="Car Decoration"></div>
-                <div class="curated-content">
-                    <h3>Car Decoration</h3>
-                    <h4>Just Married Style</h4>
-                    <p>Premium floral, ribbon, and balloon arrangements to beautifully decorate ceremony cars.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
-
-            <a href="category.html?type=decoration-booking" class="curated-item bento-large-w" style="text-decoration: none; color: inherit; display: block;">
-                <div class="curated-image"><img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50" alt="Decoration Booking"></div>
-                <div class="curated-content">
-                    <h3>Decoration Booking</h3>
-                    <h4>Bespoke Custom Setup</h4>
-                    <p>Consult with our designers to create a tailored theme specifically for your venue and style.</p>
-                    <span class="btn-text">View Collection <span>→</span></span>
-                </div>
-            </a>
         </div>
     </section>
-
-
-
 
     <section class="process-section relative-z">
-        <div class="section-header text-center reveal-on-scroll">
-            <h2 class="section-title">
-                <span class="split-parent"><span class="split-child">How To</span></span>
-                <span class="split-parent"><span class="split-child italic-serif gradient-text">Purchase</span></span>
-            </h2>
-            <div class="section-divider">
-                <div class="divider-line"></div>
-                <div class="divider-ornament">🎊</div>
-                <div class="divider-line"></div>
-            </div>
-            <p class="section-subtitle">Our simple 4-step process makes your shopping experience seamless • Experience a smooth journey from selection to doorstep.</p>
-        </div>
-        <div class="process-grid stagger-reveal reveal-on-scroll">
-            <div class="process-step reveal-on-scroll">
-                <div class="step-number">01</div>
-                <h3>Explore</h3>
-                <p>Browse our collection of premium traditional and modern products • Discover the finest items for your celebration.</p>
-            </div>
-            <div class="process-step reveal-on-scroll">
-                <div class="step-number">02</div>
-                <h3>Select</h3>
-                <p>Choose the products or curated sets that perfectly match your requirements • Select the items or complete
-                    DIY kits that suit your needs.</p>
-            </div>
-            <div class="process-step reveal-on-scroll">
-                <div class="step-number">03</div>
-                <h3>Order</h3>
-                <p>Contact our team to confirm your selection and place your order • Reach out to us to finalize your purchase.</p>
-            </div>
-            <div class="process-step reveal-on-scroll">
-                <div class="step-number">04</div>
-                <h3>Delivery</h3>
-                <p>Your premium supplies will be delivered safely to your doorstep • Experience secure and timely global shipping.</p>
+        <!-- Vertical Chronological Timeline Component -->
+        <div class="vertical-timeline-container reveal-on-scroll">
+            <h2 class="journey-title text-center">Your <span class="text-gold">Journey</span></h2>
+            
+            <div class="timeline-wrapper">
+                <div class="timeline-line"></div>
+                
+                <!-- Step 1 -->
+                <div class="timeline-step reveal-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time-badge">Day 1</div>
+                    <div class="timeline-opposite-visual">
+                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=400&q=80" alt="Explore">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="node-text">
+                            <div class="node-icon">01</div>
+                            <h3>Explore</h3>
+                            <p>Browse our hand-picked event collections and find your dream decoration setup.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="timeline-step reveal-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time-badge">Day 2</div>
+                    <div class="timeline-opposite-visual">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=80" alt="Customize">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="node-text">
+                            <div class="node-icon">02</div>
+                            <h3>Customize</h3>
+                            <p>Select your colors, themes, and add personal touches like custom neon signs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="timeline-step reveal-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time-badge">1 Week Before</div>
+                    <div class="timeline-opposite-visual">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=400&q=80" alt="Confirm">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="node-text">
+                            <div class="node-icon">03</div>
+                            <h3>Confirm</h3>
+                            <p>Confirm your booking easily via WhatsApp. Our team will verify your venue details.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="timeline-step reveal-on-scroll">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-time-badge">Day of Event</div>
+                    <div class="timeline-opposite-visual">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=80" alt="Celebrate">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="node-text">
+                            <div class="node-icon">04</div>
+                            <h3>Celebrate</h3>
+                            <p>Our expert decorators arrive and transform your space into something truly magical!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="vision-parallax relative-z">
-        <div class="vision-content reveal-on-scroll">
-            <h2 class="font-serif">"We don't just sell products; we bring the <span
-                    class="italic-serif text-gold">sparkle & joy</span> that makes every celebration unforgettable! 🎉"</h2>
+    <!-- ===== FIND YOUR PERFECT DECORATION — Interactive Product Discovery ===== -->
+    <section id="decoration-finder" class="finder-section relative-z">
+        <div class="hanging-sign-header reveal-on-scroll">
+            <div class="sign-chain left-chain"></div>
+            <div class="sign-chain right-chain"></div>
+            <div class="sign-board">
+                <h2>Find Your Perfect <br><span class="italic-serif gradient-text">Decoration</span></h2>
+                <p>Tell us what you're celebrating — we'll show you the perfect setup 🎊</p>
+            </div>
         </div>
-    </section>
 
-    <!-- Spacer replacing Journal section -->
-    <section class="spacer-section relative-z" style="height: 350px; background-color: var(--bg-cream);"></section>
+        <div class="finder-widget reveal-on-scroll">
+            <div class="finder-events" id="finderEvents">
+                <div class="finder-event-card" data-event="birthday">
+                    <span class="finder-emoji">🎂</span>
+                    <h4>Birthday</h4>
+                    <p>Make it unforgettable</p>
+                </div>
+                <div class="finder-event-card" data-event="babyshower">
+                    <span class="finder-emoji">👶</span>
+                    <h4>Baby Shower</h4>
+                    <p>Sweet beginnings</p>
+                </div>
+                <div class="finder-event-card" data-event="anniversary">
+                    <span class="finder-emoji">💍</span>
+                    <h4>Anniversary</h4>
+                    <p>Celebrate your love</p>
+                </div>
+                <div class="finder-event-card" data-event="wedding">
+                    <span class="finder-emoji">💒</span>
+                    <h4>Wedding</h4>
+                    <p>Dream celebration</p>
+                </div>
+                <div class="finder-event-card" data-event="haldi">
+                    <span class="finder-emoji">🌼</span>
+                    <h4>Haldi &amp; Mehandi</h4>
+                    <p>Festive traditions</p>
+                </div>
+                <div class="finder-event-card" data-event="love">
+                    <span class="finder-emoji">💕</span>
+                    <h4>Love Theme</h4>
+                    <p>Romantic evenings</p>
+                </div>
+            </div>
 
-    <section class="testimonials-section relative-z">
-        <div class="section-header text-center reveal-on-scroll">
-            <h2 class="section-title">
-                <span class="split-parent"><span class="split-child">Happy</span></span>
-                <span class="split-parent"><span class="split-child italic-serif">Hearts</span></span>
-            </h2>
-            <div class="section-divider">
-                <div class="divider-line"></div>
-                <div class="divider-ornament">💖</div>
-                <div class="divider-line"></div>
-            </div>
-            <p class="section-subtitle">Real stories from families who trusted us with their sacred moments • Voices of our community.</p>
-        </div>
-        <div class="testimonials-track" id="testimonialTrack">
-            <div class="testimonial-card reveal-on-scroll">
-                <div class="stars">★★★★★</div>
-                <p>"The premium kuthuvilakkus we purchased were stunning. Every guest was in awe of their quality and
-                    traditional finish."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">P</div>
-                    <div><strong>Priya & Karthik</strong><span>Customer — Chennai</span></div>
+            <div class="finder-results" id="finderResults" style="display:none;">
+                <div class="finder-results-header">
+                    <button class="finder-back-btn" id="finderBackBtn">← Choose Another</button>
+                    <h3 id="finderResultTitle"></h3>
                 </div>
-            </div>
-            <div class="testimonial-card reveal-on-scroll">
-                <div class="stars">★★★★★</div>
-                <p>"The DIY balloon kit was perfect for my daughter's birthday! It had everything we needed and was so
-                    easy to set up."</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">S</div>
-                    <div><strong>Sanjay Ramanathan</strong><span>Customer — Coimbatore</span></div>
-                </div>
-            </div>
-            <div class="testimonial-card reveal-on-scroll">
-                <div class="stars">★★★★★</div>
-                <p>"The artificial marigold garlands completely transformed our home for Diwali. They look exactly like
-                    fresh flowers!"</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">M</div>
-                    <div><strong>Meena Sundaram</strong><span>Customer — Madurai</span></div>
-                </div>
-            </div>
-            <div class="testimonial-card reveal-on-scroll">
-                <div class="stars">★★★★★</div>
-                <p>"The premium birthday backdrop and neon 'Better Together' sign were the highlight of my party. High quality and absolutely stunning!"</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">A</div>
-                    <div><strong>Ananya Krishnan</strong><span>Customer — Bangalore</span></div>
+                <div class="finder-results-grid" id="finderResultsGrid">
+                    <!-- Populated by JS -->
                 </div>
             </div>
         </div>
     </section>
+
+
+        <div class="memory-wall-container" id="testimonialTrack">
+            <div class="fairy-lights-string">
+                <svg width="100%" height="60" preserveAspectRatio="none" viewBox="0 0 1000 60">
+                    <!-- The Wire -->
+                    <path d="M-50,10 Q250,60 500,20 T1050,10" fill="none" stroke="rgba(255, 217, 61, 0.4)" stroke-width="1.5" />
+                    <!-- Bulbs -->
+                    <circle cx="100" cy="27" r="3" fill="#FFD93D" class="bulb" />
+                    <circle cx="200" cy="40" r="3" fill="#FFD93D" class="bulb bulb-alt" />
+                    <circle cx="300" cy="45" r="3" fill="#FFD93D" class="bulb" />
+                    <circle cx="400" cy="38" r="3" fill="#FFD93D" class="bulb bulb-alt" />
+                    <circle cx="500" cy="20" r="3" fill="#FFD93D" class="bulb" />
+                    <circle cx="600" cy="18" r="3" fill="#FFD93D" class="bulb bulb-alt" />
+                    <circle cx="700" cy="30" r="3" fill="#FFD93D" class="bulb" />
+                    <circle cx="800" cy="38" r="3" fill="#FFD93D" class="bulb bulb-alt" />
+                    <circle cx="900" cy="28" r="3" fill="#FFD93D" class="bulb" />
+                </svg>
+            </div>
+            
+            <div class="polaroid-track">
+                <!-- Sticky Note Header (Grid Item 1) -->
+                <div class="sticky-note-header reveal-on-scroll">
+                    <div class="sticky-pin"></div>
+                    <h2 class="sticky-title">Voices of <br><span>Happiness</span></h2>
+                    <p>Real stories from our families.</p>
+                </div>
+                
+                <div class="polaroid-card reveal-on-scroll">
+                    <div class="polaroid-clip"></div>
+                    <div class="polaroid-photo">
+                        <div class="photo-placeholder">P</div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <div class="polaroid-stars">⭐⭐⭐⭐⭐</div>
+                        <p>"The premium kuthuvilakkus we purchased were stunning. Every guest was in awe of their quality and traditional finish."</p>
+                        <strong>Priya & Karthik</strong>
+                        <span>Chennai</span>
+                    </div>
+                </div>
+
+                <div class="polaroid-card reveal-on-scroll">
+                    <div class="polaroid-clip"></div>
+                    <div class="polaroid-photo">
+                        <div class="photo-placeholder">S</div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <div class="polaroid-stars">⭐⭐⭐⭐⭐</div>
+                        <p>"The DIY balloon kit was perfect for my daughter's birthday! It had everything we needed and was so easy to set up."</p>
+                        <strong>Sanjay Ramanathan</strong>
+                        <span>Coimbatore</span>
+                    </div>
+                </div>
+
+                <div class="polaroid-card reveal-on-scroll">
+                    <div class="polaroid-clip"></div>
+                    <div class="polaroid-photo">
+                        <div class="photo-placeholder">M</div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <div class="polaroid-stars">⭐⭐⭐⭐⭐</div>
+                        <p>"The artificial marigold garlands completely transformed our home for Diwali. They look exactly like fresh flowers!"</p>
+                        <strong>Meena Sundaram</strong>
+                        <span>Madurai</span>
+                    </div>
+                </div>
+
+                <div class="polaroid-card reveal-on-scroll">
+                    <div class="polaroid-clip"></div>
+                    <div class="polaroid-photo">
+                        <div class="photo-placeholder">A</div>
+                    </div>
+                    <div class="polaroid-caption">
+                        <div class="polaroid-stars">⭐⭐⭐⭐⭐</div>
+                        <p>"The premium birthday backdrop and neon 'Better Together' sign were the highlight of my party. Absolutely stunning!"</p>
+                        <strong>Ananya Krishnan</strong>
+                        <span>Bangalore</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
     <section class="faq-section relative-z">
         <div class="faq-container">
             <div class="faq-left reveal-on-scroll">
-                <h2 class="section-title">
-                    <span class="split-parent"><span class="split-child">Frequently Asked</span></span>
-                    <span class="split-parent"><span
-                            class="split-child italic-serif text-maroon">Questions</span></span>
-                </h2>
-                <div class="section-divider" style="justify-content: flex-start; margin: 0 0 2rem;">
-                    <div class="divider-line" style="max-width: 100px;"></div>
-                    <div class="divider-ornament">🎈</div>
+                <div class="speech-bubble-header">
+                    <h2 class="speech-title">Got <br><span>Questions?</span></h2>
+                    <p class="speech-subtitle">Everything you need to know about purchasing your dream celebration supplies.</p>
+                    <a href="https://wa.me/919788742627" target="_blank" class="btn-primary">Ask Us Anything</a>
                 </div>
-                <p class="section-subtitle" style="margin: 0 0 2rem;">Everything you need to know about purchasing your dream celebration supplies • Get clarity on our products.</p>
-                <a href="https://wa.me/919788742627" target="_blank" class="btn-primary">More Questions?</a>
             </div>
             <div class="faq-right reveal-on-scroll">
-                <div class="faq-item">
-                    <div class="faq-header">
-                        <h3>How long does delivery take?</h3><span class="faq-icon">+</span>
+                <div class="chat-interface" id="faqChat">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-bubble expert-bubble">
+                            Namaste! 🙏 I'm your Vanakkam Vandhanam decor expert. Click any question below to get instant answers!
+                        </div>
                     </div>
-                    <div class="faq-answer">
-                        <p>We typically process orders within 1-2 business days. Delivery across Tamil Nadu takes 3-5
-                            days, and nationwide shipping takes 5-7 business days.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-header">
-                        <h3>Do you provide installation services?</h3><span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>We primarily provide premium DIY kits and high-quality standalone products that are very easy
-                            to assemble and set up yourself for any celebration.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-header">
-                        <h3>Do you ship nationwide?</h3><span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we ship our premium celebration supplies all across India. We ensure secure packaging
-                            for fragile items like brass lamps and neon signs.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-header">
-                        <h3>Can I customize the product packages?</h3><span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Absolutely! You can mix and match items or contact our team to create a custom bundle that
-                            perfectly fits your specific celebration requirements.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-header">
-                        <h3>Do you offer custom birthday themes and neon signs?</h3><span class="faq-icon">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, we specialize in custom birthday setups! From personalized neon name signs to specific color-themed balloon arches, we can curate a unique look for your special day.</p>
+                    
+                    <div class="chat-options">
+                        <button class="chat-question-btn" data-answer="We typically deliver and set up within 24-48 hours depending on your event date and location. Custom neon signs take an additional 3 days.">How long does delivery take?</button>
+                        <button class="chat-question-btn" data-answer="Yes, all our prices include complete setup and dismantling by our professional team. No hidden fees!">Does the price include setup?</button>
+                        <button class="chat-question-btn" data-answer="Absolutely! You can mix and match items or contact our team to create a custom bundle that perfectly fits your specific celebration.">Can I customize a combo package?</button>
+                        <button class="chat-question-btn" data-answer="Yes, we specialize in custom setups! From personalized neon signs to specific color-themed balloon arches, we can curate a unique look.">Do you offer custom themes?</button>
                     </div>
                 </div>
             </div>
@@ -816,49 +890,80 @@
                 <p class="section-subtitle">Have a question or ready to purchase? We'd love to hear from you.</p>
             </div>
 
-            <div class="contact-v4-grid">
-                <div class="contact-v4-info reveal-on-scroll">
-                    <div class="info-card">
-                        <div class="info-item">
-                            <div class="info-icon">📍</div>
-                            <div class="info-text">
-                                <h4>Our Studio</h4>
-                                <p>10/56, Abirami Amman Kovil Street, Dindigul, Tamil Nadu</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">📞</div>
-                            <div class="info-text">
-                                <h4>Call Us</h4>
-                                <p>+91 97887 42627</p>
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">✉️</div>
-                            <div class="info-text">
-                                <h4>Email Us</h4>
-                                <p>hello@vanakkamvandhanam.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-v4-form-box reveal-on-scroll">
-                    <form class="v4-form contact-form-premium" action="https://formsubmit.co/hello@vanakkamvandhanam.com" method="POST">
-                        <!-- FormSubmit Configuration -->
+            <div class="postcard-container reveal-on-scroll">
+                <div class="postcard" id="contactPostcard">
+                    <form class="postcard-form" action="#" method="POST" id="postcardForm">
                         <input type="hidden" name="_subject" value="New Website Enquiry - Vanakkam Vandhanam">
                         <input type="hidden" name="_template" value="table">
                         <input type="hidden" name="_captcha" value="false">
-                        <div class="form-row">
-                            <input type="text" name="name" placeholder="Name" required>
-                            <input type="email" name="email" placeholder="Email" required>
+                        <!-- Removed _next to allow Formsubmit default thank you page -->
+                        
+                        <div class="postcard-left">
+                            <div class="postcard-header">Write to us...</div>
+                            <input type="text" name="name" class="postcard-input" placeholder="Your Name" required>
+                            <input type="email" name="email" class="postcard-input" placeholder="Your Email" required>
+                            <input type="tel" name="phone" class="postcard-input" placeholder="Phone Number" required>
+                            <textarea name="message" class="postcard-input" placeholder="Your Message" rows="4" required></textarea>
                         </div>
-                        <div class="form-row">
-                            <input type="tel" name="phone" placeholder="Phone Number" required>
-                            <input type="text" name="product" placeholder="Product Interest (e.g. Brass Lamps)" required>
+                        
+                        <div class="postcard-right">
+                            <div class="postcard-stamp">
+                                <svg viewBox="0 0 100 120" width="100%" height="100%">
+                                    <defs>
+                                        <filter id="vintage-filter">
+                                            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+                                            <feColorMatrix type="matrix" values="1 0 0 0 0.8  0 1 0 0 0.7  0 0 1 0 0.6  0 0 0 0.15 0" in="noise" result="coloredNoise" />
+                                            <feBlend in="SourceGraphic" in2="coloredNoise" mode="multiply" />
+                                        </filter>
+                                        <mask id="stamp-mask">
+                                            <rect width="100" height="120" fill="white" />
+                                            <circle cx="0" cy="10" r="4" fill="black" />
+                                            <circle cx="0" cy="30" r="4" fill="black" />
+                                            <circle cx="0" cy="50" r="4" fill="black" />
+                                            <circle cx="0" cy="70" r="4" fill="black" />
+                                            <circle cx="0" cy="90" r="4" fill="black" />
+                                            <circle cx="0" cy="110" r="4" fill="black" />
+                                            <circle cx="100" cy="10" r="4" fill="black" />
+                                            <circle cx="100" cy="30" r="4" fill="black" />
+                                            <circle cx="100" cy="50" r="4" fill="black" />
+                                            <circle cx="100" cy="70" r="4" fill="black" />
+                                            <circle cx="100" cy="90" r="4" fill="black" />
+                                            <circle cx="100" cy="110" r="4" fill="black" />
+                                            <circle cx="10" cy="0" r="4" fill="black" />
+                                            <circle cx="30" cy="0" r="4" fill="black" />
+                                            <circle cx="50" cy="0" r="4" fill="black" />
+                                            <circle cx="70" cy="0" r="4" fill="black" />
+                                            <circle cx="90" cy="0" r="4" fill="black" />
+                                            <circle cx="10" cy="120" r="4" fill="black" />
+                                            <circle cx="30" cy="120" r="4" fill="black" />
+                                            <circle cx="50" cy="120" r="4" fill="black" />
+                                            <circle cx="70" cy="120" r="4" fill="black" />
+                                            <circle cx="90" cy="120" r="4" fill="black" />
+                                        </mask>
+                                    </defs>
+                                    <rect width="100" height="120" fill="#e8dac1" mask="url(#stamp-mask)" filter="url(#vintage-filter)" />
+                                    <rect x="10" y="10" width="80" height="100" fill="none" stroke="#6b5b4e" stroke-width="1" />
+                                    <text x="50" y="65" font-family="serif" font-size="28" font-weight="bold" fill="#5c4e42" text-anchor="middle" dominant-baseline="middle">₹5</text>
+                                    <text x="50" y="25" font-family="sans-serif" font-size="8" fill="#5c4e42" text-anchor="middle" letter-spacing="2">INDIA POSTAGE</text>
+                                    <text x="50" y="95" font-family="sans-serif" font-size="6" fill="#5c4e42" text-anchor="middle">REVENUE</text>
+                                    <g transform="rotate(-15, 50, 60)" opacity="0.65">
+                                        <circle cx="70" cy="50" r="30" fill="none" stroke="#222" stroke-width="1.5" />
+                                        <circle cx="70" cy="50" r="28" fill="none" stroke="#222" stroke-width="0.5" />
+                                        <path d="M 40 50 L 100 50 M 45 40 L 95 40 M 45 60 L 95 60" stroke="#222" stroke-width="1.5" />
+                                        <text x="70" y="35" font-family="sans-serif" font-size="8" fill="#222" text-anchor="middle" font-weight="bold">NEW DELHI</text>
+                                        <text x="70" y="72" font-family="sans-serif" font-size="7" fill="#222" text-anchor="middle">12 OCT 89</text>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="postcard-address">
+                                <h4>Send To:</h4>
+                                <p><strong>Vanakkam Vandhanam</strong><br>
+                                10/56, Abirami Amman Kovil St,<br>
+                                Dindigul, Tamil Nadu<br>
+                                +91 97887 42627</p>
+                            </div>
+                            <button type="submit" class="postcard-btn" id="sendPostcardBtn">Send Postcard ✈️</button>
                         </div>
-                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                        <button type="submit" class="btn-primary w-full glow-effect">Send Enquiry</button>
                     </form>
                 </div>
             </div>
@@ -870,7 +975,7 @@
         <div class="footer-top">
             <div class="footer-brand reveal-on-scroll">
                 <img loading="lazy" decoding="async" src="assets/logo.png?v=2" alt="Vanakkam Vandhanam Logo"
-                    style="height: 100px; width: auto; margin-bottom: 1rem; filter: drop-shadow(0 2px 10px rgba(255,179,0,0.3)); ">
+                    style="height: 100px; width: auto; margin-bottom: 1rem; mix-blend-mode: screen;">
                 <h2 class="font-serif">Vanakkam <span class="text-gold">Vandhanam</span></h2>
                 <p>Crafting memories rooted in tradition • Delivering rich heritage with modern luxury for every celebration.</p>
             </div>
@@ -995,7 +1100,7 @@
     </nav>
 
     <script src="master-control.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="script.js?v=4" defer></script>
 </body>
 
 

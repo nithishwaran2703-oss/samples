@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lenis for Premium Smooth Scrolling
+    // Initialize Lenis for Premium Buttery Smooth Scrolling (Optimized)
     window.lenis = new Lenis({
-        duration: 1.2, // Balanced for responsive, buttery scrolling
+        duration: 1.8, // Increased duration for a slower, softer, buttery feel
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        wheelMultiplier: 1.0, 
-        smoothTouch: false, // Use native touch scrolling on mobile to prevent freeze/lag
-        infinite: false,
-        lerp: 0.1
+        wheelMultiplier: 0.8, // Reduced speed per scroll tick so it doesn't fly too fast
+        smoothTouch: false,
     });
 
     function raf(time) {
@@ -18,13 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     requestAnimationFrame(raf);
 
-    // Integrate with existing scroll events
-    lenis.on('scroll', (e) => {
-        // Trigger manual scroll events for compatibility with existing code
-        window.dispatchEvent(new Event('scroll'));
-    });
-
-    // Handle anchor links with Lenis
+    // Handle anchor links with Lenis smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -34,10 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const isMobile = window.innerWidth <= 1023;
-                const navbarOffset = isMobile ? -145 : -100; // Mobile header with search bar is taller
+                const navbarOffset = isMobile ? -145 : -100;
+                
                 lenis.scrollTo(targetElement, {
                     offset: navbarOffset,
-                    duration: 1.5,
+                    duration: 2.0, // Slower, elegant scroll to anchors
                     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
                 });
             }
@@ -924,13 +917,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const r = Math.random();
                     if (r > 0.9) {
                         this.size = Math.random() * 2.5 + 1.2; 
-                        this.speedY = Math.random() * 1.0 + 0.4;
+                        this.speedY = (Math.random() * 1.0 + 0.4) * 0.5; // Reduced speed
                     } else if (r > 0.5) {
                         this.size = Math.random() * 1.2 + 0.5;
-                        this.speedY = Math.random() * 0.7 + 0.2;
+                        this.speedY = (Math.random() * 0.7 + 0.2) * 0.5; // Reduced speed
                     } else {
                         this.size = Math.random() * 0.6 + 0.2;
-                        this.speedY = Math.random() * 0.4 + 0.1;
+                        this.speedY = (Math.random() * 0.4 + 0.1) * 0.5; // Reduced speed
                     }
                 } else {
                     this.size = Math.random() * 180 + 70; // Larger glows
@@ -1006,8 +999,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const initParticles = () => {
             particles = [];
-            // Adjusted density: 300 on desktop, 150 on mobile as requested
-            const starCount = window.innerWidth < 768 ? 150 : 300; 
+            // Adjusted density: 200 on desktop, 100 on mobile to slightly reduce particles
+            const starCount = window.innerWidth < 768 ? 100 : 200; 
 
             for (let i = 0; i < starCount; i++) {
                 const p = new Particle('star');
@@ -1025,7 +1018,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const animateParticles = () => {
             if (!isVisible) {
-                requestAnimationFrame(animateParticles);
+                // Stopped infinite background loop when off-screen
                 return;
             }
             ctx.clearRect(0, 0, w, h);
@@ -1033,7 +1026,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.update();
                 p.draw();
             });
-            requestAnimationFrame(animateParticles);
+            if (isVisible) {
+                requestAnimationFrame(animateParticles);
+            }
         };
         animateParticles();
     }
@@ -1676,7 +1671,7 @@ function createBackgroundParticle() {
     p.style.opacity = Math.random() * 0.5 + 0.2;
     p.style.zIndex = '9999';
     p.style.pointerEvents = 'none';
-    p.style.transition = 'transform 12s linear, opacity 12s linear';
+    p.style.transition = 'transform 24s linear, opacity 24s linear';
     document.body.appendChild(p);
 
     requestAnimationFrame(() => {
@@ -1687,11 +1682,11 @@ function createBackgroundParticle() {
         p.style.opacity = '0';
     });
 
-    setTimeout(() => p.remove(), 12000);
+    setTimeout(() => p.remove(), 24000);
 }
 
-// Increased frequency for a more active background
-setInterval(createBackgroundParticle, 800);
+// Decreased frequency for a less active background
+// setInterval(createBackgroundParticle, 2000); // Disabled completely for lag-free performance
 
 /* STARLIGHT CURSOR TRAILS LOGIC */
 let starThrottle = false;
@@ -1730,3 +1725,530 @@ document.addEventListener('mousemove', (e) => {
     }, 600);
 });
 
+// ============================================
+// 🎯 DECORATION FINDER — Interactive Product Discovery
+// ============================================
+(function () {
+    const finderEvents = document.getElementById('finderEvents');
+    const finderResults = document.getElementById('finderResults');
+    const finderResultsGrid = document.getElementById('finderResultsGrid');
+    const finderResultTitle = document.getElementById('finderResultTitle');
+    const finderBackBtn = document.getElementById('finderBackBtn');
+
+    if (!finderEvents) return;
+
+    const data = {
+        birthday: {
+            title: 'Perfect for your Birthday! 🎂',
+            items: [
+                { name: 'Birthday Combo Pack', desc: 'Complete kits with balloons, banners, backdrops & more — hassle-free party setup!', img: 'assets/products/birthday/birthday_item_0002_Mockup1.jpg', link: 'combos.html' },
+                { name: '1st Birthday Special', desc: 'Adorable custom theme setups to celebrate your baby\'s precious first year.', img: 'assets/products/birthday/birthday_item_0015_Mockup1.jpg', link: 'category.html?type=1st-birthday' },
+                { name: 'All Birthday Products', desc: 'Browse 500+ party decoration products — balloons, neon signs, garlands & more.', img: 'assets/slide_products.png', link: 'products.html' }
+            ]
+        },
+        babyshower: {
+            title: 'Sweet Beginnings for Baby Shower! 👶',
+            items: [
+                { name: 'Baby Shower Collection', desc: 'Warm, elegant decorations to welcome your little bundle of joy.', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=babyshower' },
+                { name: 'Custom Theme Setup', desc: 'Let our team create a bespoke baby shower decoration for your venue.', img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=decoration-booking' },
+                { name: 'Browse All Products', desc: 'Explore our full range of premium celebration supplies & combos.', img: 'assets/slide_products.png', link: 'products.html' }
+            ]
+        },
+        anniversary: {
+            title: 'Celebrate Your Love Story! 💍',
+            items: [
+                { name: 'Anniversary Decorations', desc: 'Romantic backdrop themes, elegant balloon arches & fairy lights for your milestone.', img: 'assets/products/wedding_decor.png', link: 'category.html?type=anniversary' },
+                { name: 'Love Theme Setup', desc: 'Beautiful red & pink themes, canopy setups for proposals & date nights.', img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=love-theme' },
+                { name: 'Custom Decoration Booking', desc: 'Get a bespoke theme designed specifically for your venue & style.', img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=decoration-booking' }
+            ]
+        },
+        wedding: {
+            title: 'Make Your Wedding Magical! 💒',
+            items: [
+                { name: 'Haldi & Mehandi Decor', desc: 'Vibrant marigold hangings, colorful drapes & traditional pre-wedding setups.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=haldi-mehandi' },
+                { name: 'Car Decoration', desc: 'Premium floral, ribbon & balloon arrangements to beautifully decorate ceremony cars.', img: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=car-decoration' },
+                { name: 'Full Wedding Booking', desc: 'Consult with our designers for a tailored wedding decoration package.', img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=decoration-booking' }
+            ]
+        },
+        haldi: {
+            title: 'Festive Haldi Ceremony! 🌼',
+            items: [
+                { name: 'Haldi & Mehandi Collection', desc: 'Vibrant marigold hangings, colorful drapes & traditional pre-wedding setups.', img: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=haldi-mehandi' },
+                { name: 'Custom Ceremony Setup', desc: 'Get a bespoke haldi ceremony decoration designed for your venue.', img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=decoration-booking' },
+                { name: 'All Decoration Items', desc: 'Browse our complete range of traditional & modern celebration products.', img: 'assets/slide_products.png', link: 'products.html' }
+            ]
+        },
+        love: {
+            title: 'Romance in Every Detail! 💕',
+            items: [
+                { name: 'Love Theme Decorations', desc: 'Beautiful red & pink themes, canopy setups & intimate proposal decors.', img: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=love-theme' },
+                { name: 'Anniversary Decorations', desc: 'Romantic backdrops, balloon arches & fairy lights for your celebration.', img: 'assets/products/wedding_decor.png', link: 'category.html?type=anniversary' },
+                { name: 'Book Custom Setup', desc: 'Our designers will create the perfect romantic setup for your space.', img: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=400&q=50', link: 'category.html?type=decoration-booking' }
+            ]
+        }
+    };
+
+    // Event card clicks
+    document.querySelectorAll('.finder-event-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const event = card.getAttribute('data-event');
+            const d = data[event];
+            if (!d) return;
+
+            finderResultTitle.textContent = d.title;
+            finderResultsGrid.innerHTML = d.items.map(item => `
+                <a href="${item.link}" class="finder-result-card">
+                    <div class="finder-result-img"><img loading="lazy" decoding="async" src="${item.img}" alt="${item.name}"></div>
+                    <div class="finder-result-body">
+                        <h4>${item.name}</h4>
+                        <p>${item.desc}</p>
+                        <span class="finder-result-link">View Collection <span>→</span></span>
+                    </div>
+                </a>
+            `).join('');
+
+            finderEvents.style.display = 'none';
+            finderResults.style.display = 'block';
+            finderResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    });
+
+    // Back button
+    if (finderBackBtn) {
+        finderBackBtn.addEventListener('click', () => {
+            finderResults.style.display = 'none';
+            finderEvents.style.display = 'grid';
+        });
+    }
+})();
+
+
+
+
+
+// Postcard Animation
+document.addEventListener('DOMContentLoaded', () => {
+    const postcardForm = document.getElementById('postcardForm');
+    const postcard = document.getElementById('contactPostcard');
+    if (postcardForm && postcard) {
+        postcardForm.addEventListener('submit', (e) => {
+            // Add flying class
+            postcard.classList.add('flying');
+            // The formsubmit.co will handle the actual submission, 
+            // but we add a small delay so the user sees the animation before redirect
+            setTimeout(() => {
+                // Allow normal submission redirect or handle via AJAX
+            }, 1000);
+        });
+    }
+});
+
+
+// FAQ Chat Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const chatMessages = document.getElementById('chatMessages');
+    const questionBtns = document.querySelectorAll('.chat-question-btn');
+
+    if (chatMessages && questionBtns.length > 0) {
+        questionBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Disable button
+                this.disabled = true;
+                
+                // Add user question
+                const userText = this.innerText;
+                const userBubble = document.createElement('div');
+                userBubble.className = 'chat-bubble user-bubble';
+                userBubble.innerText = userText;
+                chatMessages.appendChild(userBubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Add typing indicator
+                const typingBubble = document.createElement('div');
+                typingBubble.className = 'chat-bubble expert-bubble typing-bubble';
+                typingBubble.innerHTML = '<div class=\"typing-dot\"></div><div class=\"typing-dot\"></div><div class=\"typing-dot\"></div>';
+                chatMessages.appendChild(typingBubble);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate delay and add answer
+                const answerText = this.getAttribute('data-answer');
+                setTimeout(() => {
+                    chatMessages.removeChild(typingBubble);
+                    const expertBubble = document.createElement('div');
+                    expertBubble.className = 'chat-bubble expert-bubble';
+                    expertBubble.innerText = answerText;
+                    chatMessages.appendChild(expertBubble);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1500);
+            });
+        });
+    }
+    // --- 3D Theatrical Stage Logic ---
+    const stageSets = document.querySelectorAll('.stage-set');
+    const stagePrev = document.getElementById('stagePrev');
+    const stageNext = document.getElementById('stageNext');
+    let currentSet = 0;
+
+    if(stageSets.length > 0 && stagePrev && stageNext) {
+        function switchSet(newIndex) {
+            stageSets[currentSet].classList.remove('active-set');
+            stageSets[currentSet].classList.add('outgoing-set');
+            
+            setTimeout(() => {
+                stageSets.forEach(set => set.classList.remove('outgoing-set'));
+            }, 800);
+
+            currentSet = newIndex;
+            stageSets[currentSet].classList.add('active-set');
+        }
+
+        stageNext.addEventListener('click', () => {
+            const newIndex = (currentSet + 1) % stageSets.length;
+            switchSet(newIndex);
+        });
+
+        stagePrev.addEventListener('click', () => {
+            const newIndex = (currentSet - 1 + stageSets.length) % stageSets.length;
+            switchSet(newIndex);
+        });
+    }
+});
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Magic Revealer (Second Slide) Logic ---
+    const magicSlide = document.getElementById('magicServiceSlide');
+    const magicRevealBg = document.getElementById('magicRevealBg');
+    const magicInstruction = document.getElementById('magicInstruction');
+
+    if(magicSlide && magicRevealBg) {
+        magicSlide.addEventListener('mousemove', (e) => {
+            if(!magicSlide.classList.contains('active')) return;
+            
+            // Hide instruction overlay when user starts interacting
+            if(magicInstruction) magicInstruction.style.opacity = '0';
+
+            const rect = magicSlide.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            magicRevealBg.style.clipPath = `circle(300px at ${x}px ${y}px)`;
+        });
+
+        magicSlide.addEventListener('mouseleave', () => {
+            magicRevealBg.style.clipPath = `circle(50px at 50% 50%)`;
+            if(magicInstruction) magicInstruction.style.opacity = '1';
+        });
+    }
+    // --- 3D Holographic Card & Particle System ---
+    const holoCards = document.querySelectorAll('.holographic-tilt');
+    const slideService = document.querySelector('.hero-slide--service');
+    const canvas = document.getElementById('particlesCanvas');
+    
+    if(holoCards.length > 0 && slideService && canvas) {
+        // Holographic Tilt Logic
+        holoCards.forEach(holoCard => {
+            const holoGlare = holoCard.querySelector('.holo-glare');
+            
+            holoCard.addEventListener('mousemove', (e) => {
+                if(!slideService.classList.contains('active')) return;
+                
+                const rect = holoCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate tilt (max 15 degrees)
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -15;
+                const rotateY = ((x - centerX) / centerX) * 15;
+                
+                holoCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                
+                // Move Glare
+                const glareX = (x / rect.width) * 100;
+                const glareY = (y / rect.height) * 100;
+                if(holoGlare) holoGlare.style.transform = `translate(${glareX}%, ${glareY}%)`;
+            });
+            
+            holoCard.addEventListener('mouseleave', () => {
+                holoCard.style.transform = 'rotateX(0) rotateY(0)';
+                if(holoGlare) holoGlare.style.transform = 'translate(-100%, -100%)';
+            });
+        });
+
+        // Basic Particle System
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 10;
+                this.vy = (Math.random() - 0.5) * 10;
+                this.size = Math.random() * 8 + 4;
+                this.color = ['#FFD700', '#FF8C00', '#E91E63', '#9C27B0'][Math.floor(Math.random() * 4)];
+                this.life = 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.2; // gravity
+                this.life -= 0.02;
+            }
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        let isAnimating = false;
+        function animateParticles() {
+            if (particles.length === 0) {
+                isAnimating = false;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if(p.life <= 0) particles.splice(index, 1);
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        document.addEventListener('click', (e) => {
+            if(!slideService.classList.contains('active')) return;
+            for(let i=0; i<30; i++) {
+                particles.push(new Particle(e.clientX, e.clientY));
+            }
+            if (!isAnimating) {
+                isAnimating = true;
+                animateParticles();
+            }
+        });
+    }
+});
+
+// --- Awwwards-Level UI: Glass Wipe & Magnetic Buttons ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Glass Wipe Spotlight
+    const wipeContainer = document.getElementById('glassWipeContainer');
+    const frostedWipe = document.getElementById('frostedWipe');
+
+    if (wipeContainer && frostedWipe) {
+        wipeContainer.addEventListener('mousemove', (e) => {
+            const rect = wipeContainer.getBoundingClientRect();
+            // Calculate mouse position relative to the container
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Update CSS variables for the mask-image radial-gradient
+            frostedWipe.style.setProperty('--mouse-x', `${x}px`);
+            frostedWipe.style.setProperty('--mouse-y', `${y}px`);
+        });
+    }
+
+    // 2. Magnetic Buttons Physics
+    const magneticWrappers = document.querySelectorAll('.magnetic-btn-wrapper');
+    
+    magneticWrappers.forEach(wrapper => {
+        const btn = wrapper.querySelector('.magnetic-btn');
+        
+        wrapper.addEventListener('mousemove', (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            // Get center of the wrapper
+            const hx = rect.left + rect.width / 2;
+            const hy = rect.top + rect.height / 2;
+            
+            // Distance from center
+            const dx = e.clientX - hx;
+            const dy = e.clientY - hy;
+            
+            // Apply subtle translate to button (magnetic pull)
+            // Divide by 2 to make it feel 'heavy' and not stick exactly to cursor
+            btn.style.transform = 	ranslate(px, px);
+        });
+        
+        // Reset when mouse leaves
+        wrapper.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
+});
+
+// --- Digital Scratch Card Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('scratchCanvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const container = document.querySelector('.scratch-card-container');
+    const instructions = document.getElementById('scratchInstructions');
+    
+    let isDrawing = false;
+    let scratchedPixels = 0;
+    const brushRadius = 30; // Size of the scratch eraser
+    
+    // Resize canvas to cover container
+    function resizeCanvas() {
+        const rect = container.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        fillCanvas();
+    }
+    
+    // Fill canvas with a frosted glass look
+    function fillCanvas() {
+        // Draw a solid frosted base
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Add some "frost" texture or gradient to make it look premium
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, 'rgba(255, 215, 0, 0.2)'); // Light gold
+        gradient.addColorStop(1, 'rgba(255, 105, 180, 0.2)'); // Light pink
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Reset composite operation to default
+        ctx.globalCompositeOperation = 'source-over';
+    }
+    
+    // Initial setup
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Setup drawing (erasing)
+    function getPointerPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+        };
+    }
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        // Fade out instructions on first scratch
+        if(instructions.style.opacity !== '0') {
+            instructions.style.opacity = '0';
+        }
+        scratch(e);
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+    }
+    
+    function scratch(e) {
+        if (!isDrawing) return;
+        e.preventDefault(); // Prevent scrolling on mobile
+        
+        const pos = getPointerPos(e);
+        
+        // Magic happens here: destination-out makes new drawing ERASE existing pixels
+        ctx.globalCompositeOperation = 'destination-out';
+        
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, brushRadius, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Optional: Draw line to connect fast mouse movements
+        // (Skipping for brevity, simple circles usually work well enough for scratch cards)
+    }
+    
+    // Event Listeners
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseleave', stopDrawing);
+    
+    // Mobile Touch Events
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchmove', scratch, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
+});
+
+    // --- Sticky Scroll Storyboard ---
+    const storyboardSteps = document.querySelectorAll('.storyboard-step');
+    const timeValueElement = document.getElementById('activeTimeValue');
+    
+    if(storyboardSteps.length > 0 && timeValueElement) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -40% 0px', // Trigger when item is in middle 20% of screen
+            threshold: 0
+        };
+        
+        let currentTime = timeValueElement.innerText;
+
+        const storyboardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Dim all others, highlight this one
+                    storyboardSteps.forEach(step => step.classList.remove('is-active'));
+                    entry.target.classList.add('is-active');
+                    
+                    // Update Time text if it changed
+                    const newTime = entry.target.getAttribute('data-time');
+                    if(newTime !== currentTime) {
+                        // Animate out old text
+                        timeValueElement.classList.add('slide-up-out');
+                        
+                        setTimeout(() => {
+                            timeValueElement.innerText = newTime;
+                            timeValueElement.classList.remove('slide-up-out');
+                            // Small trick to re-trigger reflow for animation
+                            void timeValueElement.offsetWidth;
+                            // Animate in new text
+                            timeValueElement.classList.add('slide-up-in');
+                            
+                            setTimeout(() => {
+                                timeValueElement.classList.remove('slide-up-in');
+                            }, 500);
+                        }, 500); // Wait for out animation to finish
+                        
+                        currentTime = newTime;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        storyboardSteps.forEach(step => {
+            storyboardObserver.observe(step);
+        });
+    }
+
+    // --- Postcard Form Mailto Logic ---
+    const postcardFormCheck = document.querySelector('.postcard form');
+    if (postcardFormCheck) {
+        postcardFormCheck.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            
+            const name = postcardFormCheck.querySelector('[name="name"]').value;
+            const email = postcardFormCheck.querySelector('[name="email"]').value;
+            const phone = postcardFormCheck.querySelector('[name="phone"]').value;
+            const message = postcardFormCheck.querySelector('[name="message"]').value;
+            
+            const subject = encodeURIComponent(`New Inquiry from ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`);
+            
+            window.location.href = `mailto:hello@vanakkamvandhanam.com?subject=${subject}&body=${body}`;
+            
+            postcardFormCheck.reset();
+        });
+    }
